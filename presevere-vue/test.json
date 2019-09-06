@@ -1,0 +1,877 @@
+{
+  "code": 0,
+  "msg": "success",
+  "data": [
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/account/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/article"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "POST"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/article"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/account"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/sysTableList/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/sysTableList"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/account"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "POST"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/article/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "DELETE"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/sysTableList/more/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/system/allRouters"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/sysTableList"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "PATCH"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/comment"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "POST"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/comment/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "DELETE"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/sysTableList/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "DELETE"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/comment"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/error"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [],
+        "empty": true
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [
+          {
+            "mediaType": {
+              "type": "text",
+              "subtype": "html",
+              "parameters": {},
+              "qualityValue": 1.0,
+              "charset": null,
+              "concrete": true,
+              "wildcardType": false,
+              "wildcardSubtype": false
+            },
+            "negated": false
+          }
+        ],
+        "empty": false,
+        "producibleMediaTypes": [
+          {
+            "type": "text",
+            "subtype": "html",
+            "parameters": {},
+            "qualityValue": 1.0,
+            "charset": null,
+            "concrete": true,
+            "wildcardType": false,
+            "wildcardSubtype": false
+          }
+        ]
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/system/moduleColumns/{moduleName}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/error"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [],
+        "empty": true
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/article"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "PATCH"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/comment"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "PATCH"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/sysTableList"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "POST"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/account"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "PATCH"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/article/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/comment/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "GET"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    },
+    {
+      "name": null,
+      "patternsCondition": {
+        "patterns": [
+          "/account/{id}"
+        ],
+        "empty": false
+      },
+      "methodsCondition": {
+        "methods": [
+          "DELETE"
+        ],
+        "empty": false
+      },
+      "paramsCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "headersCondition": {
+        "expressions": [],
+        "empty": true
+      },
+      "consumesCondition": {
+        "expressions": [],
+        "empty": true,
+        "consumableMediaTypes": []
+      },
+      "producesCondition": {
+        "expressions": [],
+        "empty": true,
+        "producibleMediaTypes": []
+      },
+      "customCondition": null
+    }
+  ]
+}

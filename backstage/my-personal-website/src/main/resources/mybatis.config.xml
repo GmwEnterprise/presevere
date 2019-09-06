@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="SLF4J"/>
+    </settings>
+
+    <plugins>
+        <plugin interceptor="cn.gmwenterprise.website.config.mybatis.PageHelper">
+            <property name="default.pageSize" value="20"/>
+            <property name="default.useFlag" value="true"/>
+        </plugin>
+    </plugins>
+
+</configuration>

@@ -1,0 +1,74 @@
+.back-th-td {
+  white-space: nowrap;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.back-btn-operation {
+  box-sizing: border-box;
+  border: 0;
+  width: 40%;
+  font-size: 0.8rem;
+  background-color: rgba(209, 209, 209, 0);
+  padding: 0;
+  transition: 0.4s;
+}
+
+.back-btn-edit:hover {
+  color: blue;
+}
+
+.back-btn-delete:hover {
+  color: red;
+}
+
+.back-btn-cell {
+  position: relative;
+}
+
+.back-btn-box {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.back-temp-td-operator {
+  display: inline-block;
+  width: 6rem;
+  opacity: 0;
+}
+
+.back-column-number {
+  display: inline-block;
+  padding: 0 0.5rem;
+}
+
+.back-column-number:hover {
+  color: rgb(161, 161, 161);
+}
+
+.back-column-date {
+  display: inline-block;
+  padding: 0 .4rem;
+  background-color: #343a40;
+  color: white;
+  border-color: #454d55;
+}
+
+.back-column-othertype {
+  color: gray;
+}
+
+.back-column-customize-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5em;
+}
