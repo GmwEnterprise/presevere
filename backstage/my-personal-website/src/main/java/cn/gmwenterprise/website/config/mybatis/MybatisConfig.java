@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Configuration
 @MapperScan(basePackages = "cn.gmwenterprise.website.dao", annotationClass = Repository.class)
-public class MybatisConfiguration {
+public class MybatisConfig {
 }

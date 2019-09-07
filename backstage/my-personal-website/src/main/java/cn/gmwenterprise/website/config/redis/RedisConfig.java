@@ -12,11 +12,11 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfiguration {
+public class RedisConfig {
 
     private final JavaTimeModule javaTimeModule;
 
-    public RedisConfiguration(JavaTimeModule javaTimeModule) {
+    public RedisConfig(JavaTimeModule javaTimeModule) {
         this.javaTimeModule = javaTimeModule;
     }
 

@@ -23,9 +23,9 @@ import java.util.List;
 
 import static cn.gmwenterprise.website.util.DateUtils.*;
 
-@EnableWebMvc
 @Configuration
-public class WebMvcConfiguration implements WebMvcConfigurer {
+@EnableWebMvc
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -43,7 +43,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
         return javaTimeModule;
     }
-
 
     @Bean
     public ObjectMapper objectMapper() {
