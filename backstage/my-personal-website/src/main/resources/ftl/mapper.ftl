@@ -99,7 +99,7 @@ ${'<mapper namespace="cn.gmwenterprise.website.dao.' + entityName + 'Dao">'}
             </#if>
             </#list>
         ${'</set>'}
-    ${'where ${keyColumn} = #' + '{${keyProperty}}'}
+        ${'where ${keyColumn} = #' + '{${keyProperty}}'}
     ${'</update>'}
 <#--
     ${'<update id="updateByPrimaryKey">'}

@@ -28,7 +28,7 @@
           <i class="fa fa-bars" aria-hidden="true"></i> 界面管理
         </a>
         <div class="catalog-sub" id="c-s-user-manage" style="display: none;">
-          <a href="javascript:void(0)">暂无</a>
+          <router-link to="/sys/modules/sysRouter">添加路由</router-link>
         </div>
       </div>
       <div class="col-10" style="padding: 0;">
@@ -42,6 +42,7 @@
 
 <script>
 import logo from '@/assets/persevere.png'
+import SysRouterService from './sysRouter/sysRouter.service.js'
 export default {
   data() {
     return {
@@ -58,6 +59,12 @@ export default {
     }
   },
   methods: {
+    async routerInit() {
+      const response = await SysRouterService.queryPage()
+      if (response.data) {
+        console.log(response.data)
+      }
+    },
     accordion(event, targetId) {
       event.target.classList.toggle('active')
       const target = document.getElementById(targetId)
@@ -73,7 +80,9 @@ export default {
       }
     }
   },
-  created() {}
+  created() {
+    this.routerInit()
+  }
 }
 </script>
 

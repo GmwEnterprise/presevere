@@ -1,6 +1,8 @@
 package cn.gmwenterprise.website.config;
 
+import cn.gmwenterprise.website.config.converters.Boolean2NumberSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -48,6 +50,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(javaTimeModule());
+        SimpleModule module = new SimpleModule("customize-simple-module");
+        module.addSerializer(Boolean.class, new Boolean2NumberSerializer());
+        objectMapper.registerModule(module);
         return objectMapper;
     }
 

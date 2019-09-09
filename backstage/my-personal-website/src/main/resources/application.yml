@@ -33,5 +33,6 @@ spring:
 
 mybatis:
   type-aliases-package: cn.gmwenterprise.website.domain
+  type-handlers-package: cn.gmwenterprise.website.config.mybatis.typehandler
   mapper-locations: classpath:dao-mapping/**
   config-location: classpath:mybatis.config.xml

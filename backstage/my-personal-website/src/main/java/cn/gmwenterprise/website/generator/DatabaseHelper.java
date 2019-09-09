@@ -170,6 +170,9 @@ public class DatabaseHelper {
      */
     private String typeConversion(int dataType) {
         switch (dataType) {
+            case -7:
+                // jdbcType = BIT
+                return "Boolean";
             case -6:
             case 5:
             case 4:

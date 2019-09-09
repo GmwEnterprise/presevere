@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gmwenterprise.website.dao.SysRouterDao">
+
+    <resultMap id="BaseResultMap" type="sysRouter">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="router_title" jdbcType="VARCHAR" property="routerTitle"/>
+        <result column="router_name" jdbcType="VARCHAR" property="routerName"/>
+        <result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/>
+        <result column="last_update_datetime" jdbcType="TIMESTAMP" property="lastUpdateDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        a.`id`,
+        a.`router_title`,
+        a.`router_name`,
+        a.`create_datetime`,
+        a.`last_update_datetime`
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_router a
+        where a.`id` = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_router a
+        <where>
+            <if test="routerTitle != null">
+                and a.`router_title` like concat('%', #{routerTitle,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="routerName != null">
+                and a.`router_name` like concat('%', #{routerName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="createDatetime != null">
+                and a.`create_datetime` = #{createDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastUpdateDatetime != null">
+                and a.`last_update_datetime` = #{lastUpdateDatetime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        delete
+        from sys_router a
+        where a.`id` = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into sys_router
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="routerTitle != null">
+                `router_title`,
+            </if>
+            <if test="routerName != null">
+                `router_name`,
+            </if>
+            <if test="createDatetime != null">
+                `create_datetime`,
+            </if>
+            <if test="lastUpdateDatetime != null">
+                `last_update_datetime`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="routerTitle != null">
+                #{routerTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="routerName != null">
+                #{routerName,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateDatetime != null">
+                #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey">
+        update sys_router
+        <set>
+            <if test="routerTitle != null">
+                `router_title` = #{routerTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="routerName != null">
+                `router_name` = #{routerName,jdbcType=VARCHAR},
+            </if>
+            <if test="createDatetime != null">
+                `create_datetime` = #{createDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdateDatetime != null">
+                `last_update_datetime` = #{lastUpdateDatetime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+    where id = #{id}
+    </update>
+</mapper>
