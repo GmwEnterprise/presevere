@@ -15,9 +15,13 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'index',
-      component: () => import('@/views/index/Index.vue')
+      path: '/sign-in',
+      name: 'signIn',
+      component: () => import('@/views/sign/SignIn.vue')
+    }, {
+      path: '/sign-on',
+      name: 'signOn',
+      component: () => import('@/views/sign/SignOn.vue')
     }, {
       path: '/sys',
       name: 'system',
