@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 public class HttpInterceptor implements HandlerInterceptor {
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("{} 进入拦截器", request.getRequestURL());
+        return true;
     }
 }

@@ -1,7 +1,7 @@
 logging:
   level:
     cn.gmwenterprise.website.dao: DEBUG
-    org.springframework.security.authentication: DEBUG
+    org.springframework.security: DEBUG
 
 server:
   port: 4200

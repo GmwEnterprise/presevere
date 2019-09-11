@@ -20,6 +20,12 @@
 
     <dependencies>
 
+        <!-- thymeleaf模板依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <!-- JWT依赖 -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

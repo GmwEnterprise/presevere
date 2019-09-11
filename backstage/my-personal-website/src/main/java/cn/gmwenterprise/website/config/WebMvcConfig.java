@@ -14,9 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,6 +26,28 @@ import static cn.gmwenterprise.website.util.DateUtils.*;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    /**
+     * 添加默认视图映射
+     *
+     * @param registry reg
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("th_login");
+        registry.addViewController("/success").setViewName("th_success");
+        registry.addViewController("/error").setViewName("th_error");
+    }
+
+    /**
+     * 静态资源放行
+     *
+     * @param registry reg
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

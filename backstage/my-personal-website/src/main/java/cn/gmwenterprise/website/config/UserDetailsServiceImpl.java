@@ -1,4 +1,4 @@
-package cn.gmwenterprise.website.service.sys;
+package cn.gmwenterprise.website.config;
 
 import cn.gmwenterprise.website.domain.SysUser;
 import cn.gmwenterprise.website.service.SysUserRoleService;
