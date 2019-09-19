@@ -37,4 +37,12 @@ public final class ResponseEntity {
      * 登录失败
      */
     public static final int CODE_LOGIN_FAILURE = 101;
+
+    public static ResponseEntity of(int code, String msg, Object data) {
+        return new ResponseEntity(code, msg, data);
+    }
+
+    public static ResponseEntity of(int code, String msg) {
+        return new ResponseEntity(code, msg, null);
+    }
 }
