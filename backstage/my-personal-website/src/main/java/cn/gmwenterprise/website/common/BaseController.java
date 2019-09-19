@@ -3,19 +3,19 @@ package cn.gmwenterprise.website.common;
 public interface BaseController {
 
     default ResponseEntity ok(String msg, Object data) {
-        return new ResponseEntity(0, msg, data);
+        return new ResponseEntity(ResponseEntity.CODE_SUCCESS, msg, data);
     }
 
     default ResponseEntity ok(Object data) {
-        return new ResponseEntity(0, "success", data);
+        return ok("success", data);
     }
 
     default ResponseEntity ok() {
-        return new ResponseEntity(0, "success", null);
+        return ok("success", null);
     }
 
     default ResponseEntity fail(String msg) {
-        return new ResponseEntity(-1, msg, null);
+        return fail(ResponseEntity.CODE_ERROR, msg);
     }
 
     default ResponseEntity fail(int errorCode, String msg) {

@@ -26,14 +26,17 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>7.8</version>
+        </dependency>
+
         <!-- 安全框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-client</artifactId>
         </dependency>
 
         <!-- guava工具类 -->
@@ -47,12 +50,6 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-        </dependency>
-
-        <!-- redis支持 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!-- druid数据库连接池 -->

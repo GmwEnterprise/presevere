@@ -20,4 +20,21 @@ public final class ResponseEntity {
      * 数据
      */
     private Object data;
+
+    /**
+     * 成功
+     */
+    public static final int CODE_SUCCESS = 0;
+    /**
+     * 接口处理失败
+     */
+    public static final int CODE_ERROR = -1;
+    /**
+     * 拒绝访问
+     */
+    public static final int CODE_ACCESS_DENY = 100;
+    /**
+     * 登录失败
+     */
+    public static final int CODE_LOGIN_FAILURE = 101;
 }
