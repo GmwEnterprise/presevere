@@ -3,6 +3,7 @@ package cn.gmwenterprise.website.config;
 import cn.gmwenterprise.website.common.ResponseEntity;
 import cn.gmwenterprise.website.common.SpringContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,7 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
-@Configuration
+@Slf4j
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -98,7 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             // 自定义登陆失败处理器
             .failureHandler((request, response, error) -> writeJsonResponse(
-                response, ResponseEntity.of(ResponseEntity.CODE_LOGIN_FAILURE, "登陆失败: null")
+                response, ResponseEntity.of(ResponseEntity.CODE_LOGIN_FAILURE, "登陆失败: " + error.getMessage())
             ));
     }
 

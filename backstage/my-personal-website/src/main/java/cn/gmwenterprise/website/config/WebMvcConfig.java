@@ -35,6 +35,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        // 代码生成页面
+        registry.addViewController("/system/codec").setViewName("th_code_generator");
+        // 系统默认视图定位
         registry.addViewController("/login").setViewName("th_login");
         registry.addViewController("/success").setViewName("th_success");
         registry.addViewController("/error").setViewName("th_error");
