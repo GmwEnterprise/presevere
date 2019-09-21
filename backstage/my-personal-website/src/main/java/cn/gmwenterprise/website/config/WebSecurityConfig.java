@@ -1,11 +1,12 @@
 package cn.gmwenterprise.website.config;
 
 import cn.gmwenterprise.website.common.ResponseEntity;
-import cn.gmwenterprise.website.common.SpringContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,23 +14,25 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 
 @Slf4j
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Resource
     private ObjectMapper objectMapper;
-
-    @PostConstruct
-    public void initBeans() {
-        objectMapper = SpringContext.getBean(ObjectMapper.class);
-    }
+    @Resource(name = "customizeUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -44,8 +47,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // TODO authenticationProvider的配置
-        // auth.authenticationProvider(authenticationProvider);
+        // 定义密码编解码工具
+        PasswordEncoder passwordEncoder = new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString();
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return rawPassword.equals(encodedPassword);
+            }
+        };
+        // 自定义鉴权
+        auth.authenticationProvider(new AuthenticationProvider() {
+            @Override
+            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                // 获取用户名与密码
+                String username = (String) authentication.getPrincipal();
+                String password = (String) authentication.getCredentials();
+
+                // 去掉头尾空格
+                username = username.trim();
+                password = password.trim();
+
+                // 获取用户数据
+                UserDetails user = userDetailsService.loadUserByUsername(username);
+                if (!passwordEncoder.matches(password, user.getPassword())) {
+                    throw new BadCredentialsException("密码错误");
+                }
+
+                // 存储用户信息
+
+                return new UsernamePasswordAuthenticationToken();
+            }
+
+            @Override
+            public boolean supports(Class<?> authentication) {
+                return true;
+            }
+        });
     }
 
     @Bean
