@@ -5,6 +5,7 @@ import cn.gmwenterprise.website.common.ResponseEntity;
 import cn.gmwenterprise.website.config.mybatis.PageHelper;
 import cn.gmwenterprise.website.service.${entityName}Service;
 import cn.gmwenterprise.website.vo.${entityName}Vo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -30,18 +31,21 @@ public class ${entityName}Controller implements BaseController {
         return ok(PageHelper.page(${entityAlias}Service.selectPage(vo)));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity add(@RequestBody ${entityName}Vo vo) {
         ${entityAlias}Service.insert(vo);
         return ok();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping
     public ResponseEntity modify(@RequestBody ${entityName}Vo vo) {
         ${entityAlias}Service.updateByPrimaryKey(vo);
         return ok();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/{${keyProperty}}")
     public ResponseEntity delete(@PathVariable ${keyPropertyType} ${keyProperty}) {
         ${entityAlias}Service.deleteByPrimaryKey(${keyProperty});

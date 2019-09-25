@@ -12,7 +12,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
@@ -26,7 +25,7 @@ import static cn.gmwenterprise.website.util.DateUtils.*;
 
 @Configuration
 @EnableWebMvc
-public class WebMvcConfig implements WebMvcConfigurer {
+public class SpringMvcConfigurer implements WebMvcConfigurer {
 
     /**
      * 添加默认视图映射
@@ -35,12 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // 代码生成页面
         registry.addViewController("/system/codec").setViewName("th_code_generator");
-        // 系统默认视图定位
-        registry.addViewController("/login").setViewName("th_login");
-        registry.addViewController("/success").setViewName("th_success");
-        registry.addViewController("/error").setViewName("th_error");
     }
 
     /**
@@ -55,7 +49,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HttpInterceptor());
+        registry.addInterceptor(new LogInterceptor());
     }
 
     @Bean
@@ -71,7 +65,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(javaTimeModule());
@@ -82,13 +75,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        for (int i = 0; i < converters.size(); i++) {
-            if (converters.get(i) instanceof MappingJackson2HttpMessageConverter) {
-                converters.remove(i);
-                break;
-            }
-        }
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(new MappingJackson2HttpMessageConverter(objectMapper()));
     }
 }
