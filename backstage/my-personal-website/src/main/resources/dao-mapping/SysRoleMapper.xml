@@ -40,6 +40,15 @@
         </where>
     </select>
 
+    <select id="selectRoleListByUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user b
+        left join sys_user_role c on b.id = c.user_id
+        left join sys_role a on c.role_id = a.id
+        where b.id = #{userId}
+    </select>
+
     <delete id="deleteByPrimaryKey">
         delete
         from sys_role a

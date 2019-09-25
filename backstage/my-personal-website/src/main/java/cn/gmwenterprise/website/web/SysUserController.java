@@ -20,11 +20,13 @@ public class SysUserController implements BaseController {
         this.sysUserService = sysUserService;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity queryByPrimaryKey(@PathVariable Integer id) {
         return ok(sysUserService.selectByPrimaryKey(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public ResponseEntity queryPage(SysUserVo vo) {
         PageHelper.startPage(vo.getCurrentPage(), vo.getPageSize());

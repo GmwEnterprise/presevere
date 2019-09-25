@@ -50,4 +50,6 @@ public interface SysUserDao {
      * @return 受影响行数
      */
     int updateByPrimaryKey(SysUser record);
+
+    SysUser selectByUsername(String username);
 }

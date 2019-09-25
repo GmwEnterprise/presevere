@@ -20,32 +20,34 @@ public class SysRoleController implements BaseController {
         this.sysRoleService = sysRoleService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity queryByPrimaryKey(@PathVariable Integer id) {
         return ok(sysRoleService.selectByPrimaryKey(id));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity queryPage(SysRoleVo vo) {
         PageHelper.startPage(vo.getCurrentPage(), vo.getPageSize());
         return ok(PageHelper.page(sysRoleService.selectPage(vo)));
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity add(@RequestBody SysRoleVo vo) {
         sysRoleService.insert(vo);
         return ok();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping
     public ResponseEntity modify(@RequestBody SysRoleVo vo) {
         sysRoleService.updateByPrimaryKey(vo);
         return ok();
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Integer id) {
         sysRoleService.deleteByPrimaryKey(id);

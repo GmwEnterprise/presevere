@@ -50,4 +50,11 @@ public interface SysRoleDao {
      * @return 受影响行数
      */
     int updateByPrimaryKey(SysRole record);
+
+    /**
+     * 获取指定用户的所有角色
+     * @param userId 指定用户
+     * @return 角色列表
+     */
+    List<SysRole> selectRoleListByUser(Integer userId);
 }

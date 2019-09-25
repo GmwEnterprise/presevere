@@ -74,6 +74,12 @@
             </if>
         </where>
     </select>
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user a
+        where a.username = #{username}
+    </select>
 
     <delete id="deleteByPrimaryKey">
         delete

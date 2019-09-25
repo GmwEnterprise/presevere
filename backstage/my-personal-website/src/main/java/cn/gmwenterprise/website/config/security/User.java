@@ -3,22 +3,27 @@ package cn.gmwenterprise.website.config.security;
 import cn.gmwenterprise.website.domain.SysRole;
 import cn.gmwenterprise.website.domain.SysUser;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 public class User implements UserDetails {
     private SysUser user;
-    private List<SysRole> userRoles;
+    private List<GrantedAuthority> authorityList;
 
-    public User(SysUser user) {
-        // TODO 初始化user和userRoles
+    public User(SysUser user, List<SysRole> userRoles) {
+        this.user = user;
+        this.authorityList = AuthorityUtils.createAuthorityList(
+            (String[]) userRoles.stream()
+                .map(SysRole::getRoleName).toArray());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorityList;
     }
 
     @Override
