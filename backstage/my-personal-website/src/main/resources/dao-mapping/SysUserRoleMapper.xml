@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.gmwenterprise.website.dao.SysRoleDao">
+<mapper namespace="cn.gmwenterprise.website.dao.SysUserRoleDao">
 
-    <resultMap id="BaseResultMap" type="sysRole">
+    <resultMap id="BaseResultMap" type="sysUserRole">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
         <result column="create_datetime" jdbcType="TIMESTAMP" property="createDatetime"/>
         <result column="update_datetime" jdbcType="TIMESTAMP" property="updateDatetime"/>
+        <result column="available" jdbcType="TINYINT" property="available"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         a.`id`,
-        a.`role_name`,
+        a.`user_id`,
+        a.`role_id`,
         a.`create_datetime`,
-        a.`update_datetime`
+        a.`update_datetime`,
+        a.`available`
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_role a
+        from sys_user_role a
         where a.`id` = #{id}
     </select>
 
     <select id="selectPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_role a
+        from sys_user_role a
         <where>
-            <if test="roleName != null">
-                and a.`role_name` like concat('%', #{roleName,jdbcType=VARCHAR}, '%')
+            <if test="userId != null">
+                and a.`user_id` = #{userId,jdbcType=INTEGER}
+            </if>
+            <if test="roleId != null">
+                and a.`role_id` = #{roleId,jdbcType=INTEGER}
             </if>
             <if test="createDatetime != null">
                 and a.`create_datetime` = #{createDatetime,jdbcType=TIMESTAMP}
@@ -37,35 +44,26 @@
             <if test="updateDatetime != null">
                 and a.`update_datetime` = #{updateDatetime,jdbcType=TIMESTAMP}
             </if>
+            <if test="available != null">
+                and a.`available` = #{available,jdbcType=TINYINT}
+            </if>
         </where>
-    </select>
-
-    <select id="selectRoleListByUser" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_user b
-        left join sys_user_role c on b.id = c.user_id
-        left join sys_role a on c.role_id = a.id
-        where b.id = #{userId}
-    </select>
-    <select id="selectRoleByName" resultType="cn.gmwenterprise.website.domain.SysRole">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_role a
-        where a.role_name = #{roleName}
     </select>
 
     <delete id="deleteByPrimaryKey">
         delete
-        from sys_role a
+        from sys_user_role a
         where a.`id` = #{id}
     </delete>
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into sys_role
+        insert into sys_user_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="roleName != null">
-                `role_name`,
+            <if test="userId != null">
+                `user_id`,
+            </if>
+            <if test="roleId != null">
+                `role_id`,
             </if>
             <if test="createDatetime != null">
                 `create_datetime`,
@@ -73,10 +71,16 @@
             <if test="updateDatetime != null">
                 `update_datetime`,
             </if>
+            <if test="available != null">
+                `available`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="roleName != null">
-                #{roleName,jdbcType=VARCHAR},
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
             </if>
             <if test="createDatetime != null">
                 #{createDatetime,jdbcType=TIMESTAMP},
@@ -84,20 +88,29 @@
             <if test="updateDatetime != null">
                 #{updateDatetime,jdbcType=TIMESTAMP},
             </if>
+            <if test="available != null">
+                #{available,jdbcType=TINYINT},
+            </if>
         </trim>
     </insert>
 
     <update id="updateByPrimaryKey">
-        update sys_role
+        update sys_user_role
         <set>
-            <if test="roleName != null">
-                `role_name` = #{roleName,jdbcType=VARCHAR},
+            <if test="userId != null">
+                `user_id` = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="roleId != null">
+                `role_id` = #{roleId,jdbcType=INTEGER},
             </if>
             <if test="createDatetime != null">
                 `create_datetime` = #{createDatetime,jdbcType=TIMESTAMP},
             </if>
             <if test="updateDatetime != null">
                 `update_datetime` = #{updateDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="available != null">
+                `available` = #{available,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id}

@@ -3,6 +3,7 @@ package cn.gmwenterprise.website.config.security;
 import cn.gmwenterprise.website.common.AjaxResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +25,8 @@ import java.util.Map;
 
 import static cn.gmwenterprise.website.config.security.JwtAuthenticationFilter.KEY_USERNAME;
 
+// TODO 无状态的token提前清除
+@Slf4j
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -54,10 +57,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().exceptionHandling()
             .authenticationEntryPoint((request, response, authException) -> {
+                log.error(authException.getMessage(), authException);
                 AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_ACCESS_DENY, authException.getMessage());
                 getWriter(response).write(objectMapper.writeValueAsString(failResp));
             })
             .accessDeniedHandler((request, response, accessDeniedException) -> {
+                log.error(accessDeniedException.getMessage(), accessDeniedException);
                 AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_ACCESS_DENY, accessDeniedException.getMessage());
                 String json = objectMapper.writeValueAsString(failResp);
                 getWriter(response).write(json);
@@ -74,6 +79,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 getWriter(response).write(objectMapper.writeValueAsString(returnData));
             })
             .failureHandler((request, response, exception) -> {
+                log.error(exception.getMessage(), exception);
                 AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_LOGIN_FAILURE, exception.getMessage());
                 getWriter(response).write(objectMapper.writeValueAsString(failResp));
             })

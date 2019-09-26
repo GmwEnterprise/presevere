@@ -1,5 +1,6 @@
 package cn.gmwenterprise.website.config.security;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,8 +37,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = (String) authMap.get(KEY_USERNAME);
             UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
             if (userDetails != null) {
-                AuthenticationUser authenticationUser = new AuthenticationUser(userDetails);
-                authenticationUser.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                UsernamePasswordAuthenticationToken authenticationUser =
+                    new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                    );
+                // AuthenticationUser authenticationUser = new AuthenticationUser(userDetails);
+                authenticationUser
+                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationUser);
             }
         }
