@@ -3,10 +3,10 @@ package cn.gmwenterprise.website.config.security;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserToken extends AbstractAuthenticationToken {
+public class AuthenticationUser extends AbstractAuthenticationToken {
     private UserDetails user;
 
-    public UserToken(UserDetails user) {
+    public AuthenticationUser(UserDetails user) {
         super(user.getAuthorities());
         this.user = user;
     }

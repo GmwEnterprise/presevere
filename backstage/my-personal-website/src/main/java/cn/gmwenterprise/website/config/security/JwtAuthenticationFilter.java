@@ -1,9 +1,9 @@
 package cn.gmwenterprise.website.config.security;
 
-import cn.gmwenterprise.website.domain.SysUser;
-import cn.gmwenterprise.website.service.sys.UserTokenService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,10 +20,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String KEY_HEAD_PARAM = "Authorization";
 
-    private static final String KEY_USER_ID = "userId";
+    public static final String KEY_USERNAME = "username";
 
     @Resource
-    private UserTokenService userTokenService;
+    UserDetailsService jwtUserDetailsService;
 
     @Override
     protected void doFilterInternal(
@@ -31,12 +31,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String authorization = request.getHeader(KEY_HEAD_PARAM);
         Map<String, Object> authMap = JwtUtils.parseToken(authorization);
-        if (authMap != null && authMap.containsKey(KEY_USER_ID)) {
+        if (authMap != null && authMap.containsKey(KEY_USERNAME)) {
             // token验证通过
-            Integer userId = (Integer) authMap.get(KEY_USER_ID);
-            UserDetails userDetails = userTokenService.generateUser(userId);
-            UserToken userToken = new UserToken(userDetails);
-            SecurityContextHolder.getContext().setAuthentication(userToken);
+            String username = (String) authMap.get(KEY_USERNAME);
+            UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+            if (userDetails != null) {
+                AuthenticationUser authenticationUser = new AuthenticationUser(userDetails);
+                authenticationUser.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationUser);
+            }
         }
+        doFilter(request, response, filterChain);
     }
 }

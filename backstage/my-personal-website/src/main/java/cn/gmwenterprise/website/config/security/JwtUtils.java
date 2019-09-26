@@ -9,7 +9,7 @@ import net.minidev.json.JSONObject;
 import java.util.Map;
 
 @Slf4j
-public class JwtUtils {
+public final class JwtUtils {
     private static final byte[] SECRET = "409939b5c5274e9195d0565d34f4f0f5".getBytes();
     /**
      * 过期时间
@@ -45,7 +45,7 @@ public class JwtUtils {
                 JSONObject jsonObject = payload.toJSONObject();
                 if (jsonObject.containsKey(KEY_EXPIRATION_TIME)) {
                     Long expire = (Long) jsonObject.get(KEY_EXPIRATION_TIME);
-                    if (System.currentTimeMillis() >= expire) {
+                    if (expire != 0L && System.currentTimeMillis() >= expire) {
                         return null;
                     }
                 }

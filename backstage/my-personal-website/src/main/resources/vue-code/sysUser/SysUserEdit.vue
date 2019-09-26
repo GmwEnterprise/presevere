@@ -14,10 +14,6 @@
         <input class="form-control" id="username" v-model="data.username" placeholder="用户名" required />
       </div>
       <div class="form-group">
-        <label for="email">盐</label>
-        <input class="form-control" id="salt" v-model="data.salt" placeholder="盐" required />
-      </div>
-      <div class="form-group">
         <label for="email">密码</label>
         <input class="form-control" id="password" v-model="data.password" placeholder="密码" required />
       </div>
@@ -66,7 +62,6 @@ export default {
         id: null,
         nickname: null,
         username: null,
-        salt: null,
         password: null,
         available: null,
         sex: null,

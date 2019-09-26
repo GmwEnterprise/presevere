@@ -1,5 +1,7 @@
 package cn.gmwenterprise.website.service;
 
+import cn.gmwenterprise.website.common.AjaxResult;
+import cn.gmwenterprise.website.domain.SysUser;
 import cn.gmwenterprise.website.vo.SysUserVo;
 
 import java.util.List;
@@ -48,4 +50,13 @@ public interface SysUserService {
      * @return 受影响行数
      */
     int updateByPrimaryKey(SysUserVo vo);
+
+    /**
+     * 创建用户
+     * @param nickname 昵称
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
+    AjaxResult createUser(String nickname, String username, String password);
 }

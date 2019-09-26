@@ -24,10 +24,6 @@ public class SysUserVo {
      */
     private String username;
     /**
-     * [salt] 盐
-     */
-    private String salt;
-    /**
      * [password] 密码
      */
     private String password;

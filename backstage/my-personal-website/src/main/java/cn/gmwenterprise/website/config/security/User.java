@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,9 +15,15 @@ public class User implements UserDetails {
 
     public User(SysUser user, List<SysRole> userRoles) {
         this.user = user;
-        this.authorityList = AuthorityUtils.createAuthorityList(
-            (String[]) userRoles.stream()
-                .map(SysRole::getRoleName).toArray());
+        String[] roleNames = new String[userRoles.size()];
+        for (int i = 0; i < userRoles.size(); i++) {
+            roleNames[i] = userRoles.get(i).getRoleName();
+        }
+        this.authorityList = AuthorityUtils.createAuthorityList(roleNames);
+    }
+
+    public SysUser getUser() {
+        return user;
     }
 
     @Override

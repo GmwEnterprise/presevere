@@ -1,7 +1,7 @@
 package cn.gmwenterprise.website.web.sys;
 
+import cn.gmwenterprise.website.common.AjaxResult;
 import cn.gmwenterprise.website.common.BaseController;
-import cn.gmwenterprise.website.common.ResponseEntity;
 import cn.gmwenterprise.website.common.SpringContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ public class SystemController implements BaseController {
     }
 
     @GetMapping("/allRouters")
-    public ResponseEntity getAllRouter() {
+    public AjaxResult getAllRouter() {
         RequestMappingHandlerMapping bean = SpringContext.getBean(RequestMappingHandlerMapping.class);
         List<Object> allRouters =
             bean.getHandlerMethods().keySet().stream()

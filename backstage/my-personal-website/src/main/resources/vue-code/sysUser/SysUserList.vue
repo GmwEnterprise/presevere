@@ -6,7 +6,6 @@
             <form-control v-model="formParam.id" label="主键" id="id" />
       <form-control v-model="formParam.nickname" label="昵称" id="nickname" />
       <form-control v-model="formParam.username" label="用户名" id="username" />
-      <form-control v-model="formParam.salt" label="盐" id="salt" />
       <form-control v-model="formParam.password" label="密码" id="password" />
       <form-control v-model="formParam.available" label="是否可用" id="available" />
       <form-control v-model="formParam.sex" label="性别" id="sex" />
@@ -93,7 +92,6 @@ export default {
         id: null,
         nickname: null,
         username: null,
-        salt: null,
         password: null,
         available: null,
         sex: null,
@@ -108,7 +106,6 @@ export default {
           { code: 'id', name: '主键', type: 'number', show: true },
           { code: 'nickname', name: '昵称', type: 'string', show: true },
           { code: 'username', name: '用户名', type: 'string', show: true },
-          { code: 'salt', name: '盐', type: 'string', show: true },
           { code: 'password', name: '密码', type: 'string', show: true },
           { code: 'available', name: '是否可用', type: 'any', show: true },
           { code: 'sex', name: '性别', type: 'number', show: true },

@@ -1,7 +1,7 @@
 package cn.gmwenterprise.website.web;
 
+import cn.gmwenterprise.website.common.AjaxResult;
 import cn.gmwenterprise.website.common.BaseController;
-import cn.gmwenterprise.website.common.ResponseEntity;
 import cn.gmwenterprise.website.config.mybatis.PageHelper;
 import cn.gmwenterprise.website.service.SysRoleService;
 import cn.gmwenterprise.website.vo.SysRoleVo;
@@ -22,34 +22,34 @@ public class SysRoleController implements BaseController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity queryByPrimaryKey(@PathVariable Integer id) {
+    public AjaxResult queryByPrimaryKey(@PathVariable Integer id) {
         return ok(sysRoleService.selectByPrimaryKey(id));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity queryPage(SysRoleVo vo) {
+    public AjaxResult queryPage(SysRoleVo vo) {
         PageHelper.startPage(vo.getCurrentPage(), vo.getPageSize());
         return ok(PageHelper.page(sysRoleService.selectPage(vo)));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity add(@RequestBody SysRoleVo vo) {
+    public AjaxResult add(@RequestBody SysRoleVo vo) {
         sysRoleService.insert(vo);
         return ok();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping
-    public ResponseEntity modify(@RequestBody SysRoleVo vo) {
+    public AjaxResult modify(@RequestBody SysRoleVo vo) {
         sysRoleService.updateByPrimaryKey(vo);
         return ok();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
+    public AjaxResult delete(@PathVariable Integer id) {
         sysRoleService.deleteByPrimaryKey(id);
         return ok();
     }

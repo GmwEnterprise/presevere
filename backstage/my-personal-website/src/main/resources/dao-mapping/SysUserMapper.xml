@@ -6,7 +6,6 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
-        <result column="salt" jdbcType="VARCHAR" property="salt"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="available" jdbcType="BIT" property="available"/>
         <result column="sex" jdbcType="TINYINT" property="sex"/>
@@ -20,7 +19,6 @@
         a.`id`,
         a.`nickname`,
         a.`username`,
-        a.`salt`,
         a.`password`,
         a.`available`,
         a.`sex`,
@@ -48,9 +46,6 @@
             <if test="username != null">
                 and a.`username` like concat('%', #{username,jdbcType=VARCHAR}, '%')
             </if>
-            <if test="salt != null">
-                and a.`salt` like concat('%', #{salt,jdbcType=VARCHAR}, '%')
-            </if>
             <if test="password != null">
                 and a.`password` like concat('%', #{password,jdbcType=VARCHAR}, '%')
             </if>
@@ -74,11 +69,12 @@
             </if>
         </where>
     </select>
+
     <select id="selectByUsername" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_user a
-        where a.username = #{username}
+        where a.`username` = #{username}
     </select>
 
     <delete id="deleteByPrimaryKey">
@@ -95,9 +91,6 @@
             </if>
             <if test="username != null">
                 `username`,
-            </if>
-            <if test="salt != null">
-                `salt`,
             </if>
             <if test="password != null">
                 `password`,
@@ -127,9 +120,6 @@
             </if>
             <if test="username != null">
                 #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                #{salt,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
@@ -163,9 +153,6 @@
             </if>
             <if test="username != null">
                 `username` = #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                `salt` = #{salt,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
                 `password` = #{password,jdbcType=VARCHAR},

@@ -2,6 +2,7 @@ package cn.gmwenterprise.website.service.sys;
 
 import cn.gmwenterprise.website.config.security.User;
 import cn.gmwenterprise.website.domain.SysUser;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserTokenService {
 
@@ -20,4 +21,6 @@ public interface UserTokenService {
      * @return user security实体
      */
     User generateUser(Integer userId);
+
+    UserDetails generateUser(String username);
 }

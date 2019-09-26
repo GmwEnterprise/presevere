@@ -7,6 +7,7 @@ import cn.gmwenterprise.website.domain.SysRole;
 import cn.gmwenterprise.website.domain.SysUser;
 import cn.gmwenterprise.website.service.SysUserService;
 import cn.gmwenterprise.website.vo.SysUserVo;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,5 +30,11 @@ public class UserTokenServiceImpl implements UserTokenService {
     public User generateUser(Integer userId) {
         SysUser user = sysUserDao.selectByPrimaryKey(userId);
         return generateUser(user);
+    }
+
+    @Override
+    public UserDetails generateUser(String username) {
+        SysUser sysUser = sysUserDao.selectByUsername(username);
+        return generateUser(sysUser);
     }
 }
