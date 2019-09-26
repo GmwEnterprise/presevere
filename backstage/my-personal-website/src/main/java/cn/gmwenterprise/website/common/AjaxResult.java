@@ -19,11 +19,15 @@ public final class AjaxResult {
     /**
      * 拒绝访问
      */
-    public static final int CODE_ACCESS_DENY = 100;
+    public static final int CODE_ACCESS_DENY = 2;
+    /**
+     * 拒绝访问
+     */
+    public static final int CODE_NEED_AUTH = 3;
     /**
      * 登录失败
      */
-    public static final int CODE_LOGIN_FAILURE = 101;
+    public static final int CODE_LOGIN_FAILURE = 4;
 
     public static AjaxResult ok(String message, Object data) {
         return of(CODE_SUCCESS, message, data);

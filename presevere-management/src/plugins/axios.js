@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 
+import router from '@/router.js'
+
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || ''
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
@@ -19,6 +21,12 @@ const _axios = axios.create(config)
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+
+    // 添加token
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = token
+    }
     return config
   },
   function (error) {
@@ -38,10 +46,21 @@ _axios.interceptors.response.use(
         // 请求成功
         resolve(response.data)
       } else {
-        console.log('错误信息(code !== 0): ' + response.data.msg)
+        console.log('错误信息: ' + response.data.msg)
+        if (response.data.code === 3) {
+          // 需要登录或当前token过期
+          localStorage.removeItem('token')
+          router.replace({
+            path: '/login',
+            query: {
+              // 登录成功后跳转回页面
+              redirect: router.currentRoute.fullPath
+            }
+          })
+        }
         reject(response.data)
       }
-    }) //.catch(errorMsg => console.log('错误信息(code !== 0): ' + errorMsg))
+    }) //.catch(errorMsg => console.log('错误信息: ' + errorMsg))
   },
   function (error) {
     // Do something with response error

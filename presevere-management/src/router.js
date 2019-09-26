@@ -10,25 +10,47 @@ const moduleRoutes = (() => {
   return _.flatten(routes)
 })()
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/sign-in',
-      name: 'signIn',
-      component: () => import('@/views/sign/SignIn.vue')
-    }, {
-      path: '/sign-on',
-      name: 'signOn',
-      component: () => import('@/views/sign/SignOn.vue')
+      path: '/',
+      redirect: '/sys'
     }, {
       path: '/sys',
       name: 'system',
+      meta: {
+        auth: true
+      },
       component: () => import('@/views/backstage/SystemMain.vue'),
       children: [
         ...moduleRoutes
       ]
+    }, {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/Login.vue')
+    }, {
+      path: '/reg',
+      name: 'register',
+      component: () => import('@/views/Register.vue')
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && !localStorage.getItem('token')) {
+    next({
+      path: '/login',
+      query: {
+        // 登录成功后跳转回页面
+        redirect: to.fullPath
+      }
+    })
+  } else {
+    next()
+  }
+})
+
+export default router
