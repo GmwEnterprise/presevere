@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -73,7 +75,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             })
             .accessDeniedHandler((request, response, accessDeniedException) -> {
                 log.error(accessDeniedException.getMessage(), accessDeniedException);
-                AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_ACCESS_DENY, accessDeniedException.getMessage());
+                AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_ACCESS_DENY, "拒绝访问：" + accessDeniedException.getMessage());
                 getWriter(response).write(objectMapper.writeValueAsString(failResp));
             })
             // 接口权限由注解来处理
@@ -93,7 +95,15 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             // 登录失败
             .failureHandler((request, response, exception) -> {
                 log.error(exception.getMessage(), exception);
-                AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_LOGIN_FAILURE, exception.getMessage());
+                String errMsg;
+                if (exception instanceof BadCredentialsException) {
+                    errMsg = "密码错误!";
+                } else if (exception instanceof UsernameNotFoundException) {
+                    errMsg = "用户名不存在!";
+                } else {
+                    errMsg = exception.getMessage();
+                }
+                AjaxResult failResp = AjaxResult.fail(AjaxResult.CODE_LOGIN_FAILURE, errMsg);
                 getWriter(response).write(objectMapper.writeValueAsString(failResp));
             })
             // 添加自定义过滤器

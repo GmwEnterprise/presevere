@@ -1,25 +1,37 @@
 <template>
   <div>
     <form class="edit-form" @submit="submitForm">
-            <div class="form-group">
+      <!-- <div class="form-group">
         <label for="email">主键</label>
         <input class="form-control" id="id" v-model="data.id" placeholder="主键" required />
-      </div>
+      </div>-->
       <div class="form-group">
         <label for="email">昵称</label>
         <input class="form-control" id="nickname" v-model="data.nickname" placeholder="昵称" required />
       </div>
       <div class="form-group">
         <label for="email">用户名</label>
-        <input class="form-control" id="username" v-model="data.username" placeholder="用户名" required />
+        <input
+          class="form-control"
+          id="username"
+          v-model="data.username"
+          placeholder="用户名"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="email">密码</label>
-        <input class="form-control" id="password" v-model="data.password" placeholder="密码" required />
+        <input class="form-control" id="password" v-model="data.password" placeholder="密码" disabled />
       </div>
       <div class="form-group">
         <label for="email">是否可用</label>
-        <input class="form-control" id="available" v-model="data.available" placeholder="是否可用" required />
+        <input
+          class="form-control"
+          id="available"
+          v-model="data.available"
+          placeholder="是否可用"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="email">性别</label>
@@ -35,11 +47,23 @@
       </div>
       <div class="form-group">
         <label for="email">创建时间</label>
-        <input class="form-control" id="createTime" v-model="data.createTime" placeholder="创建时间" required />
+        <input
+          class="form-control"
+          id="createTime"
+          v-model="data.createTime"
+          placeholder="创建时间"
+          disabled
+        />
       </div>
       <div class="form-group">
         <label for="email">更新时间</label>
-        <input class="form-control" id="updateTime" v-model="data.updateTime" placeholder="更新时间" required />
+        <input
+          class="form-control"
+          id="updateTime"
+          v-model="data.updateTime"
+          placeholder="更新时间"
+          disabled
+        />
       </div>
       <div class="edit-page-btn-wrapper">
         <button type="submit" class="btn btn-primary">提交</button>
@@ -57,7 +81,7 @@ export default {
   data() {
     return {
       // 1-add, 2-modify
-      editType: 1,
+      editType: 2,
       data: {
         id: null,
         nickname: null,
@@ -68,7 +92,7 @@ export default {
         phone: null,
         email: null,
         createTime: null,
-        updateTime: null,
+        updateTime: null
       }
     }
   },
@@ -84,26 +108,24 @@ export default {
      */
     submitForm(e) {
       e.preventDefault()
-      let flag, promise
+      let flag
       if (this.data.id) {
         // 修改
-        promise = sysUserService.modify(this.data)
         flag = '修改'
-      } else {
-        // 新增
-        promise = sysUserService.add(this.data)
-        flag = '新增'
-      }
-      promise
-        .then(() => {
-          this.$toast.success(`${flag}成功`)
-          this.$router.push({
-            name: 'sysUserList'
+        sysUserService
+          .modify(this.data)
+          .then(() => {
+            this.$toast.success(`${flag}成功`)
+            this.$router.push({
+              name: 'sysUserList'
+            })
           })
-        })
-        .catch((code, msg) => {
-          this.$toast.error(`${flag}失败: ${msg}`, `错误编码: ${code}`)
-        })
+          .catch((code, msg) => {
+            this.$toast.error(`${flag}失败: ${msg}`, `错误编码: ${code}`)
+          })
+      } else {
+        this.$toast.error('管理员不允许添加用户', '非法操作')
+      }
     },
     returnPage() {
       this.$router.go(-1)
@@ -112,13 +134,9 @@ export default {
   mounted() {
     this.data.id = this.$route.params.rowId
     if (this.data.id) {
-      console.log('修改')
-      this.editType = 2
       this.queryData(this.data.id)
-    } else {
-      console.log('新增')
-      this.editType = 1
     }
+    // 管理员不能新建user
   }
 }
 </script>

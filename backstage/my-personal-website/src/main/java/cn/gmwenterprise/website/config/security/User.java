@@ -15,10 +15,10 @@ public class User implements UserDetails {
 
     public User(SysUser user, List<SysRole> userRoles) {
         this.user = user;
-        String[] roleNames = new String[userRoles.size()];
-        for (int i = 0; i < userRoles.size(); i++) {
-            roleNames[i] = userRoles.get(i).getRoleName();
-        }
+        String[] roleNames = userRoles
+            .stream()
+            .map(SysRole::getRoleName)
+            .toArray(String[]::new);
         this.authorityList = AuthorityUtils.createAuthorityList(roleNames);
     }
 

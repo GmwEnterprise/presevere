@@ -17,11 +17,11 @@ public final class AjaxResult {
      */
     public static final int CODE_ERROR = -1;
     /**
-     * 拒绝访问
+     * 权限不足，拒绝访问
      */
     public static final int CODE_ACCESS_DENY = 2;
     /**
-     * 拒绝访问
+     * 需要登录验证权限
      */
     public static final int CODE_NEED_AUTH = 3;
     /**
@@ -29,8 +29,8 @@ public final class AjaxResult {
      */
     public static final int CODE_LOGIN_FAILURE = 4;
 
-    public static AjaxResult ok(String message, Object data) {
-        return of(CODE_SUCCESS, message, data);
+    public static AjaxResult ok(String msg, Object data) {
+        return of(CODE_SUCCESS, msg, data);
     }
 
     public static AjaxResult ok(Object data) {
@@ -41,12 +41,12 @@ public final class AjaxResult {
         return of(CODE_SUCCESS, "success");
     }
 
-    public static AjaxResult fail(String message) {
-        return of(CODE_ERROR, message);
+    public static AjaxResult fail(String msg) {
+        return of(CODE_ERROR, msg);
     }
 
-    public static AjaxResult fail(int code, String message) {
-        return of(code, message);
+    public static AjaxResult fail(int code, String msg) {
+        return of(code, msg);
     }
 
     public static AjaxResult of(int code, String msg, Object data) {

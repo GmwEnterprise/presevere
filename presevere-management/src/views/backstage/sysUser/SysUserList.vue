@@ -1,19 +1,18 @@
 <template>
   <div id="table-list-vue">
     <h3>{{ table.className + ' 表' }}</h3>
-    <!--
     <query-form @submit="querySubmit">
-            <form-control v-model="formParam.id" label="主键" id="id" />
+      <!-- <form-control v-model="formParam.id" label="主键" id="id" /> -->
       <form-control v-model="formParam.nickname" label="昵称" id="nickname" />
       <form-control v-model="formParam.username" label="用户名" id="username" />
-      <form-control v-model="formParam.password" label="密码" id="password" />
-      <form-control v-model="formParam.available" label="是否可用" id="available" />
-      <form-control v-model="formParam.sex" label="性别" id="sex" />
+      <!-- <form-control v-model="formParam.password" label="密码" id="password" /> -->
+      <!-- <form-control v-model="formParam.available" label="是否可用" id="available" /> -->
+      <!-- <form-control v-model="formParam.sex" label="性别" id="sex" /> -->
       <form-control v-model="formParam.phone" label="手机号" id="phone" />
       <form-control v-model="formParam.email" label="邮箱" id="email" />
-      <form-control v-model="formParam.createTime" label="创建时间" id="createTime" />
-      <form-control v-model="formParam.updateTime" label="更新时间" id="updateTime" />
-    </query-form> -->
+      <!-- <form-control v-model="formParam.createTime" label="创建时间" id="createTime" /> -->
+      <!-- <form-control v-model="formParam.updateTime" label="更新时间" id="updateTime" /> -->
+    </query-form>
     <router-link
       to="/sys/modules/sysUser/edit"
       class="btn btn-light"
@@ -98,21 +97,21 @@ export default {
         phone: null,
         email: null,
         createTime: null,
-        updateTime: null,
+        updateTime: null
       },
       table: {
         className: 'SysUser',
         columns: [
-          { code: 'id', name: '主键', type: 'number', show: true },
+          // { code: 'id', name: '主键', type: 'number', show: true },
           { code: 'nickname', name: '昵称', type: 'string', show: true },
           { code: 'username', name: '用户名', type: 'string', show: true },
-          { code: 'password', name: '密码', type: 'string', show: true },
+          // { code: 'password', name: '密码', type: 'string', show: true },
           { code: 'available', name: '是否可用', type: 'any', show: true },
           { code: 'sex', name: '性别', type: 'number', show: true },
           { code: 'phone', name: '手机号', type: 'string', show: true },
           { code: 'email', name: '邮箱', type: 'string', show: true },
           { code: 'createTime', name: '创建时间', type: 'date', show: true },
-          { code: 'updateTime', name: '更新时间', type: 'date', show: true },
+          { code: 'updateTime', name: '更新时间', type: 'date', show: true }
         ]
       },
       tableData: {},
@@ -129,6 +128,7 @@ export default {
         pageSize: this.tableData.pageSize || 8
       })
       this.tableData = response.data || {}
+      this.$toast.success(`共${this.tableData.total | 0}条数据`, '查询成功')
     },
     async querySubmit() {
       const response = await sysUserService.queryPage({
@@ -137,6 +137,7 @@ export default {
         ...this.formParam
       })
       this.tableData = response.data || {}
+      this.$toast.success(`共${this.tableData.total | 0}条数据`, '查询成功')
     },
     async pageJump(pageValue) {
       if (!this.currentEvent) {

@@ -22,6 +22,10 @@ public class UserTokenServiceImpl implements UserTokenService {
 
     @Override
     public User generateUser(SysUser sysUser) {
+        if (sysUser == null) {
+            // 自定义的过滤器如果收到了userDetails为null自然就报错了
+            return null;
+        }
         List<SysRole> roleList = sysRoleDao.selectRoleListByUser(sysUser.getId());
         return new User(sysUser, roleList);
     }

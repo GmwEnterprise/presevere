@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .ftw-row {
   display: flex;
   flex-wrap: wrap;

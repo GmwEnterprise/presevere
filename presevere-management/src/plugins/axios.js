@@ -48,15 +48,18 @@ _axios.interceptors.response.use(
       } else {
         console.log('错误信息: ' + response.data.msg)
         if (response.data.code === 3) {
-          // 需要登录或当前token过期
+          // 需要登录或当前token已失效
           localStorage.removeItem('token')
           router.replace({
-            path: '/login',
+            path: '/sign',
             query: {
               // 登录成功后跳转回页面
               redirect: router.currentRoute.fullPath
             }
           })
+        } else {
+          // 访问接口权限不足，拒绝访问
+          Vue.$toast.error('错误', response.data.msg)
         }
         reject(response.data)
       }

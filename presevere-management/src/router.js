@@ -28,13 +28,9 @@ const router = new Router({
         ...moduleRoutes
       ]
     }, {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login.vue')
-    }, {
-      path: '/reg',
-      name: 'register',
-      component: () => import('@/views/Register.vue')
+      path: '/sign',
+      name: 'Sign',
+      component: () => import('@/views/Sign.vue')
     }
   ]
 })
@@ -42,7 +38,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.auth && !localStorage.getItem('token')) {
     next({
-      path: '/login',
+      path: '/sign',
       query: {
         // 登录成功后跳转回页面
         redirect: to.fullPath

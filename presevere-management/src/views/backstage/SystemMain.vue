@@ -17,6 +17,11 @@
         <div class="catalog-sub" id="c-s-data-manage" style="display: none;">
           <template v-if="routerList.length > 0">
             <!-- 路径获取 -->
+            <router-link
+              v-for="(router, idx) of routerList"
+              :key="idx"
+              :to="`/sys/modules/${router.routerName}`"
+            >{{ router.routerTitle }}</router-link>
           </template>
           <a v-else href="javascript:void(0)">没有数据</a>
         </div>
@@ -59,11 +64,10 @@ export default {
     }
   },
   methods: {
-    async routerInit() {
-      const response = await SysRouterService.queryPage()
-      if (response.data) {
-        console.log(response.data)
-      }
+    routerInit() {
+      SysRouterService.queryPage().then(response => {
+        this.routerList = response.data.list
+      })
     },
     accordion(event, targetId) {
       event.target.classList.toggle('active')
