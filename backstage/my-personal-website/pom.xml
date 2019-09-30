@@ -65,7 +65,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- mybatis jsr310插件 java8日期支持 -->
+        <!-- mybatis jsr310插件 jdk8日期支持 -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
