@@ -20,13 +20,13 @@ public class SysRouterController implements BaseController {
         this.sysRouterService = sysRouterService;
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public AjaxResult queryByPrimaryKey(@PathVariable Integer id) {
         return ok(sysRouterService.selectByPrimaryKey(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public AjaxResult queryPage(SysRouterVo vo) {
         PageHelper.startPage(vo.getCurrentPage(), vo.getPageSize());

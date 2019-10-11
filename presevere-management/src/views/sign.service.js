@@ -19,7 +19,7 @@ function login(username, password) {
  * @param {String} nickname 
  */
 function register(username, password, nickname) {
-  return window.axios.post('/app/register', {
+  return window.axios.post('/app/auth/register', {
     username, password, nickname
   })
 }

@@ -38,6 +38,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    // console.error(response)
     // Do something with response data
     console.log('进入axios response拦截器')
     // eslint-disable-next-line no-unused-vars
@@ -59,7 +60,7 @@ _axios.interceptors.response.use(
           })
         } else {
           // 访问接口权限不足，拒绝访问
-          Vue.$toast.error('错误', response.data.msg)
+          Vue.prototype.$toast.error('错误', response.data.msg)
         }
         reject(response.data)
       }

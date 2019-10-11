@@ -124,8 +124,14 @@ export default {
             this.formData.password.value
           ).then(response => {
             localStorage.setItem('token', response.data.token)
-            localStorage.setItem('currentUser', JSON.stringify(response.data.userMessage))
-            this.$toast.success(`您好, ${response.data.userMessage.nickname}`, '登录成功')
+            localStorage.setItem(
+              'currentUser',
+              JSON.stringify(response.data.userMessage)
+            )
+            this.$toast.success(
+              `您好, ${response.data.userMessage.nickname}`,
+              '登录成功'
+            )
             this.$router.push(this.redirectPath)
           })
         }
@@ -137,9 +143,19 @@ export default {
             this.formData.password.value,
             this.formData.nickname.value
           ).then(response => {
-            // TODO
-            console.log(response)
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem(
+              'currentUser',
+              JSON.stringify(response.data.userMessage)
+            )
+            this.$toast.success(
+              `欢饮您, ${response.data.userMessage.nickname}`,
+              '注册成功，自动登录'
+            )
+            this.$router.push(this.redirectPath)
           })
+        } else {
+          console.log('invalid')
         }
       }
     },
@@ -175,10 +191,10 @@ export default {
     validNickname(e) {
       const len = StringUtil.strlen(this.formData.nickname.value)
       if (len > 18 || len < 1) {
-        this.formData.password.valid = false
+        this.formData.nickname.valid = false
         this.replaceClass(e.target, 'is-valid', 'is-invalid')
       } else {
-        this.formData.password.valid = true
+        this.formData.nickname.valid = true
         this.replaceClass(e.target, 'is-invalid', 'is-valid')
       }
     },
