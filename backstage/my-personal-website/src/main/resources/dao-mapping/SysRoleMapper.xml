@@ -68,22 +68,10 @@
             <if test="roleName != null">
                 `role_name`,
             </if>
-            <if test="createDatetime != null">
-                `create_datetime`,
-            </if>
-            <if test="updateDatetime != null">
-                `update_datetime`,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="roleName != null">
                 #{roleName,jdbcType=VARCHAR},
-            </if>
-            <if test="createDatetime != null">
-                #{createDatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateDatetime != null">
-                #{updateDatetime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -93,12 +81,6 @@
         <set>
             <if test="roleName != null">
                 `role_name` = #{roleName,jdbcType=VARCHAR},
-            </if>
-            <if test="createDatetime != null">
-                `create_datetime` = #{createDatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateDatetime != null">
-                `update_datetime` = #{updateDatetime,jdbcType=TIMESTAMP},
             </if>
         </set>
         where id = #{id}

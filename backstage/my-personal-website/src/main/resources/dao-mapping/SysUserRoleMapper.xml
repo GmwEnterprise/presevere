@@ -65,12 +65,6 @@
             <if test="roleId != null">
                 `role_id`,
             </if>
-            <if test="createDatetime != null">
-                `create_datetime`,
-            </if>
-            <if test="updateDatetime != null">
-                `update_datetime`,
-            </if>
             <if test="available != null">
                 `available`,
             </if>
@@ -81,12 +75,6 @@
             </if>
             <if test="roleId != null">
                 #{roleId,jdbcType=INTEGER},
-            </if>
-            <if test="createDatetime != null">
-                #{createDatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateDatetime != null">
-                #{updateDatetime,jdbcType=TIMESTAMP},
             </if>
             <if test="available != null">
                 #{available,jdbcType=TINYINT},
@@ -102,12 +90,6 @@
             </if>
             <if test="roleId != null">
                 `role_id` = #{roleId,jdbcType=INTEGER},
-            </if>
-            <if test="createDatetime != null">
-                `create_datetime` = #{createDatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateDatetime != null">
-                `update_datetime` = #{updateDatetime,jdbcType=TIMESTAMP},
             </if>
             <if test="available != null">
                 `available` = #{available,jdbcType=TINYINT},

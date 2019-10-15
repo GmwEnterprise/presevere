@@ -60,12 +60,6 @@
             <if test="routerName != null">
                 `router_name`,
             </if>
-            <if test="createDatetime != null">
-                `create_datetime`,
-            </if>
-            <if test="lastUpdateDatetime != null">
-                `last_update_datetime`,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="routerTitle != null">
@@ -73,12 +67,6 @@
             </if>
             <if test="routerName != null">
                 #{routerName,jdbcType=VARCHAR},
-            </if>
-            <if test="createDatetime != null">
-                #{createDatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastUpdateDatetime != null">
-                #{lastUpdateDatetime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -91,12 +79,6 @@
             </if>
             <if test="routerName != null">
                 `router_name` = #{routerName,jdbcType=VARCHAR},
-            </if>
-            <if test="createDatetime != null">
-                `create_datetime` = #{createDatetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastUpdateDatetime != null">
-                `last_update_datetime` = #{lastUpdateDatetime,jdbcType=TIMESTAMP},
             </if>
         </set>
     where id = #{id}

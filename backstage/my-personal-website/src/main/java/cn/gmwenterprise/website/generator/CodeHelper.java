@@ -21,7 +21,9 @@ public class CodeHelper {
     private static final String CONTROLLER_PATH = "/src/main/java/cn/gmwenterprise/website/web/";
 
     public static void main(String[] args) throws Exception {
-        generateTable("");
+//        generateTable("pre_article_msg");
+//        generateTable("pre_article_body");
+//        generateTable("pre_article_draft");
     }
 
     private static void generateTable(String tableName) throws Exception {

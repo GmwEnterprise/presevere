@@ -107,12 +107,6 @@
             <if test="email != null">
                 `email`,
             </if>
-            <if test="createTime != null">
-                `create_time`,
-            </if>
-            <if test="updateTime != null">
-                `update_time`,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="nickname != null">
@@ -135,12 +129,6 @@
             </if>
             <if test="email != null">
                 #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -168,12 +156,6 @@
             </if>
             <if test="email != null">
                 `email` = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                `create_time` = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                `update_time` = #{updateTime,jdbcType=TIMESTAMP},
             </if>
         </set>
         where id = #{id}

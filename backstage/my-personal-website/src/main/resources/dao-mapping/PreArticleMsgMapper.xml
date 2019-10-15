@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gmwenterprise.website.dao.PreArticleMsgDao">
+
+    <resultMap id="BaseResultMap" type="preArticleMsg">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="writer" jdbcType="INTEGER" property="writer"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        a.`id`,
+        a.`title`,
+        a.`writer`,
+        a.`create_time`,
+        a.`update_time`,
+        a.`introduction`,
+        a.`tag`,
+        a.`status`
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_msg a
+        where a.`id` = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_msg a
+        <where>
+            <if test="title != null">
+                and a.`title` like concat('%', #{title,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="writer != null">
+                and a.`writer` = #{writer,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                and a.`create_time` = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and a.`update_time` = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="introduction != null">
+                and a.`introduction` like concat('%', #{introduction,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="tag != null">
+                and a.`tag` like concat('%', #{tag,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != null">
+                and a.`status` = #{status,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        delete
+        from pre_article_msg a
+        where a.`id` = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into pre_article_msg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                `title`,
+            </if>
+            <if test="writer != null">
+                `writer`,
+            </if>
+            <if test="introduction != null">
+                `introduction`,
+            </if>
+            <if test="tag != null">
+                `tag`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="writer != null">
+                #{writer,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="tag != null">
+                #{tag,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey">
+        update pre_article_msg
+        <set>
+            <if test="title != null">
+                `title` = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="writer != null">
+                `writer` = #{writer,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                `introduction` = #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="tag != null">
+                `tag` = #{tag,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

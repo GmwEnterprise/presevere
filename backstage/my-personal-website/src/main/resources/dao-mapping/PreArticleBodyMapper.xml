@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gmwenterprise.website.dao.PreArticleBodyDao">
+
+    <resultMap id="BaseResultMap" type="preArticleBody">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="article_msg_id" jdbcType="INTEGER" property="articleMsgId"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="content_type" jdbcType="VARCHAR" property="contentType"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        a.`id`,
+        a.`article_msg_id`,
+        a.`content`,
+        a.`content_type`
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_body a
+        where a.`id` = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_body a
+        <where>
+            <if test="articleMsgId != null">
+                and a.`article_msg_id` = #{articleMsgId,jdbcType=INTEGER}
+            </if>
+            <if test="content != null">
+                and a.`content` = #{content,jdbcType=LONGVARCHAR}
+            </if>
+            <if test="contentType != null">
+                and a.`content_type` like concat('%', #{contentType,jdbcType=VARCHAR}, '%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        delete
+        from pre_article_body a
+        where a.`id` = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into pre_article_body
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleMsgId != null">
+                `article_msg_id`,
+            </if>
+            <if test="content != null">
+                `content`,
+            </if>
+            <if test="contentType != null">
+                `content_type`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleMsgId != null">
+                #{articleMsgId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentType != null">
+                #{contentType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey">
+        update pre_article_body
+        <set>
+            <if test="articleMsgId != null">
+                `article_msg_id` = #{articleMsgId,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                `content` = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentType != null">
+                `content_type` = #{contentType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

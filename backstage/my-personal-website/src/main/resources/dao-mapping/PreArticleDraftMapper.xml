@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gmwenterprise.website.dao.PreArticleDraftDao">
+
+    <resultMap id="BaseResultMap" type="preArticleDraft">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="creator" jdbcType="INTEGER" property="creator"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="content_type" jdbcType="VARCHAR" property="contentType"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        a.`id`,
+        a.`title`,
+        a.`creator`,
+        a.`update_time`,
+        a.`introduction`,
+        a.`tag`,
+        a.`content`,
+        a.`content_type`
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_draft a
+        where a.`id` = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_draft a
+        <where>
+            <if test="title != null">
+                and a.`title` like concat('%', #{title,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="creator != null">
+                and a.`creator` = #{creator,jdbcType=INTEGER}
+            </if>
+            <if test="updateTime != null">
+                and a.`update_time` = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="introduction != null">
+                and a.`introduction` like concat('%', #{introduction,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="tag != null">
+                and a.`tag` like concat('%', #{tag,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="content != null">
+                and a.`content` = #{content,jdbcType=LONGVARCHAR}
+            </if>
+            <if test="contentType != null">
+                and a.`content_type` #{contentType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        delete
+        from pre_article_draft a
+        where a.`id` = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into pre_article_draft
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                `title`,
+            </if>
+            <if test="creator != null">
+                `creator`,
+            </if>
+            <if test="introduction != null">
+                `introduction`,
+            </if>
+            <if test="tag != null">
+                `tag`,
+            </if>
+            <if test="content != null">
+                `content`,
+            </if>
+            <if test="contentType != null">
+                `content_type`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="tag != null">
+                #{tag,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentType != null">
+                #{contentType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey">
+        update pre_article_draft
+        <set>
+            <if test="title != null">
+                `title` = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                `creator` = #{creator,jdbcType=INTEGER},
+            </if>
+            <if test="introduction != null">
+                `introduction` = #{introduction,jdbcType=VARCHAR},
+            </if>
+            <if test="tag != null">
+                `tag` = #{tag,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                `content` = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentType != null">
+                `content_type` = #{contentType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
