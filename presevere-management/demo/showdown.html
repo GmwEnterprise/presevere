@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Showdown Converter Usage</title>
+  <script src="../node_modules/showdown/dist/showdown.min.js"></script>
+</head>
+<body>
+  <div>
+    <textarea id="inputArea" oninput="converter()" placeholder="input md content here"></textarea>
+  </div>
+  <div id="output"></div>
+  <script>
+    // showdown.js @see at https://github.com/showdownjs/showdown
+    var mdConverter = new showdown.Converter({
+      tables: true
+    })
+
+    function converter() {
+      var md = document.getElementById('inputArea').value
+      document.getElementById('output').innerHTML = mdConverter.makeHtml(md)
+    }
+  </script>
+</body>
+</html>
