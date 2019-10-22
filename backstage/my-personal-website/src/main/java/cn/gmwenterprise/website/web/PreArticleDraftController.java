@@ -3,9 +3,12 @@ package cn.gmwenterprise.website.web;
 import cn.gmwenterprise.website.common.AjaxResult;
 import cn.gmwenterprise.website.common.BaseController;
 import cn.gmwenterprise.website.config.mybatis.PageHelper;
+import cn.gmwenterprise.website.config.security.User;
 import cn.gmwenterprise.website.service.PreArticleDraftService;
 import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,8 +37,21 @@ public class PreArticleDraftController implements BaseController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public AjaxResult add(@RequestBody PreArticleDraftVo vo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        vo.setCreator(currentUser.getUser().getId());
         preArticleDraftService.insert(vo);
         return ok();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/addAndReturn")
+    public AjaxResult addAndReturn(@RequestBody PreArticleDraftVo vo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        vo.setCreator(currentUser.getUser().getId());
+        preArticleDraftService.insert(vo);
+        return ok(vo);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

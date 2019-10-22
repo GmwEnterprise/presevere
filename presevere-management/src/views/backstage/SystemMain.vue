@@ -1,8 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="row" style="background-color: white;box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);">
-      <div class="col-12" style="display: flex;">
+      <div class="col-12" style="display: flex; justify-content: space-between;">
         <router-link to="/sys" :style="logoStyle" class="logo"></router-link>
+        <button
+          class="btn btn-link current-user-style"
+          @click="currentUser()"
+        >{{ user.nickname }}</button>
       </div>
     </div>
     <div class="row" style="margin-top: .5rem;">
@@ -60,10 +64,28 @@ export default {
         height: '3rem',
         backgroundRepeat: 'no-repeat',
         margin: '.5rem'
-      }
+      },
+      user: {}
     }
   },
   methods: {
+    userInit() {
+      if (localStorage.getItem('token') != null) {
+        this.user = JSON.parse(localStorage.getItem('currentUser'))
+      }
+    },
+    currentUser() {
+      this.$message({
+        title: '用户信息',
+        detail: this.user,
+        btnName: '注销',
+        event: async close => {
+          localStorage.removeItem('token')
+          localStorage.removeItem('currentUser')
+          close()
+        }
+      })
+    },
     routerInit() {
       SysRouterService.queryPage().then(response => {
         this.routerList = response.data.list
@@ -86,6 +108,7 @@ export default {
   },
   created() {
     this.routerInit()
+    this.userInit()
   }
 }
 </script>
@@ -158,5 +181,12 @@ div.catalog-sub > a {
 div.catalog-sub > a:hover {
   color: #111;
   text-decoration: none;
+}
+.current-user-style {
+  line-height: 3rem;
+  height: 3rem;
+  margin: 0.5rem 1.5rem;
+  color: black;
+  margin-right: 300px;
 }
 </style>

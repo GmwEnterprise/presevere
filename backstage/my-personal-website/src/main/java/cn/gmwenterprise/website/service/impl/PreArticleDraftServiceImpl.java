@@ -1,9 +1,9 @@
 package cn.gmwenterprise.website.service.impl;
 
-import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import cn.gmwenterprise.website.dao.PreArticleDraftDao;
 import cn.gmwenterprise.website.domain.PreArticleDraft;
 import cn.gmwenterprise.website.service.PreArticleDraftService;
+import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,11 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
 
     @Override
     public int insert(PreArticleDraftVo vo) {
-        return preArticleDraftDao.insert(domain(vo));
+        PreArticleDraft domain = domain(vo);
+        int effect = preArticleDraftDao.insert(domain);
+        PreArticleDraftVo vo1 = vo(domain);
+        BeanUtils.copyProperties(vo1, vo);
+        return effect;
     }
 
     @Override
