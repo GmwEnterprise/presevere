@@ -6,7 +6,9 @@ import cn.gmwenterprise.website.service.PreArticleDraftService;
 import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +50,35 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     @Override
     public int updateByPrimaryKey(PreArticleDraftVo vo) {
         return preArticleDraftDao.updateByPrimaryKey(domain(vo));
+    }
+
+    @Override
+    public void pushTag(Integer id, String tag) {
+        PreArticleDraft domain = preArticleDraftDao.selectByPrimaryKey(id);
+        if (!StringUtils.isEmpty(domain.getTag())) {
+            domain.setTag(domain.getTag() + "," + tag);
+        } else {
+            domain.setTag(tag);
+        }
+        preArticleDraftDao.updateByPrimaryKey(domain);
+    }
+
+    @Override
+    public void removeTagById(Integer id, String tag) {
+        PreArticleDraft target = preArticleDraftDao.selectByPrimaryKey(id);
+
+        String origin = target.getTag();
+        if (origin.contains(tag)) {
+            if (!origin.contains(",")) {
+                target.setTag("");
+            } else {
+                String finallyTags = Arrays.stream(origin.split(","))
+                    .filter(t -> !t.equals(tag))
+                    .collect(Collectors.joining(","));
+                target.setTag(finallyTags);
+            }
+            preArticleDraftDao.updateByPrimaryKey(target);
+        }
     }
 
     private PreArticleDraftVo vo(PreArticleDraft domain) {

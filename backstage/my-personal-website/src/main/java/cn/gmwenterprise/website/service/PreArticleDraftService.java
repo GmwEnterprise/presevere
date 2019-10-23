@@ -48,4 +48,8 @@ public interface PreArticleDraftService {
      * @return 受影响行数
      */
     int updateByPrimaryKey(PreArticleDraftVo vo);
+
+    void pushTag(Integer id, String tag);
+
+    void removeTagById(Integer id, String tag);
 }

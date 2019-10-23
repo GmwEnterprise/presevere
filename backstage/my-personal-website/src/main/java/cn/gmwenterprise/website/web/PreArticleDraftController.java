@@ -67,4 +67,18 @@ public class PreArticleDraftController implements BaseController {
         preArticleDraftService.deleteByPrimaryKey(id);
         return ok();
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/pushTag")
+    public AjaxResult pushTag(@RequestBody PreArticleDraftVo vo) {
+        preArticleDraftService.pushTag(vo.getId(), vo.getTag());
+        return ok();
+    }
+
+    @PreAuthorize(("hasRole('ROLE_USER')"))
+    @PostMapping("/removeTagById")
+    public AjaxResult removeTag(@RequestBody PreArticleDraftVo vo) {
+        preArticleDraftService.removeTagById(vo.getId(), vo.getTag());
+        return ok();
+    }
 }

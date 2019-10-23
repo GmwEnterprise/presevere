@@ -27,7 +27,7 @@
       <input
         class="form-control"
         type="text"
-        v-model="data.tag"
+        v-model="tagString"
         @input="draftTagChange"
         @keypress="enterPress"
         placeholder="请输入文章分类，逗号分隔"
@@ -61,6 +61,7 @@ export default {
       // 1-add, 2-modify
       editType: 1,
       showTitle: '',
+      tagString: '',
       data: {
         id: null,
         // 标题
@@ -109,25 +110,32 @@ export default {
     },
     removeTag(tag) {
       this.tagList.splice(this.tagList.indexOf(tag), 1)
+      preArticleDraftService.removeTag(this.data.id, tag)
     },
     tagListPush(tag) {
       console.log(this.tagList.indexOf(tag))
       if (this.tagList.indexOf(tag) === -1) {
         this.tagList.push(tag)
+        preArticleDraftService.pushNewTag(this.data.id, tag).then(response => {
+          if (response.data) {
+            this.data.id = response.data.id
+          }
+        })
       }
     },
     draftTagChange(e) {
       if (e.data === ',') {
         console.log(e)
-        let tagStr = this.data.tag
+        let tagStr = this.tagString
         tagStr = tagStr.substring(0, tagStr.length - 1)
         this.tagListPush(tagStr)
+        this.tagString = ''
       }
     },
     enterPress(e) {
-      if (e.charCode === 13 && this.data.tag) {
-        this.tagListPush(this.data.tag)
-        this.data.tag = ''
+      if (e.charCode === 13 && this.tagString) {
+        this.tagListPush(this.tagString)
+        this.tagString = ''
       }
     },
     mdsave(param) {
@@ -138,6 +146,11 @@ export default {
       const response = await preArticleDraftService.queryByKey(key)
       if (response.data) {
         this.data = response.data
+        if (this.data.tag) {
+          const tags = this.data.tag.split(',')
+          this.tagList = tags
+          this.data.tag = ''
+        }
       }
     },
     /**

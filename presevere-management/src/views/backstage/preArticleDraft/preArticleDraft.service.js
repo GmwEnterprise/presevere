@@ -33,7 +33,6 @@ export default {
         })
       } else {
         return this.addAndReturn({
-          id: param.id,
           introduction: param.introduction,
           contentType: 'markdown'
         })
@@ -54,10 +53,29 @@ export default {
     } else {
       // insert
       return this.addAndReturn({
-        id: param.id,
         title: param.title,
         contentType: 'markdown'
       })
     }
   },
+
+  pushNewTag(id, tag) {
+    if (id) {
+      // update
+      return window.axios.post('/app/preArticleDraft/pushTag', {
+        id, tag
+      })
+    } else {
+      return this.addAndReturn({
+        id,
+        tag
+      })
+    }
+  },
+
+  removeTag(id, tag) {
+    return window.axios.post('/app/preArticleDraft/removeTagById', {
+      id, tag
+    })
+  }
 }
