@@ -80,7 +80,7 @@ export default {
     }
   },
   mounted() {
-    this.data.id = this.$route.params.rowId
+    this.data.id = this.$route.query.rowId
     if (this.data.id) {
       console.log('修改')
       this.editType = 2

@@ -52,4 +52,10 @@ public interface PreArticleDraftService {
     void pushTag(Integer id, String tag);
 
     void removeTagById(Integer id, String tag);
+
+    void pushContentById(Integer id, String content, String htmlRender);
+
+    Integer pushContent(String content, String htmlRender);
+
+    void updateTitle(Integer id, String title);
 }

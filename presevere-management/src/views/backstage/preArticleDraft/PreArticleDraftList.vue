@@ -146,7 +146,7 @@ export default {
       console.log(rowId)
       this.$router.push({
         name: 'preArticleDraftEdit',
-        params: {
+        query: {
           rowId
         }
       })

@@ -4,6 +4,7 @@ import cn.gmwenterprise.website.common.AjaxResult;
 import cn.gmwenterprise.website.common.BaseController;
 import cn.gmwenterprise.website.config.mybatis.PageHelper;
 import cn.gmwenterprise.website.config.security.User;
+import cn.gmwenterprise.website.domain.PreArticleDraft;
 import cn.gmwenterprise.website.service.PreArticleDraftService;
 import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,10 +76,31 @@ public class PreArticleDraftController implements BaseController {
         return ok();
     }
 
-    @PreAuthorize(("hasRole('ROLE_USER')"))
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/removeTagById")
     public AjaxResult removeTag(@RequestBody PreArticleDraftVo vo) {
         preArticleDraftService.removeTagById(vo.getId(), vo.getTag());
+        return ok();
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/pushContent")
+    public AjaxResult pushContent(@RequestBody PreArticleDraft vo) {
+        if (vo.getId() != null) {
+            preArticleDraftService.pushContentById(vo.getId(), vo.getContent(), vo.getHtmlRender());
+            return ok();
+        } else {
+            Integer primary = preArticleDraftService.pushContent(vo.getContent(), vo.getHtmlRender());
+            return ok(new PreArticleDraftVo() {{
+                setId(primary);
+            }});
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/updateTitle")
+    public AjaxResult updateTitle(@RequestBody PreArticleDraft vo) {
+        preArticleDraftService.updateTitle(vo.getId(), vo.getTitle());
         return ok();
     }
 }

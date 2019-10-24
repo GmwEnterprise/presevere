@@ -11,6 +11,7 @@
         <result column="tag" jdbcType="VARCHAR" property="tag"/>
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
         <result column="content_type" jdbcType="VARCHAR" property="contentType"/>
+        <result column="html_render" jdbcType="LONGVARCHAR" property="htmlRender"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -21,7 +22,8 @@
         a.`introduction`,
         a.`tag`,
         a.`content`,
-        a.`content_type`
+        a.`content_type`,
+        a.`html_render`
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
@@ -57,6 +59,9 @@
             <if test="contentType != null">
                 and a.`content_type` #{contentType,jdbcType=VARCHAR}
             </if>
+            <if test="htmlRender != null">
+                and a.`html_render` = #{htmlRender,jdbcType=LONGVARCHAR}
+            </if>
         </where>
     </select>
 
@@ -87,6 +92,9 @@
             <if test="contentType != null">
                 `content_type`,
             </if>
+            <if test="htmlRender != null">
+                `html_render`,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="title != null">
@@ -106,6 +114,9 @@
             </if>
             <if test="contentType != null">
                 #{contentType,jdbcType=VARCHAR},
+            </if>
+            <if test="htmlRender != null">
+                #{htmlRender,jdbcType=LONGVARCHAR},
             </if>
         </trim>
     </insert>
@@ -130,6 +141,9 @@
             </if>
             <if test="contentType != null">
                 `content_type` = #{contentType,jdbcType=VARCHAR},
+            </if>
+            <if test="htmlRender != null">
+                `html_render` = #{htmlRender,jdbcType=LONGVARCHAR},
             </if>
         </set>
         where id = #{id}

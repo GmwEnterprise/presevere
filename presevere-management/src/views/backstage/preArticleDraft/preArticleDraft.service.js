@@ -46,7 +46,7 @@ export default {
     }
     if (param.id) {
       // modify
-      return this.modify({
+      return window.axios.post('/app/preArticleDraft/updateTitle', {
         id: param.id,
         title: param.title
       })
@@ -76,6 +76,14 @@ export default {
   removeTag(id, tag) {
     return window.axios.post('/app/preArticleDraft/removeTagById', {
       id, tag
+    })
+  },
+
+  pushContent(id, content, htmlRender) {
+    return window.axios.post('/app/preArticleDraft/pushContent', {
+      id,
+      content,
+      htmlRender
     })
   }
 }

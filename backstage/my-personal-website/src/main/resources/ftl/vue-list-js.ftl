@@ -131,7 +131,7 @@ export default {
       console.log(rowId)
       this.$router.push({
         name: '${entityAlias}Edit',
-        params: {
+        query: {
           rowId
         }
       })

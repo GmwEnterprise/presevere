@@ -137,7 +137,7 @@ export default {
       console.log(rowId)
       this.$router.push({
         name: 'sysRouterEdit',
-        params: {
+        query: {
           rowId
         }
       })

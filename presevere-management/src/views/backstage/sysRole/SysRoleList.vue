@@ -134,7 +134,7 @@ export default {
       console.log(rowId)
       this.$router.push({
         name: 'sysRoleEdit',
-        params: {
+        query: {
           rowId
         }
       })

@@ -56,29 +56,46 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     public void pushTag(Integer id, String tag) {
         PreArticleDraft domain = preArticleDraftDao.selectByPrimaryKey(id);
         if (!StringUtils.isEmpty(domain.getTag())) {
-            domain.setTag(domain.getTag() + "," + tag);
+            String newTag = domain.getTag() + "," + tag;
+            preArticleDraftDao.setTag(id, newTag);
         } else {
-            domain.setTag(tag);
+            preArticleDraftDao.setTag(id, tag);
         }
-        preArticleDraftDao.updateByPrimaryKey(domain);
     }
 
     @Override
     public void removeTagById(Integer id, String tag) {
         PreArticleDraft target = preArticleDraftDao.selectByPrimaryKey(id);
-
         String origin = target.getTag();
         if (origin.contains(tag)) {
             if (!origin.contains(",")) {
-                target.setTag("");
+                preArticleDraftDao.setTag(target.getId(), null);
             } else {
                 String finallyTags = Arrays.stream(origin.split(","))
                     .filter(t -> !t.equals(tag))
                     .collect(Collectors.joining(","));
-                target.setTag(finallyTags);
+                preArticleDraftDao.setTag(id, finallyTags);
             }
-            preArticleDraftDao.updateByPrimaryKey(target);
         }
+    }
+
+    @Override
+    public void pushContentById(Integer id, String content, String htmlRender) {
+        preArticleDraftDao.updateContent(id, content, htmlRender);
+    }
+
+    @Override
+    public Integer pushContent(String content, String htmlRender) {
+        PreArticleDraft domain = new PreArticleDraft();
+        domain.setContent(content);
+        domain.setHtmlRender(htmlRender);
+        preArticleDraftDao.insert(domain);
+        return domain.getId();
+    }
+
+    @Override
+    public void updateTitle(Integer id, String title) {
+        preArticleDraftDao.updateTitleById(id, title);
     }
 
     private PreArticleDraftVo vo(PreArticleDraft domain) {
