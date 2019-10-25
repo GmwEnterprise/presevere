@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gmwenterprise.website.dao.PreArticleImageStoreDao">
+
+    <resultMap id="BaseResultMap" type="preArticleImageStore">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="image_title" jdbcType="VARCHAR" property="imageTitle"/>
+        <result column="image_content" jdbcType="LONGVARBINARY" property="imageContent"/>
+        <result column="image_type" jdbcType="VARCHAR" property="imageType"/>
+        <result column="content_type" jdbcType="VARCHAR" property="contentType"/>
+        <result column="add_datetime" jdbcType="TIMESTAMP" property="addDatetime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        a.`id`,
+        a.`image_title`,
+        a.`image_content`,
+        a.`image_type`,
+        a.`content_type`,
+        a.`add_datetime`
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_image_store a
+        where a.`id` = #{id}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_article_image_store a
+        <where>
+            <if test="imageContent != null">
+                and a.`image_content` = #{imageContent,jdbcType=LONGVARBINARY}
+            </if>
+            <if test="imageTitle != null">
+                and a.`image_title` like concat('%', #{imageTitle,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="addDatetime != null">
+                and a.`add_datetime` = #{addDatetime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="imageType != null">
+                and a.`image_type` = #{imageType,jdbcType=VARCHAR}
+            </if>
+            <if test="contentType != null">
+                and a.`contentType` = #{contentType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        delete
+        from pre_article_image_store a
+        where a.`id` = #{id}
+    </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into pre_article_image_store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageContent != null">
+                `image_content`,
+            </if>
+            <if test="imageTitle != null">
+                `image_title`,
+            </if>
+            <if test="addDatetime != null">
+                `add_datetime`,
+            </if>
+            <if test="imageType != null">
+                `image_type`,
+            </if>
+            <if test="contentType != null">
+                `content_type`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageContent != null">
+                #{imageContent,jdbcType=LONGVARBINARY},
+            </if>
+            <if test="imageTitle != null">
+                #{imageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="addDatetime != null">
+                #{addDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="imageType != null">
+                #{imageType,jdbcType=VARCHAR},
+            </if>
+            <if test="contentType != null">
+                #{contentType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey">
+        update pre_article_image_store
+        <set>
+            <if test="imageContent != null">
+                `image_content` = #{imageContent,jdbcType=LONGVARBINARY},
+            </if>
+            <if test="imageTitle != null">
+                `image_title` = #{imageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="addDatetime != null">
+                `add_datetime` = #{addDatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="imageType != null">
+                `image_type` = #{imageType,jdbcType=VARCHAR},
+            </if>
+            <if test="contentType != null">
+                `content_type` = #{contentType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

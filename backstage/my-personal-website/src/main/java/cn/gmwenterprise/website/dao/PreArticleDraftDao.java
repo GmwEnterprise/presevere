@@ -1,7 +1,7 @@
 package cn.gmwenterprise.website.dao;
 
 import cn.gmwenterprise.website.domain.PreArticleDraft;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -52,12 +52,15 @@ public interface PreArticleDraftDao {
      */
     int updateByPrimaryKey(PreArticleDraft record);
 
-    @Select("update pre_article_draft set tag = #{tag} where id = #{id}")
+    @Update("update pre_article_draft set tag = #{tag} where id = #{id}")
     void setTag(Integer id, String tag);
 
-    @Select("update pre_article_draft set content = #{content}, html_render = #{htmlRender} where id = #{id}")
-    void updateContent(Integer id, String content, String htmlRender);
+    @Update("update pre_article_draft set content = #{content} where id = #{id}")
+    void updateContent(Integer id, String content);
 
-    @Select("update pre_article_draft set title = #{title} where id = #{id}")
+    @Update("update pre_article_draft set title = #{title} where id = #{id}")
     void updateTitleById(Integer id, String title);
+
+    @Update("update pre_article_draft set introduction = #{introduction} where id = #{id}")
+    void updateIntroductionById(Integer id, String introduction);
 }

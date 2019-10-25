@@ -80,15 +80,14 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     }
 
     @Override
-    public void pushContentById(Integer id, String content, String htmlRender) {
-        preArticleDraftDao.updateContent(id, content, htmlRender);
+    public void pushContentById(Integer id, String content) {
+        preArticleDraftDao.updateContent(id, content);
     }
 
     @Override
-    public Integer pushContent(String content, String htmlRender) {
+    public Integer pushContent(String content) {
         PreArticleDraft domain = new PreArticleDraft();
         domain.setContent(content);
-        domain.setHtmlRender(htmlRender);
         preArticleDraftDao.insert(domain);
         return domain.getId();
     }
@@ -96,6 +95,11 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     @Override
     public void updateTitle(Integer id, String title) {
         preArticleDraftDao.updateTitleById(id, title);
+    }
+
+    @Override
+    public void updateIntroduction(Integer id, String introduction) {
+        preArticleDraftDao.updateIntroductionById(id, introduction);
     }
 
     private PreArticleDraftVo vo(PreArticleDraft domain) {

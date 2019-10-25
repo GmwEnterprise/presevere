@@ -1,13 +1,13 @@
 package cn.gmwenterprise.website.service;
 
-import cn.gmwenterprise.website.vo.PreArticleDraftVo;
+import cn.gmwenterprise.website.vo.PreArticleImageStoreVo;
 
 import java.util.List;
 
 /**
  * @author gmw
  */
-public interface PreArticleDraftService {
+public interface PreArticleImageStoreService {
 
     /**
      * 删除记录
@@ -23,7 +23,7 @@ public interface PreArticleDraftService {
      * @param vo 记录
      * @return 受影响行数
      */
-    int insert(PreArticleDraftVo vo);
+    int insert(PreArticleImageStoreVo vo);
 
     /**
      * 查询记录
@@ -31,7 +31,7 @@ public interface PreArticleDraftService {
      * @param id 主键
      * @return 结果
      */
-    PreArticleDraftVo selectByPrimaryKey(Integer id);
+    PreArticleImageStoreVo selectByPrimaryKey(Integer id);
 
     /**
      * 查询所有记录
@@ -39,7 +39,7 @@ public interface PreArticleDraftService {
      * @param vo 条件
      * @return 结果
      */
-    List<PreArticleDraftVo> selectPage(PreArticleDraftVo vo);
+    List<PreArticleImageStoreVo> selectPage(PreArticleImageStoreVo vo);
 
     /**
      * 更新记录
@@ -47,17 +47,7 @@ public interface PreArticleDraftService {
      * @param vo 记录
      * @return 受影响行数
      */
-    int updateByPrimaryKey(PreArticleDraftVo vo);
+    int updateByPrimaryKey(PreArticleImageStoreVo vo);
 
-    void pushTag(Integer id, String tag);
-
-    void removeTagById(Integer id, String tag);
-
-    void pushContentById(Integer id, String content);
-
-    Integer pushContent(String content);
-
-    void updateTitle(Integer id, String title);
-
-    void updateIntroduction(Integer id, String introduction);
+    String uploadImage(byte[] imageBytes, String imageName);
 }

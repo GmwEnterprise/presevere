@@ -27,7 +27,7 @@ export default {
   saveIntroduction(param) {
     if (param.introduction && param.introduction.trim().length > 0) {
       if (param.id) {
-        return this.modify({
+        return window.axios.post('/app/preArticleDraft/updateIntroduction', {
           id: param.id,
           introduction: param.introduction
         })
@@ -79,11 +79,10 @@ export default {
     })
   },
 
-  pushContent(id, content, htmlRender) {
+  pushContent(id, content) {
     return window.axios.post('/app/preArticleDraft/pushContent', {
       id,
-      content,
-      htmlRender
+      content
     })
   }
 }

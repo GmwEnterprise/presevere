@@ -21,7 +21,15 @@
       />
     </div>
     <div class="draft-body">
-      <mavon-editor v-model="data.content" @change="mdsave" @fullScreen="markdownEditorFullScreenChange" />
+      <mavon-editor
+        ref="md"
+        v-model="data.content"
+        :tabSize="4"
+        @change="mdsave"
+        @fullScreen="markdownEditorFullScreenChange"
+        @imgAdd="addImage"
+        @imgDel="removeImage"
+      />
       <!-- <mark-down v-bind="markdownProps" @on-save="mdsave" /> -->
     </div>
     <div class="draft-foot">
@@ -54,7 +62,6 @@ export default {
     return {
       // 1-add, 2-modify
       editType: 1,
-      showTitle: '',
       tagString: '',
       data: {
         id: null,
@@ -78,7 +85,28 @@ export default {
       }
     }
   },
+  computed: {
+    showTitle() {
+      return this.data.title ? this.data.title : ''
+    }
+  },
   methods: {
+    addImage(pos, image) {
+      console.log(pos)
+      console.log(image)
+      const formData = new FormData()
+      formData.append('image', image)
+      this.axios({
+        url: '/app/preArticleImageStore/upload',
+        method: 'post',
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }).then(response => {
+        const callbackUrl = response.data
+        this.$refs.md.$img2Url(pos, `http://127.0.0.1:4200/${callbackUrl}`);
+      })
+    },
+    removeImage() {},
     markdownEditorFullScreenChange(status) {
       if (status) {
         // 设置header的z-index小于1501
@@ -105,7 +133,6 @@ export default {
       }, 1000)
     },
     showTitleChange() {
-      this.showTitle = this.data.title
       const prom = preArticleDraftService.saveTitle(this.data)
       prom != null
         ? prom.then(response => {
@@ -145,7 +172,7 @@ export default {
         this.tagString = ''
       }
     },
-    mdsave(value, render) {
+    mdsave() {
       /**
        * 编辑便触发保存操作，设置延迟执行；
        * 若持续编辑，则覆盖延迟执行器
@@ -156,7 +183,7 @@ export default {
       // 内容发生变化后延迟1500ms执行
       this.mdSaveTimer = setTimeout(() => {
         preArticleDraftService
-          .pushContent(this.data.id, this.data.content, render)
+          .pushContent(this.data.id, this.data.content)
           .then(response => {
             if (response.data) {
               this.data.id = response.data.id

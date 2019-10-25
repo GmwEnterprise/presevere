@@ -45,6 +45,4 @@ public class PreArticleDraft {
      * [content_type] 草稿文章类型
      */
     private String contentType;
-
-    private String htmlRender;
 }

@@ -87,10 +87,10 @@ public class PreArticleDraftController implements BaseController {
     @PostMapping("/pushContent")
     public AjaxResult pushContent(@RequestBody PreArticleDraft vo) {
         if (vo.getId() != null) {
-            preArticleDraftService.pushContentById(vo.getId(), vo.getContent(), vo.getHtmlRender());
+            preArticleDraftService.pushContentById(vo.getId(), vo.getContent());
             return ok();
         } else {
-            Integer primary = preArticleDraftService.pushContent(vo.getContent(), vo.getHtmlRender());
+            Integer primary = preArticleDraftService.pushContent(vo.getContent());
             return ok(new PreArticleDraftVo() {{
                 setId(primary);
             }});
@@ -101,6 +101,14 @@ public class PreArticleDraftController implements BaseController {
     @PostMapping("/updateTitle")
     public AjaxResult updateTitle(@RequestBody PreArticleDraft vo) {
         preArticleDraftService.updateTitle(vo.getId(), vo.getTitle());
+        return ok();
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/updateIntroduction")
+    public AjaxResult updateIntroduction(@RequestBody PreArticleDraft vo) {
+        preArticleDraftService.updateIntroduction(vo.getId(), vo.getIntroduction());
         return ok();
     }
 }

@@ -44,8 +44,6 @@ public class PreArticleDraftVo {
      */
     private String contentType;
 
-    private String htmlRender;
-
     /**
      * 当前页（入参）
      */
