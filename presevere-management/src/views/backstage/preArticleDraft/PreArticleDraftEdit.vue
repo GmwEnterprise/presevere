@@ -2,7 +2,7 @@
   <div style="margin-top: 3.5em;">
     <div class="header" :style="headerStyleZIndex">
       <h3 class="show-title" :title="showTitle">{{ showTitle }}</h3>
-      <button id="pub">发布</button>
+      <button id="pub" @click="publish">发布</button>
     </div>
     <div class="draft-head">
       <input
@@ -81,7 +81,7 @@ export default {
       tagList: [],
       introTimer: null,
       headerStyleZIndex: {
-        zIndex: 2000
+        zIndex: 21
       }
     }
   },
@@ -91,6 +91,29 @@ export default {
     }
   },
   methods: {
+    /**
+     * 所有草稿内容都已经保存好了的
+     * 发布的时候，重定向到列表页
+     * 并将草稿删除
+     * 检查必填项是否完整
+     */
+    publish() {
+      // 检查标题
+
+      // 检查介绍
+
+      // 检查内容
+
+      // 检查分类标签
+
+      // 提交data.id的发布任务
+      preArticleDraftService.publish(this.data.id)
+      // 重定向回到列表页
+      this.$router.push({
+        name: 'preArticleDraftList',
+        replace: true 
+      })
+    },
     addImage(pos, image) {
       console.log(pos)
       console.log(image)
@@ -103,17 +126,17 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' }
       }).then(response => {
         const callbackUrl = response.data
-        this.$refs.md.$img2Url(pos, `http://127.0.0.1:4200/${callbackUrl}`);
+        this.$refs.md.$img2Url(pos, `http://127.0.0.1:4200/${callbackUrl}`)
       })
     },
     removeImage() {},
     markdownEditorFullScreenChange(status) {
       if (status) {
-        // 设置header的z-index小于1501
-        this.headerStyleZIndex.zIndex = 1000
+        // 设置header的z-index小于20
+        this.headerStyleZIndex.zIndex = 19
       } else {
-        // 设置header的z-index大于1501
-        this.headerStyleZIndex.zIndex = 2000
+        // 设置header的z-index大于20
+        this.headerStyleZIndex.zIndex = 21
       }
     },
     introChange() {

@@ -60,4 +60,6 @@ public interface PreArticleDraftService {
     void updateTitle(Integer id, String title);
 
     void updateIntroduction(Integer id, String introduction);
+
+    void publishArticle(Integer id);
 }

@@ -28,7 +28,7 @@
         select
         <include refid="Base_Column_List"/>
         from pre_article_draft a
-        where a.`id` = #{id}
+        where a.`id` = #{id} and used = 0
     </select>
 
     <select id="selectPage" resultMap="BaseResultMap">
@@ -57,6 +57,7 @@
             <if test="contentType != null">
                 and a.`content_type` #{contentType,jdbcType=VARCHAR}
             </if>
+            and used = 0
         </where>
     </select>
 
@@ -132,6 +133,6 @@
                 `content_type` = #{contentType,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id}
+        where id = #{id} and used = 0
     </update>
 </mapper>

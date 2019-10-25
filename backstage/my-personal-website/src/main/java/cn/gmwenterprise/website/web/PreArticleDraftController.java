@@ -111,4 +111,11 @@ public class PreArticleDraftController implements BaseController {
         preArticleDraftService.updateIntroduction(vo.getId(), vo.getIntroduction());
         return ok();
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/publish")
+    public AjaxResult publish(@RequestBody PreArticleDraftVo vo) {
+        preArticleDraftService.publishArticle(vo.getId());
+        return ok();
+    }
 }

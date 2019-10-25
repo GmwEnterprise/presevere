@@ -52,15 +52,18 @@ public interface PreArticleDraftDao {
      */
     int updateByPrimaryKey(PreArticleDraft record);
 
-    @Update("update pre_article_draft set tag = #{tag} where id = #{id}")
+    @Update("update pre_article_draft set tag = #{tag} where id = #{id} and used = 0")
     void setTag(Integer id, String tag);
 
-    @Update("update pre_article_draft set content = #{content} where id = #{id}")
+    @Update("update pre_article_draft set content = #{content} where id = #{id} and used = 0")
     void updateContent(Integer id, String content);
 
-    @Update("update pre_article_draft set title = #{title} where id = #{id}")
+    @Update("update pre_article_draft set title = #{title} where id = #{id} and used = 0")
     void updateTitleById(Integer id, String title);
 
-    @Update("update pre_article_draft set introduction = #{introduction} where id = #{id}")
+    @Update("update pre_article_draft set introduction = #{introduction} where id = #{id} and used = 0")
     void updateIntroductionById(Integer id, String introduction);
+
+    @Update("update pre_article_draft set used = 1 where id = #{id}")
+    void publishDraft(Integer id);
 }

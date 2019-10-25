@@ -1,10 +1,17 @@
 package cn.gmwenterprise.website.service.impl;
 
+import cn.gmwenterprise.website.config.security.User;
+import cn.gmwenterprise.website.dao.PreArticleBodyDao;
 import cn.gmwenterprise.website.dao.PreArticleDraftDao;
+import cn.gmwenterprise.website.dao.PreArticleMsgDao;
+import cn.gmwenterprise.website.domain.PreArticleBody;
 import cn.gmwenterprise.website.domain.PreArticleDraft;
+import cn.gmwenterprise.website.domain.PreArticleMsg;
 import cn.gmwenterprise.website.service.PreArticleDraftService;
 import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,9 +22,17 @@ import java.util.stream.Collectors;
 @Service
 public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     private final PreArticleDraftDao preArticleDraftDao;
+    private final PreArticleMsgDao preArticleMsgDao;
+    private final PreArticleBodyDao preArticleBodyDao;
 
-    public PreArticleDraftServiceImpl(PreArticleDraftDao preArticleDraftDao) {
+    public PreArticleDraftServiceImpl(
+        PreArticleDraftDao preArticleDraftDao,
+        PreArticleMsgDao preArticleMsgDao,
+        PreArticleBodyDao preArticleBodyDao
+    ) {
         this.preArticleDraftDao = preArticleDraftDao;
+        this.preArticleMsgDao = preArticleMsgDao;
+        this.preArticleBodyDao = preArticleBodyDao;
     }
 
     @Override
@@ -100,6 +115,31 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     @Override
     public void updateIntroduction(Integer id, String introduction) {
         preArticleDraftDao.updateIntroductionById(id, introduction);
+    }
+
+    @Override
+    public void publishArticle(Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        PreArticleDraft targetDraft = preArticleDraftDao.selectByPrimaryKey(id);
+        if (targetDraft.getCreator().equals(currentUser.getUser().getId())) {
+            // 验证身份成功
+            PreArticleMsg msg = new PreArticleMsg() {{
+                setWriter(targetDraft.getCreator());
+                setTitle(targetDraft.getTitle());
+                setIntroduction(targetDraft.getIntroduction());
+                setTag(targetDraft.getTag());
+                setStatus(1);
+            }};
+            preArticleMsgDao.insert(msg);
+            PreArticleBody body = new PreArticleBody() {{
+                setArticleMsgId(msg.getId());
+                setContentType("markdown");
+                setContent(targetDraft.getContent());
+            }};
+            preArticleBodyDao.insert(body);
+            preArticleDraftDao.publishDraft(id);
+        }
     }
 
     private PreArticleDraftVo vo(PreArticleDraft domain) {

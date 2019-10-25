@@ -84,5 +84,11 @@ export default {
       id,
       content
     })
+  },
+
+  publish(id) {
+    return window.axios.post('/app/preArticleDraft/publish', {
+      id
+    })
   }
 }
