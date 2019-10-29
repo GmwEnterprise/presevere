@@ -92,12 +92,13 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
         PreArticleDraft target = preArticleDraftDao.selectByPrimaryKey(id);
         String origin = target.getTag();
         if (origin.contains(tag)) {
-            if (!origin.contains(",")) {
+            String separator = ",";
+            if (!origin.contains(separator)) {
                 preArticleDraftDao.setTag(target.getId(), null);
             } else {
-                String finallyTags = Arrays.stream(origin.split(","))
+                String finallyTags = Arrays.stream(origin.split(separator))
                     .filter(t -> !t.equals(tag))
-                    .collect(Collectors.joining(","));
+                    .collect(Collectors.joining(separator));
                 preArticleDraftDao.setTag(id, finallyTags);
             }
         }

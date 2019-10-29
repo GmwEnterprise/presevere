@@ -1,17 +1,24 @@
 <template>
   <div id="table-list-vue">
     <h3>{{ table.className + ' 表' }}</h3>
-    <!--
+    
     <query-form @submit="querySubmit">
-            <form-control v-model="formParam.id" label="主键" id="id" />
-      <form-control v-model="formParam.title" label="文章标题" id="title" />
-      <form-control v-model="formParam.writer" label="文章作者" id="writer" />
-      <form-control v-model="formParam.createTime" label="创建时间" id="createTime" />
-      <form-control v-model="formParam.updateTime" label="上次更新时间" id="updateTime" />
-      <form-control v-model="formParam.introduction" label="文章介绍" id="introduction" />
-      <form-control v-model="formParam.tag" label="分类标签（逗号分隔）" id="tag" />
-      <form-control v-model="formParam.status" label="状态" id="status" />
-    </query-form> -->
+            <!-- <form-control v-model="formParam.id" label="主键" id="id" /> -->
+      <form-control v-model="formParam.title" label="标题" id="title" />
+      <form-control v-model="formParam.writer" label="作者" id="writer" />
+      <!-- <form-control v-model="formParam.createTime" label="创建时间" id="createTime" /> -->
+      <!-- <form-control v-model="formParam.updateTime" label="上次更新时间" id="updateTime" /> -->
+      <!-- <form-control v-model="formParam.introduction" label="文章介绍" id="introduction" /> -->
+      <form-control v-model="formParam.tag" label="标签" id="tag" />
+      <form-control
+        v-model="formParam.status"
+        label="状态"
+        id="status"
+        type="single-select"
+        :selectdItems="statusItems"
+        itemType="number"
+      />
+    </query-form>
     <router-link
       to="/sys/modules/preArticleMsg/edit"
       class="btn btn-light"
@@ -86,6 +93,10 @@ export default {
   name: 'PreArticleMsgList',
   data() {
     return {
+      statusItems: [
+        { title: '有效', value: 1 },
+        { title: '无效', value: 0 },
+      ],
       formParam: {
         id: null,
         title: null,
@@ -100,7 +111,11 @@ export default {
         className: 'PreArticleMsg',
         columns: [
           { code: 'id', name: '主键', type: 'number', show: true },
-          { code: 'title', name: '文章标题', type: 'string', show: true },
+          { code: 'title', name: '文章标题', type: 'customize', show: true,
+            customize(origin) {
+              // TODO
+            }
+          },
           { code: 'writer', name: '文章作者', type: 'number', show: true },
           { code: 'createTime', name: '创建时间', type: 'date', show: true },
           { code: 'updateTime', name: '上次更新时间', type: 'date', show: true },
