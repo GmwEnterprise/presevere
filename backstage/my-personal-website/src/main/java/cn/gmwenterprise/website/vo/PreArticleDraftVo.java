@@ -23,6 +23,7 @@ public class PreArticleDraftVo {
      * [creator] 草稿创建者
      */
     private Integer creator;
+    private String creatorName;
     /**
      * [update_time] 草稿更新时间
      */

@@ -99,13 +99,13 @@ export default {
       table: {
         className: 'PreArticleDraft',
         columns: [
-          { code: 'id', name: '主键', type: 'number', show: true },
           { code: 'title', name: '草稿标题', type: 'string', show: true },
-          { code: 'creator', name: '草稿创建者', type: 'number', show: true },
+          // { code: 'creator', name: '草稿创建者', type: 'number', show: true },
+          { code: 'creatorName', name: '草稿创建者', type: 'string', show: true },
           { code: 'updateTime', name: '草稿更新时间', type: 'date', show: true },
           { code: 'introduction', name: '草稿介绍', type: 'string', show: true },
           { code: 'tag', name: '草稿分类', type: 'string', show: true },
-          { code: 'content', name: '草稿内容', type: 'string', show: true },
+          // { code: 'content', name: '草稿内容', type: 'string', show: true },
           { code: 'contentType', name: '草稿文章类型', type: 'string', show: true },
         ]
       },

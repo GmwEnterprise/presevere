@@ -8,6 +8,7 @@ import cn.gmwenterprise.website.domain.PreArticleBody;
 import cn.gmwenterprise.website.domain.PreArticleDraft;
 import cn.gmwenterprise.website.domain.PreArticleMsg;
 import cn.gmwenterprise.website.service.PreArticleDraftService;
+import cn.gmwenterprise.website.service.SysUserService;
 import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
@@ -24,15 +25,17 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
     private final PreArticleDraftDao preArticleDraftDao;
     private final PreArticleMsgDao preArticleMsgDao;
     private final PreArticleBodyDao preArticleBodyDao;
+    private final SysUserService sysUserService;
 
     public PreArticleDraftServiceImpl(
         PreArticleDraftDao preArticleDraftDao,
         PreArticleMsgDao preArticleMsgDao,
-        PreArticleBodyDao preArticleBodyDao
-    ) {
+        PreArticleBodyDao preArticleBodyDao,
+        SysUserService sysUserService) {
         this.preArticleDraftDao = preArticleDraftDao;
         this.preArticleMsgDao = preArticleMsgDao;
         this.preArticleBodyDao = preArticleBodyDao;
+        this.sysUserService = sysUserService;
     }
 
     @Override
@@ -56,9 +59,15 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
 
     @Override
     public List<PreArticleDraftVo> selectPage(PreArticleDraftVo vo) {
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        vo.setCreator(principal.getUser().getId());
         return preArticleDraftDao.selectPage(domain(vo))
             .stream()
-            .map(this::vo)
+            .map(domain -> {
+                PreArticleDraftVo item = vo(domain);
+                item.setCreatorName(sysUserService.selectByPrimaryKey(item.getCreator()).getNickname());
+                return item;
+            })
             .collect(Collectors.toList());
     }
 

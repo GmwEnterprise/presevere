@@ -99,19 +99,21 @@ export default {
      */
     publish() {
       // 检查标题
-
-      // 检查介绍
-
+      if (!this.data.title) {
+        alert('输入标题')
+        return
+      }
       // 检查内容
-
-      // 检查分类标签
-
+      if (!this.data.content) {
+        alert('请编辑内容')
+        return
+      }
       // 提交data.id的发布任务
       preArticleDraftService.publish(this.data.id)
       // 重定向回到列表页
       this.$router.push({
         name: 'preArticleDraftList',
-        replace: true 
+        replace: true
       })
     },
     addImage(pos, image) {
@@ -212,7 +214,7 @@ export default {
               this.data.id = response.data.id
             }
           })
-      }, 1500)
+      }, 2500)
     },
     async queryData(key) {
       const response = await preArticleDraftService.queryByKey(key)
