@@ -1,6 +1,7 @@
 package cn.gmwenterprise.website.service.impl;
 
 import cn.gmwenterprise.website.dao.PreArticleBodyDao;
+import cn.gmwenterprise.website.dao.SysUserDao;
 import cn.gmwenterprise.website.domain.PreArticleBody;
 import cn.gmwenterprise.website.vo.PreArticle;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
@@ -17,10 +18,15 @@ import java.util.stream.Collectors;
 public class PreArticleMsgServiceImpl implements PreArticleMsgService {
     private final PreArticleMsgDao preArticleMsgDao;
     private final PreArticleBodyDao preArticleBodyDao;
+    private final SysUserDao sysUserDao;
 
-    public PreArticleMsgServiceImpl(PreArticleMsgDao preArticleMsgDao, PreArticleBodyDao preArticleBodyDao) {
+    public PreArticleMsgServiceImpl(
+        PreArticleMsgDao preArticleMsgDao,
+        PreArticleBodyDao preArticleBodyDao,
+        SysUserDao sysUserDao) {
         this.preArticleMsgDao = preArticleMsgDao;
         this.preArticleBodyDao = preArticleBodyDao;
+        this.sysUserDao = sysUserDao;
     }
 
     @Override
@@ -58,6 +64,7 @@ public class PreArticleMsgServiceImpl implements PreArticleMsgService {
         return new PreArticle() {{
             setHead(head);
             setBody(body);
+            setWriterName(sysUserDao.selectByPrimaryKey(getHead().getWriter()).getUsername());
         }};
     }
 

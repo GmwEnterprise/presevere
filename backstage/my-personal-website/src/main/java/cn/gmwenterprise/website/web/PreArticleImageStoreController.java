@@ -71,18 +71,25 @@ public class PreArticleImageStoreController implements BaseController {
      * 图片访问链接，不需要权限
      * TODO 缓存
      *
+     * @param response resp
      * @param id       图片id
      * @param render   图片渲染方式
-     * @param response resp
      * @throws IOException exp
      */
     @GetMapping(value = "/imageOutput/{id}")
-    public void imageOutputById(HttpServletResponse response, @PathVariable Integer id, @RequestParam(required = false, defaultValue = ImageStoreVo.SIMPLE_RENDERING) String render) throws IOException {
-        ImageStoreVo vo = preArticleImageStoreService.selectByPrimaryKey(id);
-        response.setContentType(vo.getContentType());
+    public void imageOutputById(
+        HttpServletResponse response,
+        @PathVariable Integer id,
+        @RequestParam(
+            required = false,
+            defaultValue = ImageStoreVo.SIMPLE_RENDERING
+        ) String render
+    ) throws IOException {
+        ImageStoreVo before = preArticleImageStoreService.selectByPrimaryKey(id);
+        ImageStoreVo afterRendering = imageService.imageRender(before, render);
+        response.setContentType(afterRendering.getContentType());
         ServletOutputStream outputStream = response.getOutputStream();
-        byte[] imageContent = imageService.imageRender(vo, render);
-        outputStream.write(imageContent);
+        outputStream.write(afterRendering.getImageContent());
         outputStream.flush();
         outputStream.close();
     }

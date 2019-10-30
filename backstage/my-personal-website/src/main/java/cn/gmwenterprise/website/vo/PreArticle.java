@@ -10,4 +10,6 @@ public class PreArticle {
     private PreArticleMsg head;
 
     private PreArticleBody body;
+
+    private String writerName;
 }

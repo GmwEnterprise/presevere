@@ -13,6 +13,7 @@ import javax.imageio.stream.MemoryCacheImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.math.BigDecimal;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -20,7 +21,7 @@ public class ImageServiceImpl implements ImageService {
     /**
      * 系统指定图片高度为500px
      */
-    private static final int SIMPLE_HEIGHT = 500;
+    private static final int SIMPLE_HEIGHT = 200;
 
     @Override
     public BufferedImage imageRender(byte[] before, String renderStyle) throws IOException {
@@ -32,15 +33,19 @@ public class ImageServiceImpl implements ImageService {
 
         // 缩放到合适大小（系统指定）
         if (renderStyle.equals(ImageStoreVo.SIMPLE_RENDERING)) {
-
             int height = bufferedImage.getHeight();
-
-            int scale = SIMPLE_HEIGHT / height;
+            if (height <= SIMPLE_HEIGHT) {
+                return bufferedImage;
+            }
+            BigDecimal simpleHeight = new BigDecimal(SIMPLE_HEIGHT);
+            BigDecimal bigDecimalHeight = new BigDecimal(height);
+            double scaleValue = (double) SIMPLE_HEIGHT / height;
             return Thumbnails.of(bufferedImage)
-                .scale(scale)
+                .scale(scaleValue)
                 .asBufferedImage();
         }
 
+        // 其他情况暂不处理
         return bufferedImage;
     }
 
@@ -57,7 +62,6 @@ public class ImageServiceImpl implements ImageService {
                 setContentType(before.getContentType());
                 setAddDatetime(before.getAddDatetime());
             }};
-            // TODO 没写完
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
