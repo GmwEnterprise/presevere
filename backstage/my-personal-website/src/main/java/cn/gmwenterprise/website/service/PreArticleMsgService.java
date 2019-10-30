@@ -1,5 +1,6 @@
 package cn.gmwenterprise.website.service;
 
+import cn.gmwenterprise.website.vo.PreArticle;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
 
 import java.util.List;
@@ -48,4 +49,6 @@ public interface PreArticleMsgService {
      * @return 受影响行数
      */
     int updateByPrimaryKey(PreArticleMsgVo vo);
+
+    PreArticle getArticleById(Integer id);
 }

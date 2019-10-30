@@ -75,7 +75,7 @@
             <div
               class="back-column-customize-box"
               v-else-if="column.type === 'customize'"
-              v-html="column.customize(row[column.code])"
+              v-html="column.customize(row)"
             ></div>
             <template v-else class="back-column-othertype">{{ row[column.code] }}</template>
           </td>
@@ -87,16 +87,18 @@
 </template>
 
 <script>
+const statusItems = [
+  { title: '有效', value: 1 },
+  { title: '无效', value: 0 },
+]
+
 import preArticleMsgService from './preArticleMsg.service.js'
 import { setTimeout } from 'timers'
 export default {
   name: 'PreArticleMsgList',
   data() {
     return {
-      statusItems: [
-        { title: '有效', value: 1 },
-        { title: '无效', value: 0 },
-      ],
+      statusItems,
       formParam: {
         id: null,
         title: null,
@@ -110,18 +112,25 @@ export default {
       table: {
         className: 'PreArticleMsg',
         columns: [
-          { code: 'id', name: '主键', type: 'number', show: true },
           { code: 'title', name: '文章标题', type: 'customize', show: true,
-            customize(origin) {
-              // TODO
+            customize(row) {
+              // 显示一个链接
+              // console.log(row)
+              const currentHref = window.location.href
+              const calculateHref = currentHref + `/look?articleId=${row['id']}`
+              return `<a href="${calculateHref}">${row[this.code]}</a>`
             }
           },
           { code: 'writer', name: '文章作者', type: 'number', show: true },
+          { code: 'introduction', name: '文章介绍', type: 'string', show: true },
+          { code: 'tag', name: '分类标签', type: 'string', show: true },
+          { code: 'status', name: '状态', type: 'customize', show: true,
+            customize(row) {
+              return statusItems.filter(item => row[this.code] === item.value)[0].title
+            }
+          },
           { code: 'createTime', name: '创建时间', type: 'date', show: true },
           { code: 'updateTime', name: '上次更新时间', type: 'date', show: true },
-          { code: 'introduction', name: '文章介绍', type: 'string', show: true },
-          { code: 'tag', name: '分类标签（逗号分隔）', type: 'string', show: true },
-          { code: 'status', name: '状态', type: 'number', show: true },
         ]
       },
       tableData: {},
@@ -159,12 +168,15 @@ export default {
     },
     editRow(rowId) {
       console.log(rowId)
-      this.$router.push({
-        name: 'preArticleMsgEdit',
-        query: {
-          rowId
-        }
-      })
+      // 跳转到草稿页面的编辑界面，重新编辑已完成的草稿；
+      // 如果重新发布草稿，先删除掉已发布的版本，然后插入新版本
+
+      // this.$router.push({
+      //   name: 'preArticleMsgEdit',
+      //   query: {
+      //     rowId
+      //   }
+      // })
     },
     deleteRow(rowId) {
       this.$message({

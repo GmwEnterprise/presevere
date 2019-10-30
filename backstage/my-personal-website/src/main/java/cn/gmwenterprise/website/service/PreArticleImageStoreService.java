@@ -1,6 +1,6 @@
 package cn.gmwenterprise.website.service;
 
-import cn.gmwenterprise.website.vo.PreArticleImageStoreVo;
+import cn.gmwenterprise.website.vo.ImageStoreVo;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface PreArticleImageStoreService {
      * @param vo 记录
      * @return 受影响行数
      */
-    int insert(PreArticleImageStoreVo vo);
+    int insert(ImageStoreVo vo);
 
     /**
      * 查询记录
@@ -31,7 +31,7 @@ public interface PreArticleImageStoreService {
      * @param id 主键
      * @return 结果
      */
-    PreArticleImageStoreVo selectByPrimaryKey(Integer id);
+    ImageStoreVo selectByPrimaryKey(Integer id);
 
     /**
      * 查询所有记录
@@ -39,7 +39,7 @@ public interface PreArticleImageStoreService {
      * @param vo 条件
      * @return 结果
      */
-    List<PreArticleImageStoreVo> selectPage(PreArticleImageStoreVo vo);
+    List<ImageStoreVo> selectPage(ImageStoreVo vo);
 
     /**
      * 更新记录
@@ -47,7 +47,7 @@ public interface PreArticleImageStoreService {
      * @param vo 记录
      * @return 受影响行数
      */
-    int updateByPrimaryKey(PreArticleImageStoreVo vo);
+    int updateByPrimaryKey(ImageStoreVo vo);
 
     String uploadImage(byte[] imageBytes, String imageName);
 }

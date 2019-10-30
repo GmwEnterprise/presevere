@@ -2,8 +2,9 @@ package cn.gmwenterprise.website.web;
 
 import cn.gmwenterprise.website.common.AjaxResult;
 import cn.gmwenterprise.website.common.BaseController;
+import cn.gmwenterprise.website.service.ImageService;
 import cn.gmwenterprise.website.service.PreArticleImageStoreService;
-import cn.gmwenterprise.website.vo.PreArticleImageStoreVo;
+import cn.gmwenterprise.website.vo.ImageStoreVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,9 +22,11 @@ import java.io.IOException;
 @RequestMapping("/preArticleImageStore")
 public class PreArticleImageStoreController implements BaseController {
     private final PreArticleImageStoreService preArticleImageStoreService;
+    private final ImageService imageService;
 
-    public PreArticleImageStoreController(PreArticleImageStoreService preArticleImageStoreService) {
+    public PreArticleImageStoreController(PreArticleImageStoreService preArticleImageStoreService, ImageService imageService) {
         this.preArticleImageStoreService = preArticleImageStoreService;
+        this.imageService = imageService;
     }
 
     @GetMapping("/{id}")
@@ -33,7 +36,7 @@ public class PreArticleImageStoreController implements BaseController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
-    public AjaxResult add(@RequestBody PreArticleImageStoreVo vo) {
+    public AjaxResult add(@RequestBody ImageStoreVo vo) {
         preArticleImageStoreService.insert(vo);
         return ok();
     }
@@ -69,15 +72,17 @@ public class PreArticleImageStoreController implements BaseController {
      * TODO 缓存
      *
      * @param id       图片id
+     * @param render   图片渲染方式
      * @param response resp
      * @throws IOException exp
      */
     @GetMapping(value = "/imageOutput/{id}")
-    public void imageOutputById(@PathVariable Integer id, HttpServletResponse response) throws IOException {
-        PreArticleImageStoreVo vo = preArticleImageStoreService.selectByPrimaryKey(id);
+    public void imageOutputById(HttpServletResponse response, @PathVariable Integer id, @RequestParam(required = false, defaultValue = ImageStoreVo.SIMPLE_RENDERING) String render) throws IOException {
+        ImageStoreVo vo = preArticleImageStoreService.selectByPrimaryKey(id);
         response.setContentType(vo.getContentType());
         ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(vo.getImageContent());
+        byte[] imageContent = imageService.imageRender(vo, render);
+        outputStream.write(imageContent);
         outputStream.flush();
         outputStream.close();
     }

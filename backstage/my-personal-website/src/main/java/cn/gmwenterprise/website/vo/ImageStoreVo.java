@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
  * PreArticleImageStore 业务对象
  */
 @Data
-public class PreArticleImageStoreVo {
+public class ImageStoreVo {
+
+    public static final String FULL_RENDERING = "full";
+    public static final String SIMPLE_RENDERING = "simple";
+
     /**
      * PRIMARY KEY<br>
      * AUTO INCREMENT<br>

@@ -13,5 +13,12 @@ export default [
       auth: true
     },
     component: () => import('@/views/backstage/preArticleMsg/PreArticleMsgEdit.vue')
+  }, {
+    path: 'modules/preArticleMsg/look',
+    name: 'preArticleMsgLook',
+    meta: {
+      auth: true
+    },
+    component: () => import('@/views/backstage/preArticleMsg/PreArticleMsgLook.vue')
   }
 ]

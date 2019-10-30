@@ -71,11 +71,11 @@ export default {
   mounted() {
     this.data.id = this.$route.query.rowId
     if (this.data.id) {
-      console.log('修改')
+      // console.log('修改')
       this.editType = 2
       this.queryData(this.data.id)
     } else {
-      console.log('新增')
+      // console.log('新增')
       this.editType = 1
     }
   }

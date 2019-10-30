@@ -1,6 +1,7 @@
 package cn.gmwenterprise.website.dao;
 
 import cn.gmwenterprise.website.domain.PreArticleBody;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,4 +51,7 @@ public interface PreArticleBodyDao {
      * @return 受影响行数
      */
     int updateByPrimaryKey(PreArticleBody record);
+
+    @Select("select * from pre_article_body where article_msg_id = #{id}")
+    PreArticleBody selectByMsgId(Integer id);
 }

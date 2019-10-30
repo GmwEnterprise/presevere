@@ -63,7 +63,7 @@
             <div
               class="back-column-customize-box"
               v-else-if="column.type === 'customize'"
-              v-html="column.customize(row[column.code])"
+              v-html="column.customize(row)"
             ></div>
             <template v-else class="back-column-othertype">{{ row[column.code] }}</template>
           </td>
@@ -128,7 +128,6 @@ export default {
       }
     },
     editRow(rowId) {
-      console.log(rowId)
       this.$router.push({
         name: '${entityAlias}Edit',
         query: {

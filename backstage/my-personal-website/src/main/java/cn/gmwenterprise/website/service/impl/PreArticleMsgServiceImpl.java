@@ -1,5 +1,8 @@
 package cn.gmwenterprise.website.service.impl;
 
+import cn.gmwenterprise.website.dao.PreArticleBodyDao;
+import cn.gmwenterprise.website.domain.PreArticleBody;
+import cn.gmwenterprise.website.vo.PreArticle;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
 import cn.gmwenterprise.website.dao.PreArticleMsgDao;
 import cn.gmwenterprise.website.domain.PreArticleMsg;
@@ -13,9 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class PreArticleMsgServiceImpl implements PreArticleMsgService {
     private final PreArticleMsgDao preArticleMsgDao;
+    private final PreArticleBodyDao preArticleBodyDao;
 
-    public PreArticleMsgServiceImpl(PreArticleMsgDao preArticleMsgDao) {
+    public PreArticleMsgServiceImpl(PreArticleMsgDao preArticleMsgDao, PreArticleBodyDao preArticleBodyDao) {
         this.preArticleMsgDao = preArticleMsgDao;
+        this.preArticleBodyDao = preArticleBodyDao;
     }
 
     @Override
@@ -44,6 +49,16 @@ public class PreArticleMsgServiceImpl implements PreArticleMsgService {
     @Override
     public int updateByPrimaryKey(PreArticleMsgVo vo) {
         return preArticleMsgDao.updateByPrimaryKey(domain(vo));
+    }
+
+    @Override
+    public PreArticle getArticleById(Integer id) {
+        PreArticleMsg head = preArticleMsgDao.selectByPrimaryKey(id);
+        PreArticleBody body = preArticleBodyDao.selectByMsgId(head.getId());
+        return new PreArticle() {{
+            setHead(head);
+            setBody(body);
+        }};
     }
 
     private PreArticleMsgVo vo(PreArticleMsg domain) {

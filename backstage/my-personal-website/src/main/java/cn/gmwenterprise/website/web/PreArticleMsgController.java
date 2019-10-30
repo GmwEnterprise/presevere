@@ -27,6 +27,11 @@ public class PreArticleMsgController implements BaseController {
         return ok(preArticleMsgService.selectByPrimaryKey(id));
     }
 
+    @GetMapping("/detail/{id}")
+    public AjaxResult queryArticleById(@PathVariable Integer id) {
+        return ok(preArticleMsgService.getArticleById(id));
+    }
+
     @GetMapping
     public AjaxResult queryPage(PreArticleMsgVo vo) {
         PageHelper.startPage(vo.getCurrentPage(), vo.getPageSize());

@@ -18,5 +18,9 @@ export default {
 
   delByKey(key) {
     return window.axios.delete(`/app/preArticleMsg/${key}`)
-  }
+  },
+
+  queryArticle(key) {
+    return window.axios.get(`/app/preArticleMsg/detail/${key}`)
+  } 
 }

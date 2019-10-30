@@ -3,7 +3,7 @@ package cn.gmwenterprise.website.service.impl;
 import cn.gmwenterprise.website.dao.PreArticleImageStoreDao;
 import cn.gmwenterprise.website.domain.PreArticleImageStore;
 import cn.gmwenterprise.website.service.PreArticleImageStoreService;
-import cn.gmwenterprise.website.vo.PreArticleImageStoreVo;
+import cn.gmwenterprise.website.vo.ImageStoreVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +24,17 @@ public class PreArticleImageStoreServiceImpl implements PreArticleImageStoreServ
     }
 
     @Override
-    public int insert(PreArticleImageStoreVo vo) {
+    public int insert(ImageStoreVo vo) {
         return preArticleImageStoreDao.insert(domain(vo));
     }
 
     @Override
-    public PreArticleImageStoreVo selectByPrimaryKey(Integer id) {
+    public ImageStoreVo selectByPrimaryKey(Integer id) {
         return vo(preArticleImageStoreDao.selectByPrimaryKey(id));
     }
 
     @Override
-    public List<PreArticleImageStoreVo> selectPage(PreArticleImageStoreVo vo) {
+    public List<ImageStoreVo> selectPage(ImageStoreVo vo) {
         return preArticleImageStoreDao.selectPage(domain(vo))
             .stream()
             .map(this::vo)
@@ -42,7 +42,7 @@ public class PreArticleImageStoreServiceImpl implements PreArticleImageStoreServ
     }
 
     @Override
-    public int updateByPrimaryKey(PreArticleImageStoreVo vo) {
+    public int updateByPrimaryKey(ImageStoreVo vo) {
         return preArticleImageStoreDao.updateByPrimaryKey(domain(vo));
     }
 
@@ -86,16 +86,16 @@ public class PreArticleImageStoreServiceImpl implements PreArticleImageStoreServ
         }
     }
 
-    private PreArticleImageStoreVo vo(PreArticleImageStore domain) {
+    private ImageStoreVo vo(PreArticleImageStore domain) {
         if (domain == null) {
             return null;
         }
-        PreArticleImageStoreVo vo = new PreArticleImageStoreVo();
+        ImageStoreVo vo = new ImageStoreVo();
         BeanUtils.copyProperties(domain, vo);
         return vo;
     }
 
-    private PreArticleImageStore domain(PreArticleImageStoreVo vo) {
+    private PreArticleImageStore domain(ImageStoreVo vo) {
         if (vo == null) {
             return null;
         }
