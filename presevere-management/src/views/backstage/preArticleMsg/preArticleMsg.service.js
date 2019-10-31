@@ -22,5 +22,9 @@ export default {
 
   queryArticle(key) {
     return window.axios.get(`/app/preArticleMsg/detail/${key}`)
-  } 
+  },
+
+  modifyPublishedArticle(msgId) {
+    return window.axios.post(`/app/preArticleMsg/modifyPublishedArticle/${msgId}`)
+  }
 }

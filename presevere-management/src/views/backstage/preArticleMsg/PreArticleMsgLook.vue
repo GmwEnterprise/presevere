@@ -47,7 +47,9 @@ export default {
 
   computed: {
     render() {
-      return converter.makeHtml(this.article.body.content)
+      return converter
+        .makeHtml(this.article.body.content)
+        .replace(/<img src/g, '<img style="display:block;margin:40px auto" src')
     },
     metaData() {
       return `${this.article.writerName} / ${this.article.head.updateTime}`
@@ -79,7 +81,16 @@ export default {
       this.$router.go(-1)
     },
     modify() {
-      // TODO 修改已发布的文章
+      preArticleMsgService
+        .modifyPublishedArticle(this.article.head.id)
+        .then(response => {
+          this.$router.push({
+            name: 'preArticleDraftEdit',
+            query: {
+              rowId: response.data
+            }
+          })
+        })
     }
   }
 }

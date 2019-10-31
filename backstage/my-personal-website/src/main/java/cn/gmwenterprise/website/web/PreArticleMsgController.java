@@ -58,4 +58,10 @@ public class PreArticleMsgController implements BaseController {
         preArticleMsgService.deleteByPrimaryKey(id);
         return ok();
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/modifyPublishedArticle/{msgId}")
+    public AjaxResult modifyPublishedArticle(@PathVariable Integer msgId) {
+        return ok(preArticleMsgService.reEdit(msgId));
+    }
 }

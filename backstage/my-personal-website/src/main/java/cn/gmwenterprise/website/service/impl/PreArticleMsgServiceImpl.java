@@ -1,8 +1,10 @@
 package cn.gmwenterprise.website.service.impl;
 
 import cn.gmwenterprise.website.dao.PreArticleBodyDao;
+import cn.gmwenterprise.website.dao.PreArticleDraftDao;
 import cn.gmwenterprise.website.dao.SysUserDao;
 import cn.gmwenterprise.website.domain.PreArticleBody;
+import cn.gmwenterprise.website.domain.PreArticleDraft;
 import cn.gmwenterprise.website.vo.PreArticle;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
 import cn.gmwenterprise.website.dao.PreArticleMsgDao;
@@ -18,14 +20,17 @@ import java.util.stream.Collectors;
 public class PreArticleMsgServiceImpl implements PreArticleMsgService {
     private final PreArticleMsgDao preArticleMsgDao;
     private final PreArticleBodyDao preArticleBodyDao;
+    private final PreArticleDraftDao preArticleDraftDao;
     private final SysUserDao sysUserDao;
 
     public PreArticleMsgServiceImpl(
         PreArticleMsgDao preArticleMsgDao,
         PreArticleBodyDao preArticleBodyDao,
+        PreArticleDraftDao preArticleDraftDao,
         SysUserDao sysUserDao) {
         this.preArticleMsgDao = preArticleMsgDao;
         this.preArticleBodyDao = preArticleBodyDao;
+        this.preArticleDraftDao = preArticleDraftDao;
         this.sysUserDao = sysUserDao;
     }
 
@@ -66,6 +71,12 @@ public class PreArticleMsgServiceImpl implements PreArticleMsgService {
             setBody(body);
             setWriterName(sysUserDao.selectByPrimaryKey(getHead().getWriter()).getUsername());
         }};
+    }
+
+    @Override
+    public Integer reEdit(Integer msgId) {
+        PreArticleDraft oldVersion = preArticleDraftDao.selectByMsgId(msgId);
+        return null;
     }
 
     private PreArticleMsgVo vo(PreArticleMsg domain) {

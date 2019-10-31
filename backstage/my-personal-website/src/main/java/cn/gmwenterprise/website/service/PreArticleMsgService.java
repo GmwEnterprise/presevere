@@ -51,4 +51,19 @@ public interface PreArticleMsgService {
     int updateByPrimaryKey(PreArticleMsgVo vo);
 
     PreArticle getArticleById(Integer id);
+
+    /**
+     * 重新编辑已发布的文章<br/>
+     * <br/>
+     * 需要注意的是，重新编辑文章存在的问题：<br/>
+     * 1. 重新编辑可以放弃<br/>
+     * 2. 未发布新版本时原先版本依旧可以查阅<br/>
+     * 3. 编辑仍然可以保存<br/>
+     * <br/>
+     * 实现思路：通过传入的msgId获取到当前版本文章的草稿全内容，复制新增一个新版本的草稿，
+     * 设置版本号加1；当发布新版本时，删除旧版本msg与body
+     * @param msgId 传入的msgId
+     * @return 新版本草稿主键
+     */
+    Integer reEdit(Integer msgId);
 }

@@ -1,6 +1,7 @@
 package cn.gmwenterprise.website.dao;
 
 import cn.gmwenterprise.website.domain.PreArticleDraft;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
@@ -65,5 +66,13 @@ public interface PreArticleDraftDao {
     void updateIntroductionById(Integer id, String introduction);
 
     @Update("update pre_article_draft set used = 1 where id = #{id}")
-    void publishDraft(Integer id);
+    void updateUsedById(Integer id);
+
+    @Update("update pre_article_draft set msg_id = #{msgId} where id = #{id}")
+    void setMsgId(Integer msgId, Integer id);
+
+    // TODO 取出version字段最大值
+
+    @Select("select * from pre_article_draft where msg_id = #{id} and version ")
+    PreArticleDraft selectByMsgId(Integer msgId);
 }

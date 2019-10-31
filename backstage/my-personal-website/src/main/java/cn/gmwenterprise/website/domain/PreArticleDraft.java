@@ -45,4 +45,8 @@ public class PreArticleDraft {
      * [content_type] 草稿文章类型
      */
     private String contentType;
+    /**
+     * [msg_id] 成功发布后关联的msgId
+     */
+    private Integer msgId;
 }

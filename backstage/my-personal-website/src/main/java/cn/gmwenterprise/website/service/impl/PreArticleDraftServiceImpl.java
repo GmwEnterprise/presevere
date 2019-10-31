@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
@@ -127,6 +128,7 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
         preArticleDraftDao.updateIntroductionById(id, introduction);
     }
 
+    @Transactional
     @Override
     public void publishArticle(Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -148,8 +150,13 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
                 setContent(targetDraft.getContent());
             }};
             preArticleBodyDao.insert(body);
-            preArticleDraftDao.publishDraft(id);
+            publishDraft(id, msg.getId());
         }
+    }
+
+    private void publishDraft(Integer draftId, Integer msgId) {
+        preArticleDraftDao.updateUsedById(draftId);
+        preArticleDraftDao.setMsgId(msgId, draftId);
     }
 
     private PreArticleDraftVo vo(PreArticleDraft domain) {

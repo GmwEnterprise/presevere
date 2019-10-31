@@ -21,7 +21,7 @@ public class ImageServiceImpl implements ImageService {
     /**
      * 系统指定图片高度为500px
      */
-    private static final int SIMPLE_HEIGHT = 200;
+    private static final int SIMPLE_HEIGHT = 300;
 
     @Override
     public BufferedImage imageRender(byte[] before, String renderStyle) throws IOException {
