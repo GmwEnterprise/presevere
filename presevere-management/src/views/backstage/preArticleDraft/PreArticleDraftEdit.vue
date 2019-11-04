@@ -2,7 +2,7 @@
   <div style="margin-top: 3.5em;">
     <div class="header" :style="headerStyleZIndex">
       <h3 class="show-title" :title="showTitle">{{ showTitle }}</h3>
-      <button id="pub" @click="publish">发布</button>
+      <button id="pub" @click="publish">{{ publishTitle }}</button>
     </div>
     <div class="draft-head">
       <input
@@ -76,7 +76,8 @@ export default {
         // 内容
         content: '',
         contentType: 'markdown',
-        htmlRender: ''
+        version: -1,
+        msgId: -1
       },
       tagList: [],
       introTimer: null,
@@ -86,6 +87,9 @@ export default {
     }
   },
   computed: {
+    publishTitle() {
+      return this.data.version > 1 ? `发布版本${this.data.version}` : '发布'
+    },
     showTitle() {
       return this.data.title ? this.data.title : ''
     }

@@ -1,6 +1,7 @@
 package cn.gmwenterprise.website.service;
 
 import cn.gmwenterprise.website.vo.PreArticle;
+import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public interface PreArticleMsgService {
      * 3. 编辑仍然可以保存<br/>
      * <br/>
      * 实现思路：通过传入的msgId获取到当前版本文章的草稿全内容，复制新增一个新版本的草稿，
-     * 设置版本号加1；当发布新版本时，删除旧版本msg与body
+     * 设置版本号加1；当发布新版本时，直接修改msg、body
      * @param msgId 传入的msgId
      * @return 新版本草稿主键
      */

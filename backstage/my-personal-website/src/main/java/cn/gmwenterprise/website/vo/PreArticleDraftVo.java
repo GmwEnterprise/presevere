@@ -48,6 +48,10 @@ public class PreArticleDraftVo {
      * [msg_id] 成功发布后关联的msgId
      */
     private Integer msgId;
+    /**
+     * [version] 版本号
+     */
+    private Integer version;
 
     /**
      * 当前页（入参）

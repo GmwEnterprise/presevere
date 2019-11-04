@@ -6,6 +6,7 @@ import cn.gmwenterprise.website.dao.SysUserDao;
 import cn.gmwenterprise.website.domain.PreArticleBody;
 import cn.gmwenterprise.website.domain.PreArticleDraft;
 import cn.gmwenterprise.website.vo.PreArticle;
+import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
 import cn.gmwenterprise.website.dao.PreArticleMsgDao;
 import cn.gmwenterprise.website.domain.PreArticleMsg;
@@ -76,7 +77,20 @@ public class PreArticleMsgServiceImpl implements PreArticleMsgService {
     @Override
     public Integer reEdit(Integer msgId) {
         PreArticleDraft oldVersion = preArticleDraftDao.selectByMsgId(msgId);
-        return null;
+        PreArticleDraft newVersion = new PreArticleDraft() {{
+            setTitle(oldVersion.getTitle());
+            setCreator(oldVersion.getCreator());
+            setTag(oldVersion.getTag());
+            setContentType(oldVersion.getContentType());
+            setContent(oldVersion.getContent());
+            setIntroduction(oldVersion.getIntroduction());
+            setVersion(oldVersion.getVersion() + 1);
+            setMsgId(oldVersion.getMsgId());
+        }};
+        preArticleDraftDao.insert(newVersion);
+        PreArticleDraftVo preArticleDraftVo = new PreArticleDraftVo();
+        BeanUtils.copyProperties(newVersion, preArticleDraftVo);
+        return preArticleDraftVo.getId();
     }
 
     private PreArticleMsgVo vo(PreArticleMsg domain) {

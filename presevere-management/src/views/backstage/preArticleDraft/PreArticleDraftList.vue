@@ -107,6 +107,7 @@ export default {
           { code: 'tag', name: '草稿分类', type: 'string', show: true },
           // { code: 'content', name: '草稿内容', type: 'string', show: true },
           { code: 'contentType', name: '草稿文章类型', type: 'string', show: true },
+          { code: 'version', name: '版本号', type: 'number', show: true },
         ]
       },
       tableData: {},

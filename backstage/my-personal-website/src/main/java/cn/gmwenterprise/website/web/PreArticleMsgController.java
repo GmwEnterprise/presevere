@@ -59,6 +59,11 @@ public class PreArticleMsgController implements BaseController {
         return ok();
     }
 
+    /**
+     * 返回复制新增的新
+     * @param msgId
+     * @return
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/modifyPublishedArticle/{msgId}")
     public AjaxResult modifyPublishedArticle(@PathVariable Integer msgId) {

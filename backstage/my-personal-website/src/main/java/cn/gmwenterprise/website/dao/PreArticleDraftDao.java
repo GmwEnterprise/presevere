@@ -73,6 +73,7 @@ public interface PreArticleDraftDao {
 
     // TODO 取出version字段最大值
 
-    @Select("select * from pre_article_draft where msg_id = #{id} and version ")
+    @Select("select * from pre_article_draft where msg_id = #{msgId} and version = " +
+        "(select max(version) from pre_article_draft where msg_id = #{msgId})")
     PreArticleDraft selectByMsgId(Integer msgId);
 }

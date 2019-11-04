@@ -128,29 +128,46 @@ public class PreArticleDraftServiceImpl implements PreArticleDraftService {
         preArticleDraftDao.updateIntroductionById(id, introduction);
     }
 
-    @Transactional
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void publishArticle(Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
         PreArticleDraft targetDraft = preArticleDraftDao.selectByPrimaryKey(id);
         if (targetDraft.getCreator().equals(currentUser.getUser().getId())) {
             // 验证身份成功
-            PreArticleMsg msg = new PreArticleMsg() {{
-                setWriter(targetDraft.getCreator());
-                setTitle(targetDraft.getTitle());
-                setIntroduction(targetDraft.getIntroduction());
-                setTag(targetDraft.getTag());
-                setStatus(1);
-            }};
-            preArticleMsgDao.insert(msg);
-            PreArticleBody body = new PreArticleBody() {{
-                setArticleMsgId(msg.getId());
-                setContentType("markdown");
-                setContent(targetDraft.getContent());
-            }};
-            preArticleBodyDao.insert(body);
-            publishDraft(id, msg.getId());
+            if (targetDraft.getVersion() > 1) {
+                // 重新编辑，发布新版本
+                // 修改msg
+                PreArticleMsg msg = preArticleMsgDao.selectByPrimaryKey(targetDraft.getMsgId());
+                msg.setTitle(targetDraft.getTitle());
+                msg.setIntroduction(targetDraft.getIntroduction());
+                msg.setTag(targetDraft.getTag());
+                preArticleMsgDao.updateByPrimaryKey(msg);
+                // 修改body
+                PreArticleBody body = preArticleBodyDao.selectByMsgId(msg.getId());
+                body.setContent(targetDraft.getContent());
+                preArticleBodyDao.updateByPrimaryKey(body);
+                // 发布
+                publishDraft(id, msg.getId());
+            } else {
+                // 发布全新的文章
+                PreArticleMsg msg = new PreArticleMsg() {{
+                    setWriter(targetDraft.getCreator());
+                    setTitle(targetDraft.getTitle());
+                    setIntroduction(targetDraft.getIntroduction());
+                    setTag(targetDraft.getTag());
+                    setStatus(1);
+                }};
+                preArticleMsgDao.insert(msg);
+                PreArticleBody body = new PreArticleBody() {{
+                    setArticleMsgId(msg.getId());
+                    setContentType("markdown");
+                    setContent(targetDraft.getContent());
+                }};
+                preArticleBodyDao.insert(body);
+                publishDraft(id, msg.getId());
+            }
         }
     }
 
