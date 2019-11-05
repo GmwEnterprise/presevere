@@ -1,6 +1,3 @@
-// bootstrap支持
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -18,7 +15,6 @@ import { AngularCliPageComponent } from './pages/angular-cli-page/angular-cli-pa
     AngularCliPageComponent,
   ],
   imports: [
-    NgbModule,
     BrowserModule,
     AppRoutingModule
   ],

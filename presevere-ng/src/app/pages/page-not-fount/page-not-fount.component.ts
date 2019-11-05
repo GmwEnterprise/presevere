@@ -12,4 +12,7 @@ export class PageNotFountComponent implements OnInit {
   ngOnInit() {
   }
 
+  back2Root() {
+    alert('Haha');
+  }
 }
