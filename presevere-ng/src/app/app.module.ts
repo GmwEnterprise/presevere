@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './pages/main/main.component';
 import { PageNotFountComponent } from './pages/page-not-fount/page-not-fount.component';
 import { AngularCliPageComponent } from './pages/angular-cli-page/angular-cli-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AngularCliPageComponent } from './pages/angular-cli-page/angular-cli-pa
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
