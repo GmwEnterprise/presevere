@@ -1,0 +1,32 @@
+.catalog {
+  width: 100%
+}
+
+.date-title {
+  margin-block-start: 1.5rem;
+  margin-block-end: 1.5rem;
+  line-height: 2rem;
+  font-size: 1rem;
+}
+
+.mat-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 0;
+  margin-top: 1.3rem
+}
+
+.intro {
+  font-size: .9rem;
+}
+
+.more {
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
+}

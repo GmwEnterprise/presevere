@@ -20,26 +20,11 @@
   }
 }
 
-.catalog {
-  width: 100%
-}
-
-.date-title {
-  margin-block-start: 1.5rem;
-  margin-block-end: 1.5rem;
-  line-height: 2rem;
-  font-size: 1rem;
-}
-
 .block-title {
   margin-block-start: 1.5rem;
   margin-block-end: 1.5rem;
   line-height: 2rem;
   font-size: 1rem;
-}
-
-.intro {
-  font-size: .9rem;
 }
 
 .mat-card {
@@ -48,16 +33,6 @@
   width: 100%;
   border-radius: 0;
   margin-top: 10px
-}
-
-.more {
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  font-style: italic;
-  font-weight: 500;
 }
 
 .tags-container {

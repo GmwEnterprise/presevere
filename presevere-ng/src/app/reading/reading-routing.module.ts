@@ -3,20 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReadingComponent } from './reading.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
 import { ArchivesComponent } from './components/archives/archives.component';
-import { ContentComponent } from './components/content/content.component';
-
+// import { ContentComponent } from './components/content/content.component';
 
 const routes: Routes = [
   {
     path: 'home',
     component: ReadingComponent,
-    // TODO 子路由配置是否正确未验证
-    /*
     children: [
       { path: '', component: CatalogComponent },
       { path: 'archives', component: ArchivesComponent },
-      { path: '/:date/:title', component: ContentComponent }
-    ] */
+      // { path: '/:date/:title', component: ContentComponent }
+    ]
   }
 ];
 

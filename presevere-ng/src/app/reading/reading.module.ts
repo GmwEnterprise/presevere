@@ -8,6 +8,7 @@ import { ContentComponent } from './components/content/content.component';
 import { MaterialRepositoryModule } from '../material-repository.module';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
+import { ResultsComponent } from './components/results/results.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { CatalogComponent } from './components/catalog/catalog.component';
     ArchivesComponent,
     ContentComponent,
     NavigationBarComponent,
-    CatalogComponent
+    CatalogComponent,
+    ResultsComponent
   ],
   imports: [
     MaterialRepositoryModule,
