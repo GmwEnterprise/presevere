@@ -1,17 +1,110 @@
-<header>
-  <div class="h-left">
-    <a routerLink="/">Home</a>
-    <a routerLink="/archives">Archives</a>
-    <a routerLink="/about">About</a>
-  </div>
-  <div class="h-right"></div>
-</header>
-
-<main>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">8</div>
-      <div class="col-md-4">4</div>
+<app-navigation-bar></app-navigation-bar>
+<main class="container margin-top">
+  <div class="row">
+    <div class="column section">
+      <div class="catalog">
+        <h3 class="date-title color-gray">2019 / 11</h3>
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title><a class="normal-link color-black" href="javascript:void(0)">This is title.</a></mat-card-title>
+            <mat-card-subtitle>创建于2019年11月7日11点24分</mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content>
+            <p class="intro">简介中的内容。</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title><a class="normal-link color-black" href="javascript:void(0)">This is title.</a></mat-card-title>
+            <mat-card-subtitle>创建于2019年11月5日11点24分</mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content>
+            <p class="intro">
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div class="catalog">
+        <h3 class="date-title color-gray">2019 / 11</h3>
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title><a class="normal-link color-black" href="javascript:void(0)">This is title.</a></mat-card-title>
+            <mat-card-subtitle>创建于2019年11月7日11点24分</mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content>
+            <p class="intro">简介中的内容。</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+        <mat-card>
+          <mat-card-title-group>
+            <mat-card-title><a class="normal-link color-black" href="javascript:void(0)">This is title.</a></mat-card-title>
+            <mat-card-subtitle>创建于2019年11月5日11点24分</mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-content>
+            <p class="intro">
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+              这一段内容会比较长。。。这一段内容会比较长。。。这一段内容会比较长。。。
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div class="more">
+        <a href="javascript:void(0)" class="normal-link color-gray">see more</a>
+      </div>
+    </div>
+    <div class="column sidebar">
+      <h3 class="block-title color-gray">Tags</h3>
+      <mat-card>
+        <div class="tags-container">
+          <a href="#" class="tag normal-link color-black">JAVA<sup class="color-gray">99+</sup></a>
+          <a href="#" class="tag normal-link color-black">JAVASCRIPT<sup class="color-gray">99+</sup></a>
+          <a href="#" class="tag normal-link color-black">PYTHON<sup class="color-gray">99+</sup></a>
+          <a href="#" class="tag normal-link color-black">LINUX<sup class="color-gray">99+</sup></a>
+          <a href="#" class="tag normal-link color-black">RUBY ON RAILS<sup class="color-gray">99+</sup></a>
+          <a href="#" class="tag normal-link color-black">MICRO SERVICES<sup class="color-gray">99+</sup></a>
+          <a href="#" class="tag normal-link color-black">生活杂谈<sup class="color-gray">99+</sup></a>
+        </div>
+      </mat-card>
+      <h3 class="block-title color-gray">ARCHIVES</h3>
+      <mat-card>
+        <ul class="sidebar-ul">
+          <li><a href="#" class="normal-link color-gray">2019 / 11</a></li>
+          <li><a href="#" class="normal-link color-gray">2019 / 10</a></li>
+          <li><a href="#" class="normal-link color-gray">2019 / 9</a></li>
+        </ul>
+      </mat-card>
+      <h3 class="block-title color-gray">RECENT POSTS</h3>
+      <mat-card>
+        <ul class="sidebar-ul">
+          <li class="text-nowrap-ellipsis"><a href="#" class="normal-link color-gray" title="git常用语法汇总">git常用语法汇总</a></li>
+          <li class="text-nowrap-ellipsis"><a href="#" class="normal-link color-gray" title="springmvc / spring / mybatis的集成">springmvc / spring / mybatis的集成</a></li>
+          <li class="text-nowrap-ellipsis"><a href="#" class="normal-link color-gray" title="hexo静态站点的搭建与使用详解">hexo静态站点的搭建与使用详解</a></li>
+        </ul>
+      </mat-card>
     </div>
   </div>
 </main>
