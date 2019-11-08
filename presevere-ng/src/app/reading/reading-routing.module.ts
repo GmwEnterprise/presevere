@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReadingComponent } from './reading.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
 import { ArchivesComponent } from './components/archives/archives.component';
-// import { ContentComponent } from './components/content/content.component';
+import { ResultsComponent } from './components/results/results.component';
+import { ContentComponent } from './components/content/content.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,10 @@ const routes: Routes = [
     children: [
       { path: '', component: CatalogComponent },
       { path: 'archives', component: ArchivesComponent },
-      // { path: '/:date/:title', component: ContentComponent }
+      // 不同的路由形式决定ResultsComponent的不同显示方式
+      { path: ':year', component: ResultsComponent },
+      { path: ':year/:month', component: ResultsComponent },
+      { path: ':year/:month/:id', component: ContentComponent },
     ]
   }
 ];

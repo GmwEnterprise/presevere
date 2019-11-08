@@ -1,0 +1,7 @@
+路由匹配
+
+ContentComponent -> `/home/2019/11/5/articleName`
+
+ResultsComponent -> `/home/2019/11/5`
+ResultsComponent -> `/home/2019/11`
+ResultsComponent -> `/home/2019`
