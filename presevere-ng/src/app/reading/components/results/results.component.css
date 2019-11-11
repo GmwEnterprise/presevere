@@ -23,3 +23,9 @@
   height: 5.2rem;
   overflow: hidden;
 }
+
+@media (max-width:520px) {
+  .items>.mat-card {
+    width: 100%;
+  }
+}
