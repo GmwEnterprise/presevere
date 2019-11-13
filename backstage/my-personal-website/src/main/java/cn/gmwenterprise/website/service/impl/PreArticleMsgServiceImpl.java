@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +92,12 @@ public class PreArticleMsgServiceImpl implements PreArticleMsgService {
         PreArticleDraftVo preArticleDraftVo = new PreArticleDraftVo();
         BeanUtils.copyProperties(newVersion, preArticleDraftVo);
         return preArticleDraftVo.getId();
+    }
+
+    @Override
+    public Map<String, Integer> queryAllTags() {
+        preArticleMsgDao.selectAllTag();
+        return null;
     }
 
     private PreArticleMsgVo vo(PreArticleMsg domain) {

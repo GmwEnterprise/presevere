@@ -1,6 +1,7 @@
 package cn.gmwenterprise.website.dao;
 
 import cn.gmwenterprise.website.domain.PreArticleMsg;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -50,4 +51,7 @@ public interface PreArticleMsgDao {
      * @return 受影响行数
      */
     int updateByPrimaryKey(PreArticleMsg record);
+
+    @Select("select tag from pre_article_msg")
+    List<String> selectAllTag();
 }

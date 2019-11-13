@@ -5,6 +5,7 @@ import cn.gmwenterprise.website.vo.PreArticleDraftVo;
 import cn.gmwenterprise.website.vo.PreArticleMsgVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gmw
@@ -67,4 +68,6 @@ public interface PreArticleMsgService {
      * @return 新版本草稿主键
      */
     Integer reEdit(Integer msgId);
+
+    Map<String, Integer> queryAllTags();
 }
