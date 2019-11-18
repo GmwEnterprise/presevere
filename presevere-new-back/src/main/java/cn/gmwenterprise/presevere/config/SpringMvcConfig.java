@@ -1,5 +1,7 @@
 package cn.gmwenterprise.presevere.config;
 
+import cn.gmwenterprise.presevere.config.interceptor.AuthenticationInterceptor;
+import cn.gmwenterprise.presevere.config.interceptor.SecurityInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -10,15 +12,22 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.*;
 
+import javax.annotation.Resource;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+
+import static cn.gmwenterprise.presevere.common.DateUtils.*;
 
 @Configuration
 @EnableWebMvc
@@ -36,10 +45,16 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 
+    @Resource
+    AuthenticationInterceptor authenticationInterceptor;
+    @Resource
+    SecurityInterceptor securityInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器
-        registry.addInterceptor(new SecurityInterceptor());
+        registry.addInterceptor(authenticationInterceptor).order(1);
+        registry.addInterceptor(securityInterceptor).order(2);
     }
 
     @Override
@@ -60,15 +75,40 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     public JavaTimeModule javaTimeModule() {
         // 自定义java8时间转换模块
         JavaTimeModule javaTimeModule = new JavaTimeModule();
-        DateTimeFormatter datetime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(datetime));
-        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(date));
-        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(time));
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(datetime));
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(date));
-        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(time));
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
+        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DATE_FORMATTER));
+        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(TIME_FORMATTER));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
+        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DATE_FORMATTER));
+        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
         return javaTimeModule;
+    }
+
+    interface String2LocalDateTime extends Converter<String, LocalDateTime> {}
+
+    interface String2LocalDate extends Converter<String, LocalDate> {}
+
+    interface String2LocalTime extends Converter<String, LocalTime> {}
+
+    interface String2Date extends Converter<String, Date> {}
+
+    /**
+     * 定义请求参数进入controller后的转换方式
+     */
+    @Component
+    static class ConvertersInitializer {
+        public ConvertersInitializer(FormattingConversionService formattingConversionService) {
+            formattingConversionService.addConverter((String2LocalDateTime) source -> LocalDateTime.parse(source, DATE_TIME_FORMATTER));
+            formattingConversionService.addConverter((String2LocalDate) source -> LocalDate.parse(source, DATE_TIME_FORMATTER));
+            formattingConversionService.addConverter((String2LocalTime) source -> LocalTime.parse(source, DATE_TIME_FORMATTER));
+            formattingConversionService.addConverter((String2Date) source -> {
+                try {
+                    return SIMPLE_DATE_FORMAT.parse(DATE_TIME_PATTERN);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            });
+        }
     }
 }
