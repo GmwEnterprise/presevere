@@ -1,7 +1,7 @@
 package cn.gmwenterprise.presevere.config;
 
-import cn.gmwenterprise.presevere.config.interceptor.AuthenticationInterceptor;
-import cn.gmwenterprise.presevere.config.interceptor.SecurityInterceptor;
+import cn.gmwenterprise.presevere.config.security.AuthenticationInterceptor;
+import cn.gmwenterprise.presevere.config.security.SecurityInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;

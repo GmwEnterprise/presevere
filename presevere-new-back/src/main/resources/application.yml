@@ -1,3 +1,4 @@
+# 基本配置
 server:
   port: 4399
 spring:
@@ -12,3 +13,7 @@ spring:
 mybatis:
   type-aliases-package: cn.gmwenterprise.presevere.domain
   mapper-locations: classpath:mapping/**
+
+logging:
+  level:
+    cn.gmwenterprise.presevere.dao: DEBUG

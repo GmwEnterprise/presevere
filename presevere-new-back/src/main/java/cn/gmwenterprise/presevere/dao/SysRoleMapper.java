@@ -50,4 +50,6 @@ public interface SysRoleMapper {
      * @mbg.generated Mon Nov 18 11:38:29 CST 2019
      */
     int updateByPrimaryKey(SysRole record);
+
+    SysRole selectByRole(String role);
 }

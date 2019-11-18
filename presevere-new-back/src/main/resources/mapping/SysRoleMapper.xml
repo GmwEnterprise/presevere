@@ -30,6 +30,12 @@
     from sys_role
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByRole" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_role
+    where role = #{role,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

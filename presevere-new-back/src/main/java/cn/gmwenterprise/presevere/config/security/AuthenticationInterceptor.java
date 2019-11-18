@@ -1,4 +1,4 @@
-package cn.gmwenterprise.presevere.config.interceptor;
+package cn.gmwenterprise.presevere.config.security;
 
 import cn.gmwenterprise.presevere.common.AuthorizationHolder;
 import cn.gmwenterprise.presevere.common.TokenHelper;
@@ -18,9 +18,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("preHandle");
         String token = request.getHeader("Authorization");
         if (!StringUtils.isEmpty(token)) {
+            log.info("Authorization: [{}]", token);
             SysUser currentUser = TokenHelper.parseToken(token, SysUser.class);
             if (currentUser != null) {
                 AuthorizationHolder.setCurrentUser(currentUser);
@@ -31,7 +31,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.info("afterCompletion");
         AuthorizationHolder.removeCurrentUser();
     }
 }

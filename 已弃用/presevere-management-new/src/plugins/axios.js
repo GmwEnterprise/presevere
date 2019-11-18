@@ -39,8 +39,8 @@ _axios.interceptors.response.use(
   }
 )
 
+// eslint-disable-next-line no-unused-vars
 Plugin.install = function (Vue, options) {
-  console.info(options)
   Vue.axios = _axios
   window.axios = _axios
   Object.defineProperties(Vue.prototype, {
