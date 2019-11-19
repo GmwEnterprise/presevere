@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     private SysPermissionMapper sysPermissionMapper;
 
     @Override
-    public List<SysPermission> getAllPermissions(Integer userId) {
+    public List<SysPermission> getUserPermissions(Integer userId) {
         return sysPermissionMapper.selectByUserId(userId);
     }
 }

@@ -64,12 +64,7 @@ export default {
     submitForm(refName) {
       this.$refs[refName].validate(valid => {
         if (valid) {
-          this.axios.post('/sign/login', {
-            loginName: this.loginForm.loginName,
-            password: this.loginForm.password
-          }).then(response => {
-            console.log(response.data)
-          })
+          // TODO
         } else {
           return false
         }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface UserService {
 
-    List<SysPermission> getAllPermissions(Integer userId);
+    List<SysPermission> getUserPermissions(Integer userId);
 }
