@@ -1,6 +1,7 @@
 # 基本配置
 server:
   port: 4399
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
