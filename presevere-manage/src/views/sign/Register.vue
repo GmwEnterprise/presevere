@@ -64,17 +64,18 @@ export default {
     submitForm(refName) {
       this.$refs[refName].validate(valid => {
         if (valid) {
-          this.axios.post('/sign/register', {
-            loginName: this.loginForm.loginName,
-            password: this.loginForm.password
-          }).then(response => {
-            console.log(response.data)
-            // TODO
-          })
+          this.register()
         } else {
           return false
         }
       })
+    },
+    async register() {
+      // 1. 发送loginName到后台，创建账户，生成数据，初始化密码盐，返回盐值
+      this.axios.post('/sign/randomSalt', {
+        loginName: this.loginForm.loginName
+      })
+      // 2. 拿到返回的盐对密码进行加密，再次发送加密密码到后台，返回成功信息
     }
   }
 }

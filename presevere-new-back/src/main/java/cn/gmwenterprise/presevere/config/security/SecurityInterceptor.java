@@ -38,7 +38,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
             log.info("进入安全拦截器, 请求URL = [{}]", request.getRequestURL());
             SysUser currentUser = AuthorizationHolder.getCurrentUser();
             if (currentUser != null) {
-                List<SysPermission> permissionList = userService.getAllPermissions(currentUser.getId());
+                List<SysPermission> permissionList = userService.getUserPermissions(currentUser.getId());
                 if (permissionList != null && permissionList.size() >= permissions.length) {
                     boolean hasPermission = permissionList.stream()
                         .map(SysPermission::getPermission)

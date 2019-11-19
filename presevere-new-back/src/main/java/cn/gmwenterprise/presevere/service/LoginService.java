@@ -7,4 +7,6 @@ public interface LoginService {
     void register(DtoSign body);
 
     String login(DtoSign body);
+
+    void logout();
 }

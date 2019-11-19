@@ -11,11 +11,7 @@ public class SysRole {
 
     @Override
     public String toString() {
-        return "SysRole{" +
-            "id=" + id +
-            ", roleName='" + roleName + '\'' +
-            ", role='" + role + '\'' +
-            '}';
+        return String.format("SysRole{id=%d, roleName='%s', role='%s'}", id, roleName, role);
     }
 
     /**
