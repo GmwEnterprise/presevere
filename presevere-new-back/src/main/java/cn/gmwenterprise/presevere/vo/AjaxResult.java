@@ -1,17 +1,20 @@
 package cn.gmwenterprise.presevere.vo;
 
-public class AjaxResult {
-    private static final int CODE_SUCCESS = 200;
-    private static final String MESSAGE_SUCCESS = "request success";
-    private static final int CODE_ERROR = 500;
-    private static final String MESSAGE_ERROR = "request error";
-
+public final class AjaxResult {
     public static AjaxResult ok(Object data) {
-        return new AjaxResult(CODE_SUCCESS, MESSAGE_SUCCESS, data);
+        return new AjaxResult(Res.OK.getCode(), Res.OK.getMsg(), data);
     }
 
-    public static AjaxResult fail(Object data) {
-        return new AjaxResult(CODE_ERROR, MESSAGE_ERROR, data);
+    public static AjaxResult error(Object data) {
+        return new AjaxResult(Res.ERROR.getCode(), Res.ERROR.getMsg(), data);
+    }
+
+    public static AjaxResult res(Res status) {
+        return new AjaxResult(status.getCode(), status.getMsg(), null);
+    }
+
+    public static AjaxResult res(Res status, Object data) {
+        return new AjaxResult(status.getCode(), status.getMsg(), data);
     }
 
     private int code;

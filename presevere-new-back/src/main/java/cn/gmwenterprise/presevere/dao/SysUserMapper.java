@@ -50,4 +50,6 @@ public interface SysUserMapper {
      * @mbg.generated Mon Nov 18 11:38:29 CST 2019
      */
     int updateByPrimaryKey(SysUser record);
+
+    SysUser selectByUsername(String username);
 }

@@ -7,6 +7,7 @@ import cn.gmwenterprise.presevere.domain.SysPermission;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.service.UserService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
+import cn.gmwenterprise.presevere.vo.Res;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding(Constants.UTF_8);
         response.setContentType(Constants.APPLICATION_JSON);
         PrintWriter writer = response.getWriter();
-        writer.write(objectMapper.writeValueAsString(AjaxResult.fail(errorMsg)));
+        writer.write(objectMapper.writeValueAsString(AjaxResult.res(Res.UNAUTHORIZED, errorMsg)));
         writer.flush();
         writer.close();
         return false;

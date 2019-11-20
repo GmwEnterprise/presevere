@@ -26,10 +26,14 @@ export default {
   name: 'Login',
   data() {
     return {
+      // 重定向url
+      redirectUrl: '',
+      // 表单数据
       loginForm: {
         loginName: '',
         password: ''
       },
+      // 表单验证规则
       rules: {
         loginName: [
           { required: true, message: '请输入登录账户', trigger: 'blur' },
@@ -54,9 +58,15 @@ export default {
   },
   methods: {
     register() {
-      this.$router.replace({
+      const options = {
         path: '/register'
-      })
+      }
+      if (this.redirectUrl) {
+        options.query = {
+          redirectUrl: this.redirectUrl
+        }
+      }
+      this.$router.replace(options)
     },
     resetForm(refName) {
       this.$refs[refName].resetFields()
@@ -69,6 +79,11 @@ export default {
           return false
         }
       })
+    }
+  },
+  mounted() {
+    if (this.$route.query.redirectUrl) {
+      this.redirectUrl = this.$route.query.redirectUrl
     }
   }
 }

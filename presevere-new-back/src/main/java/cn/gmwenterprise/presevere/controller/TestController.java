@@ -15,7 +15,7 @@ public class TestController {
     private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
     @GetMapping("/hello")
-    @AuthRequire("view")
+    @AuthRequire("user")
     public AjaxResult helloWorld() {
         return AjaxResult.ok("Hello world !");
     }

@@ -6,15 +6,15 @@
         <el-button style="float: right; padding: 3px 0" type="text" @click="login">切换到登录</el-button>
       </div>
       <el-form :model="loginForm" :rules="rules" ref="loginRuleForm">
-        <el-form-item label="登录账户" prop="loginName">
+        <el-form-item label="输入登录账户" prop="loginName">
           <el-input v-model="loginForm.loginName"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="输入密码" prop="password">
           <el-input v-model="loginForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('loginRuleForm')">登录</el-button>
-          <el-button @click="resetForm('loginRuleForm')">清除</el-button>
+          <el-button type="primary" @click="submitForm('loginRuleForm')">注册新账号</el-button>
+          <el-button @click="resetForm('loginRuleForm')">重新输入</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -22,10 +22,12 @@
 </template>
 
 <script>
+import Security from '../../services/security.js'
 export default {
   name: 'Register',
   data() {
     return {
+      name: 'Login',
       loginForm: {
         loginName: '',
         password: ''
@@ -54,9 +56,15 @@ export default {
   },
   methods: {
     login() {
-      this.$router.replace({
+      const options = {
         path: '/login'
-      })
+      }
+      if (this.redirectUrl) {
+        options.query = {
+          redirectUrl: this.redirectUrl
+        }
+      }
+      this.$router.replace(options)
     },
     resetForm(refName) {
       this.$refs[refName].resetFields()
@@ -72,10 +80,20 @@ export default {
     },
     async register() {
       // 1. 发送loginName到后台，创建账户，生成数据，初始化密码盐，返回盐值
-      this.axios.post('/sign/randomSalt', {
-        loginName: this.loginForm.loginName
-      })
+      const res = await this.axios.get(`/sign/randomSalt/${this.loginForm.loginName}`)
       // 2. 拿到返回的盐对密码进行加密，再次发送加密密码到后台，返回成功信息
+      const encoded = Security.encode(this.loginForm.password, res.data.salt)
+      const result = await this.axios.post('/sign/register', {
+        loginName: res.data.username,
+        password: encoded
+      })
+
+      // TODO to be continued...
+    }
+  },
+  mounted() {
+    if (this.$route.query.redirectUrl) {
+      this.redirectUrl = this.$route.query.redirectUrl
     }
   }
 }
