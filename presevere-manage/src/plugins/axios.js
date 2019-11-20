@@ -34,6 +34,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    console.log(response)
     // Do something with response data
     /** 
      * 在这里返回Promise.reject会进入代码的catch块;
@@ -48,7 +49,7 @@ _axios.interceptors.response.use(
       // 失败
       Notification.error({
         title: '错误',
-        message: `${response.data.msg}: ${response.data.data || '网络繁忙！'}`
+        message: `${response.data.message}: ${response.data.data || '网络繁忙！'}`
       })
     } else if (response.data.code === 3) {
       // 需要权限
@@ -67,8 +68,7 @@ _axios.interceptors.response.use(
     console.log('Ajax系统错误')
     Notification.error({
       title: '系统错误',
-      message: `${error || 'No message available'}`,
-      position: 'bottom-right'
+      message: `${error || 'No message available'}`
     })
     return Promise.reject(error)
   }

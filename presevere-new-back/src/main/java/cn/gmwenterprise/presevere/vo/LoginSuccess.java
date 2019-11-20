@@ -6,5 +6,18 @@ package cn.gmwenterprise.presevere.vo;
 public class LoginSuccess {
     private String token;
 
-    // TODO 还要啥暂时没想好
+    public LoginSuccess() {
+    }
+
+    public LoginSuccess(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

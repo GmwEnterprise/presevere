@@ -4,9 +4,11 @@ import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.DtoSign;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface LoginService {
 
-    LoginSuccess register(String username, String password);
+    LoginSuccess register(HttpServletRequest request, String username, String password);
 
     String login(DtoSign body);
 

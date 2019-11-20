@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/sign")
@@ -27,11 +28,11 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public AjaxResult register(@RequestBody DtoSign body) {
+    public AjaxResult register(@RequestBody DtoSign body, HttpServletRequest request) {
         // body.loginName: 已保存在库中的用户名username
         // body.password: 前端加盐加密后的密码
         log.info("Register message: loginName[{}], password[{}]", body.getLoginName(), body.getPassword());
-        LoginSuccess result = loginService.register(body.getLoginName(), body.getPassword());
+        LoginSuccess result = loginService.register(request, body.getLoginName(), body.getPassword());
         return AjaxResult.ok(result);
     }
 

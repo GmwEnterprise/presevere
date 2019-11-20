@@ -27,7 +27,9 @@ export default {
   name: 'Register',
   data() {
     return {
-      name: 'Login',
+      // 重定向url
+      redirectUrl: '',
+      // 表单数据
       loginForm: {
         loginName: '',
         password: ''
@@ -87,11 +89,16 @@ export default {
         loginName: res.data.username,
         password: encoded
       })
-
-      // TODO to be continued...
+      // 保存登录凭据
+      localStorage.setItem('token', result.data.token)
+      // 注册成功后跳转并提示信息 TODO
+      this.$router.push({
+        path: this.redirectUrl || '/'
+      })
     }
   },
   mounted() {
+    localStorage.removeItem('token')
     if (this.$route.query.redirectUrl) {
       this.redirectUrl = this.$route.query.redirectUrl
     }

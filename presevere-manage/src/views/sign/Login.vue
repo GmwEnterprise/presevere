@@ -82,6 +82,7 @@ export default {
     }
   },
   mounted() {
+    localStorage.removeItem('token')
     if (this.$route.query.redirectUrl) {
       this.redirectUrl = this.$route.query.redirectUrl
     }
