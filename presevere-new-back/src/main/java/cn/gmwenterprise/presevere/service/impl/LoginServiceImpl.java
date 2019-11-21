@@ -110,10 +110,13 @@ public class LoginServiceImpl implements LoginService {
         validationResult.setSalt(sysUser.getSalt());
         return validationResult;
     }
+<<<<<<< HEAD
 
 //    public static void main(String[] args) {
 //        String enc = "$2a$10$DoPkQM1.NBtWur/1gPvhEu/ciw9L0838N0cxfObDteOA53hc8R0a.";
 //        BCryptPasswordEncoder pass = new BCryptPasswordEncoder();
 //        System.out.println(pass.matches("639a0f49eed850e39f134943c4c37624", enc));
 //    }
+=======
+>>>>>>> 4b1e2499a0b0a4dd6d8ccba3f9f7770eaa90fe7a
 }

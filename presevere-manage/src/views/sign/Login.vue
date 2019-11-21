@@ -90,8 +90,8 @@ export default {
       let password
       if (res.data.frontEncoded) {
         password = Security.encode(this.loginForm.password, res.data.salt)
-        console.log(`salt: ${res.data.salt}`)
-        console.log(`encoded password: ${password}`)
+        // console.log(`salt: ${res.data.salt}`)
+        // console.log(`encoded password: ${password}`)
       } else {
         password = this.loginForm.password
       }
