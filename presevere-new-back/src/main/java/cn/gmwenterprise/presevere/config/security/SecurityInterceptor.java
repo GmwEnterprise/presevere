@@ -1,10 +1,10 @@
 package cn.gmwenterprise.presevere.config.security;
 
 import cn.gmwenterprise.presevere.common.AuthRequire;
+import cn.gmwenterprise.presevere.common.Authorization;
 import cn.gmwenterprise.presevere.common.AuthorizationHolder;
 import cn.gmwenterprise.presevere.common.Constants;
 import cn.gmwenterprise.presevere.domain.SysPermission;
-import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.service.UserService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import cn.gmwenterprise.presevere.vo.Res;
@@ -37,9 +37,9 @@ public class SecurityInterceptor implements HandlerInterceptor {
         String[] permissions = getPermissions(handler);
         if (permissions != null && permissions.length > 0) {
             log.info("进入安全拦截器, 请求URL = [{}]", request.getRequestURL());
-            SysUser currentUser = AuthorizationHolder.getCurrentUser();
-            if (currentUser != null) {
-                List<SysPermission> permissionList = userService.getUserPermissions(currentUser.getId());
+            Authorization authorization = AuthorizationHolder.get();
+            if (authorization != null) {
+                List<SysPermission> permissionList = userService.getUserPermissionsByUserId(authorization.getCurrentUser().getId());
                 if (permissionList != null && permissionList.size() >= permissions.length) {
                     boolean hasPermission = permissionList.stream()
                         .map(SysPermission::getPermission)
@@ -49,9 +49,9 @@ public class SecurityInterceptor implements HandlerInterceptor {
                         return true;
                     }
                 }
-                return noAccess(response, "当前用户无访问权限");
+                return noAccess(response, "当前用户无访问权限", Res.UNAUTHORIZED);
             }
-            return noAccess(response, "禁止访问，需要登陆");
+            return noAccess(response, "禁止访问，需要登陆", Res.LOGIN_REQUIRED);
         }
         return true;
     }
@@ -59,11 +59,11 @@ public class SecurityInterceptor implements HandlerInterceptor {
     @Resource
     ObjectMapper objectMapper;
 
-    private boolean noAccess(HttpServletResponse response, String errorMsg) throws IOException {
+    private boolean noAccess(HttpServletResponse response, String errorMsg, Res status) throws IOException {
         response.setCharacterEncoding(Constants.UTF_8);
         response.setContentType(Constants.APPLICATION_JSON);
         PrintWriter writer = response.getWriter();
-        writer.write(objectMapper.writeValueAsString(AjaxResult.res(Res.UNAUTHORIZED, errorMsg)));
+        writer.write(objectMapper.writeValueAsString(AjaxResult.res(status, errorMsg)));
         writer.flush();
         writer.close();
         return false;

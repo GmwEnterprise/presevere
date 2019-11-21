@@ -15,13 +15,15 @@
 import CryptoJS from 'crypto-js'
 
 function encode(password, salt) {
-  return CryptoJS.AES.encrypt(password, salt).toString()
+  // AES加密每次结果都不一样
+  // return CryptoJS.AES.encrypt(password, salt).toString()
+  return CryptoJS.MD5(salt + password).toString()
 }
 
-function decode(encodedPassword, salt) {
-  return CryptoJS.AES.decrypt(encodedPassword, salt).toString(CryptoJS.enc.Utf8)
-}
+// function decode(encodedPassword, salt) {
+//   return CryptoJS.AES.decrypt(encodedPassword, salt).toString(CryptoJS.enc.Utf8)
+// }
 
 export default {
-  encode, decode
+  encode //, decode
 }

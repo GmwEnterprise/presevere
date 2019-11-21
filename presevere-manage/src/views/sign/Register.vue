@@ -82,7 +82,9 @@ export default {
     },
     async register() {
       // 1. 发送loginName到后台，创建账户，生成数据，初始化密码盐，返回盐值
-      const res = await this.axios.get(`/sign/randomSalt/${this.loginForm.loginName}`)
+      const res = await this.axios.get(
+        `/sign/randomSalt/${this.loginForm.loginName}`
+      )
       // 2. 拿到返回的盐对密码进行加密，再次发送加密密码到后台，返回成功信息
       const encoded = Security.encode(this.loginForm.password, res.data.salt)
       const result = await this.axios.post('/sign/register', {
@@ -91,7 +93,12 @@ export default {
       })
       // 保存登录凭据
       localStorage.setItem('token', result.data.token)
-      // 注册成功后跳转并提示信息 TODO
+      // 注册成功后跳转并提示信息
+      this.$message({
+        message: '注册成功',
+        type: 'success',
+        center: true
+      })
       this.$router.push({
         path: this.redirectUrl || '/'
       })

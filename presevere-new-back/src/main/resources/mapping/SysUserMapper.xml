@@ -45,6 +45,25 @@
   <select id="countByUsername" resultType="java.lang.Integer">
     select count(*) from sys_user where username = #{username}
   </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user a
+    <where>
+      <if test="nickname != null">
+        and a.nickname like concat('%', #{nickname,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="username != null">
+        and a.username like concat('%', #{username,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="phone != null">
+        and a.phone like concat('%', #{phone,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="email != null">
+        and a.email like concat('%', #{email,jdbcType=VARCHAR}, '%')
+      </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

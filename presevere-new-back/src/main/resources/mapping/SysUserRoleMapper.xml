@@ -39,6 +39,15 @@
     delete from sys_user_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByUserIds">
+    delete from sys_user_role
+    where user_id not in
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <foreach collection="userIds" item="userId">
+        #{userId},
+      </foreach>
+    </trim>
+  </delete>
   <insert id="insert" parameterType="cn.gmwenterprise.presevere.domain.SysUserRole">
     <!--
       WARNING - @mbg.generated

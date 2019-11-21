@@ -6,6 +6,7 @@ import cn.gmwenterprise.presevere.dto.DtoSign;
 import cn.gmwenterprise.presevere.service.LoginService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
+import cn.gmwenterprise.presevere.vo.UsernameValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,17 @@ public class LoginController {
     @Resource
     LoginService loginService;
 
+    @GetMapping("/validUsername/{username}")
+    public AjaxResult validUsername(@PathVariable String username) {
+        UsernameValidationResult validationResult = loginService.validUsername(username);
+        return AjaxResult.ok(validationResult);
+    }
+
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody DtoSign body) {
+    public AjaxResult login(@RequestBody DtoSign body, HttpServletRequest request) {
         log.info("Login message: loginName[{}], password[{}]", body.getLoginName(), body.getPassword());
-        return AjaxResult.ok(body);
+        LoginSuccess result = loginService.login(body, request);
+        return AjaxResult.ok(result);
     }
 
     @PostMapping("/register")

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原生加载条</title>
+  <style>
+    html, body { margin: 0; bottom: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: inherit; }
+
+    #progress {
+      width: 100%;
+      height: 10px;
+      display: flex;
+    }
+
+    #progress span {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background-color: blue;
+      animation: load 3s ease-in;
+    }
+
+    @keyframes load {
+      0% {
+        width: 0%;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="progress"><span id="haha"></span></div>
+  <button id="hey"> hey </button>
+
+  <script>
+    var i = 3
+    document.getElementById('hey').addEventListener('click', function (e) {
+      console.log('btn')
+      document.getElementById('haha').style.animationDuration = i + 's'
+      i += 3
+    })
+  </script>
+
+  <!-- <style>
+    #progress {
+      width: 300px;
+      height: 30px;
+      border: 1px solid #ccc;
+      border-radius: 15px;
+      overflow: hidden;
+      /*注意这里*/
+      box-shadow: 0 0 5px 0px #ddd inset;
+    }
+
+    #progress span {
+      display: inline-block;
+      width: 70%;
+      height: 100%;
+      background: linear-gradient(45deg, #2989d8 30%, #7db9e8 31%, #7db9e8 58%, #2989d8 59%);
+      background-size: 60px 30px;
+      text-align: center;
+      color: #fff;
+      animation: load 3s ease-in;
+    }
+
+    @keyframes load {
+      0% {
+        width: 0%;
+      }
+
+      100% {
+        width: 70%;
+      }
+    }
+  </style> -->
+</body>
+
+</html>

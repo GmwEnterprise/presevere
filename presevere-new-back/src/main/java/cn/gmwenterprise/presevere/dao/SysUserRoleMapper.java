@@ -1,6 +1,9 @@
 package cn.gmwenterprise.presevere.dao;
 
 import cn.gmwenterprise.presevere.domain.SysUserRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SysUserRoleMapper {
     /**
@@ -50,4 +53,6 @@ public interface SysUserRoleMapper {
      * @mbg.generated Mon Nov 18 11:38:29 CST 2019
      */
     int updateByPrimaryKey(SysUserRole record);
+
+    void deleteByUserIds(@Param("userIds") List<Integer> userIds);
 }

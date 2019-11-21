@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>JS加载条</title>
+  <style>
+  * { margin: 0; padding: 0; bottom: 0; box-sizing: border-box; }
+  #progress { height: 10px; width: 100%; display: flex; }
+  #bar { height: 100%; width: 0; max-width: 100%; background-color: red; }
+  </style>
+</head>
+<body>
+  <div id="progress">
+    <span id="bar"></span>
+  </div>
+  <button id="start">start</button>
+  <button id="stop">stop</button>
+  <script>
+    var bar = document.getElementById('bar')
+    var interval = null
+    
+    // delta: 加速因子
+    const deltaList = [
+      2,
+      1,
+      0.5,
+      0.25,
+      0.125,
+      0.062,
+      0.031,
+      0.015,
+      0.007,
+      0.003,
+      0.001
+    ]
+    let status = 0, deltaIndex = 0
+
+    let temp = 0
+    
+    document.getElementById('start').addEventListener('click', function (e) {
+      if (interval === null) {
+        status = 0
+        interval = setInterval(function () {
+          let delta = deltaList[deltaIndex]
+          status = status + delta
+          bar.style.width = status + '%'
+          
+          // 控制delta逐渐变小
+          if (status - temp > 10) {
+            temp = status
+            deltaIndex++
+          }
+
+          if (status >= 100) {
+            console.log('clearInterval: ' + interval)
+            clearInterval(interval)
+            interval = null
+          }
+        }, 10)
+        console.log('setInterval: ' + interval)
+      }
+    })
+    document.getElementById('stop').addEventListener('click', function (e) {
+      
+    })
+  </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ package cn.gmwenterprise.presevere.service;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.DtoSign;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
+import cn.gmwenterprise.presevere.vo.UsernameValidationResult;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,7 +11,7 @@ public interface LoginService {
 
     LoginSuccess register(HttpServletRequest request, String username, String password);
 
-    String login(DtoSign body);
+    LoginSuccess login(DtoSign body, HttpServletRequest request);
 
     void logout();
 
@@ -21,4 +22,11 @@ public interface LoginService {
      * @return salt, username, userId
      */
     SysUser randomSalt(String username);
+
+    /**
+     * 验证用户名是否存在、是否正确
+     * @param username 用户名
+     * @return 验证结果封装
+     */
+    UsernameValidationResult validUsername(String username);
 }
