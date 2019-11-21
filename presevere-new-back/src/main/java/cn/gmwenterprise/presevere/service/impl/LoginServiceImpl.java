@@ -4,17 +4,17 @@ import cn.gmwenterprise.presevere.common.BusinessException;
 import cn.gmwenterprise.presevere.common.Role;
 import cn.gmwenterprise.presevere.common.TokenHelper;
 import cn.gmwenterprise.presevere.dao.SysUserMapper;
-import cn.gmwenterprise.presevere.dao.SysUserRoleMapper;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.DtoSign;
 import cn.gmwenterprise.presevere.service.LoginService;
 import cn.gmwenterprise.presevere.service.RoleService;
 import cn.gmwenterprise.presevere.vo.Authentication;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
-import org.apache.tomcat.util.security.MD5Encoder;
+import cn.gmwenterprise.presevere.vo.UsernameValidationResult;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -54,11 +54,26 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String login(DtoSign body) {
+    public LoginSuccess login(DtoSign body, HttpServletRequest request) {
         String username = body.getLoginName();
         String password = body.getPassword();
-        // TODO
-        return null;
+
+        SysUser sysUser = sysUserMapper.selectByUsername(username);
+        if (sysUser == null) {
+            throw new BusinessException("用户不存在，请重新输入！");
+        }
+        if (!StringUtils.isEmpty(sysUser.getSalt())) {
+            password = passwordEncoder.encode(password);
+        }
+        if (password.equals(sysUser.getPassword())) {
+            // 登录成功
+            Authentication payload = new Authentication(
+                LocalDateTime.now(), request.getRemoteHost(),
+                sysUser.getId(), Authentication.Platform.BROWSER, 0L
+            );
+            return new LoginSuccess(TokenHelper.generateToken(payload));
+        }
+        throw new BusinessException("密码错误，请重新输入！");
     }
 
     @Override
@@ -79,5 +94,17 @@ public class LoginServiceImpl implements LoginService {
         user.setSalt(salt);
         sysUserMapper.insertSelective(user);
         return user;
+    }
+
+    @Override
+    public UsernameValidationResult validUsername(String username) {
+        SysUser sysUser = sysUserMapper.selectByUsername(username);
+        if (sysUser == null) {
+            throw new BusinessException("用户不存在，请重新输入！");
+        }
+        UsernameValidationResult validationResult = new UsernameValidationResult();
+        validationResult.setFrontEncoded(!StringUtils.isEmpty(sysUser.getSalt()));
+        validationResult.setSalt(sysUser.getSalt());
+        return validationResult;
     }
 }

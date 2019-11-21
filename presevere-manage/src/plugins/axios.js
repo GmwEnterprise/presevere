@@ -23,6 +23,10 @@ _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     config.url = 'http://127.0.0.1:4399' + config.url
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = token
+    }
     return config
   },
   function (error) {
@@ -45,14 +49,14 @@ _axios.interceptors.response.use(
     if (response.data.code === 1) {
       return response.data
     }
-    if (response.data.code === 2) {
-      // 失败
+    if (response.data.code === 2 || response.data.code === 4) {
+      // 失败 || 无权访问
       Notification.error({
         title: '错误',
         message: `${response.data.message}: ${response.data.data || '网络繁忙！'}`
       })
     } else if (response.data.code === 3) {
-      // 需要权限
+      // 需要登录验证权限
       const redirectUrl = router.currentRoute.fullPath
       router.push({
         path: '/login',

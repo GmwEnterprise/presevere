@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import Security from '../../services/security.js'
 export default {
   name: 'Login',
   data() {
@@ -74,10 +75,39 @@ export default {
     submitForm(refName) {
       this.$refs[refName].validate(valid => {
         if (valid) {
-          // TODO
+          this.login()
         } else {
           return false
         }
+      })
+    },
+    async login() {
+      // 验证用户名，验证成功获取盐值
+      const res = await this.axios.get(
+        `/sign/validUsername/${this.loginForm.loginName}`
+      )
+      // 判断是否需要前端加密
+      let password
+      if (res.data.frontEncoded) {
+        password = Security.encode(this.loginForm.password, res.data.salt)
+      } else {
+        password = this.loginForm.password
+      }
+      // 登录
+      const result = await this.axios.post('/sign/login', {
+        loginName: this.loginForm.loginName,
+        password
+      })
+      // 保存登录凭据
+      localStorage.setItem('token', result.data.token)
+      // 登录成功后跳转并提示信息
+      this.$message({
+        message: '登录成功',
+        type: 'success',
+        center: true
+      })
+      this.$router.push({
+        path: this.redirectUrl || '/'
       })
     }
   },

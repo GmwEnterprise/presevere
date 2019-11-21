@@ -13,9 +13,14 @@ public enum Res {
     ERROR(2, "请求失败"),
 
     /**
-     * [3] 权限不足
+     * [3] 需要登录
      */
-    UNAUTHORIZED(3, "权限不足");
+    LOGIN_REQUIRED(3, "需要登录"),
+
+    /**
+     * [4] 权限不足
+     */
+    UNAUTHORIZED(4, "权限不足");
 
     private int code;
     private String msg;
