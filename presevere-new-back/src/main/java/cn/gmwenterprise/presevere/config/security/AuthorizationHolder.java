@@ -1,4 +1,4 @@
-package cn.gmwenterprise.presevere.common;
+package cn.gmwenterprise.presevere.config.security;
 
 public final class AuthorizationHolder {
     private static final ThreadLocal<Authorization> AUTHORIZATION = new ThreadLocal<>();

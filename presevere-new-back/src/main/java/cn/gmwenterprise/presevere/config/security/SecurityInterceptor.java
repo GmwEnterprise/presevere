@@ -1,8 +1,5 @@
 package cn.gmwenterprise.presevere.config.security;
 
-import cn.gmwenterprise.presevere.common.AuthRequire;
-import cn.gmwenterprise.presevere.common.Authorization;
-import cn.gmwenterprise.presevere.common.AuthorizationHolder;
 import cn.gmwenterprise.presevere.common.Constants;
 import cn.gmwenterprise.presevere.domain.SysPermission;
 import cn.gmwenterprise.presevere.service.UserService;
@@ -34,6 +31,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("SecurityInterceptor.preHandle");
         String[] permissions = getPermissions(handler);
         if (permissions != null && permissions.length > 0) {
             log.info("进入安全拦截器, 请求URL = [{}]", request.getRequestURL());

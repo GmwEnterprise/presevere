@@ -6,11 +6,14 @@
         <el-button style="float: right; padding: 3px 0" type="text" @click="register">切换为注册</el-button>
       </div>
       <el-form :model="loginForm" :rules="rules" ref="loginRuleForm">
-        <el-form-item label="登录账户" prop="loginName">
+        <el-form-item label="账号" prop="loginName">
           <el-input v-model="loginForm.loginName"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input v-model="loginForm.password" type="password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox v-model="loginForm.keep">保持登录状态</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('loginRuleForm')">登录</el-button>
@@ -22,6 +25,7 @@
 </template>
 
 <script>
+import { validateCode, validatePsdReg1 } from '@/services/validator.js'
 import Security from '../../services/security.js'
 export default {
   name: 'Login',
@@ -32,25 +36,42 @@ export default {
       // 表单数据
       loginForm: {
         loginName: '',
-        password: ''
+        password: '',
+        keep: false
       },
       // 表单验证规则
       rules: {
         loginName: [
-          { required: true, message: '请输入登录账户', trigger: 'blur' },
+          // { required: true, message: '请输入登录账户', trigger: 'blur' },
           {
-            min: 5,
-            max: 20,
-            message: '登陆账户长度在5到20个字符之间',
+            // element表单自定义校验
+            // 若校验不通过则返回callback(new Error('错误原因'))
+            // 通过则返回callback()
+            validator: (rules, value, callback) => {
+              if (value && value === 'admin') {
+                callback()
+              } else {
+                validateCode(rules, value, callback)
+              }
+            },
             trigger: 'blur'
           }
+          // {
+          //   min: 5,
+          //   max: 20,
+          //   message: '登陆账户长度在5到20个字符之间',
+          //   trigger: 'blur'
+          // }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
           {
-            min: 5,
-            max: 20,
-            message: '密码长度在5到20个字符之间',
+            validator: (rules, value, callback) => {
+              if (value && value === 'admin') {
+                callback()
+              } else {
+                validatePsdReg1(rules, value, callback)
+              }
+            },
             trigger: 'blur'
           }
         ]
@@ -98,7 +119,8 @@ export default {
       // 登录
       const result = await this.axios.post('/sign/login', {
         loginName: this.loginForm.loginName,
-        password
+        password,
+        keepLogin: this.loginForm.keep
       })
       // 保存登录凭据
       localStorage.setItem('token', result.data.token)

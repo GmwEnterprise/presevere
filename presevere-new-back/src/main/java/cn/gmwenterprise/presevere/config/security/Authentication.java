@@ -1,4 +1,4 @@
-package cn.gmwenterprise.presevere.vo;
+package cn.gmwenterprise.presevere.config.security;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

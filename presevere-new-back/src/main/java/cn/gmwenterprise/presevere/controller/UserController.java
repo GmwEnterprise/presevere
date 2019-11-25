@@ -1,7 +1,7 @@
 package cn.gmwenterprise.presevere.controller;
 
-import cn.gmwenterprise.presevere.common.AuthRequire;
-import cn.gmwenterprise.presevere.common.AuthorizationHolder;
+import cn.gmwenterprise.presevere.config.security.AuthRequire;
+import cn.gmwenterprise.presevere.config.security.AuthorizationHolder;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

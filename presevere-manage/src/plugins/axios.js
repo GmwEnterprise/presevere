@@ -4,7 +4,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import router from '../router.js'
-import { Notification } from 'element-ui'
+import { Notification, Message } from 'element-ui'
 
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || ''
@@ -38,6 +38,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    console.log(response)
     // Do something with response data
     /** 
      * 在这里返回Promise.reject会进入代码的catch块;
@@ -46,14 +47,23 @@ _axios.interceptors.response.use(
      */
     // 成功
     if (response.data.code === 1) {
+      // 判断是否需要刷新token，需要，则覆盖当前token
+      if (response.data.tokenRefresh) {
+        localStorage.setItem('token', response.data.token)
+      }
       return response.data
     }
     if (response.data.code === 2 || response.data.code === 4) {
       // 失败 || 无权访问
-      Notification.error({
-        title: '错误',
-        message: `${response.data.message}: ${response.data.data || '网络繁忙！'}`
+      Message({
+        message: response.data.data || '网络繁忙！',
+        type: 'error',
+        center: true
       })
+      // Notification.error({
+      //   title: '错误',
+      //   message: `${response.data.message}: ${response.data.data || '网络繁忙！'}`
+      // })
     } else if (response.data.code === 3) {
       // 需要登录验证权限
       const redirectUrl = router.currentRoute.fullPath

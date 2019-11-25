@@ -1,7 +1,6 @@
-package cn.gmwenterprise.presevere.common;
+package cn.gmwenterprise.presevere.config.security;
 
 import cn.gmwenterprise.presevere.domain.SysUser;
-import cn.gmwenterprise.presevere.vo.Authentication;
 
 public class Authorization {
     private String token;

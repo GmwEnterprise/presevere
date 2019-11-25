@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class TokenHelper {
+    private static final Logger log = LoggerFactory.getLogger(TokenHelper.class);
 
     private static ObjectMapper objectMapper = null;
     private static MACSigner signer = null;
@@ -29,6 +32,7 @@ public final class TokenHelper {
     }
 
     public static String generateToken(Object payload) {
+        log.info("生成token调用");
         try {
             JWSObject jwsObject = new JWSObject(
                 COMMON_HEADER,

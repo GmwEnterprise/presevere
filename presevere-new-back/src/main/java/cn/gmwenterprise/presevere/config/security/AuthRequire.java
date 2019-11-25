@@ -1,4 +1,4 @@
-package cn.gmwenterprise.presevere.common;
+package cn.gmwenterprise.presevere.config.security;
 
 import java.lang.annotation.*;
 

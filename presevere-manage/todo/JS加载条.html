@@ -7,8 +7,9 @@
   <title>JS加载条</title>
   <style>
   * { margin: 0; padding: 0; bottom: 0; box-sizing: border-box; }
-  #progress { height: 10px; width: 100%; display: flex; }
+  #progress { height: 4px; width: 100%; display: flex; position: fixed; top: 0; z-index: 10000; }
   #bar { height: 100%; width: 0; max-width: 100%; background-color: red; }
+  button { display: block; height: 20px; width: 60px; }
   </style>
 </head>
 <body>
@@ -18,6 +19,7 @@
   <button id="start">start</button>
   <button id="stop">stop</button>
   <script>
+    var progress = document.getElementById('progress')
     var bar = document.getElementById('bar')
     var interval = null
     // status: 0-未开始滚动，100-滚动完成
@@ -32,38 +34,50 @@
       0.031,
       0.015,
       0.007,
-      0.003,
-      0.001
+      0.003
     ]
     let status = 0, deltaIndex = 0
 
     let temp = 0
+
+    let stopFlag = false
     
     document.getElementById('start').addEventListener('click', function (e) {
-      if (interval === null) {
+      if (interval == null) {
+        bar.style.width = 0
+        progress.style.display = 'flex'
         status = 0
+        deltaIndex = 0
+        stopFlag = false
+        temp = 0
+        console.log(`deltaIndex = ${deltaIndex}, stopFlag = ${stopFlag}`)
         interval = setInterval(function () {
+
           let delta = deltaList[deltaIndex]
           status = status + delta
           bar.style.width = status + '%'
           
-          // 控制delta逐渐变小
-          if (status - temp > 10) {
-            temp = status
-            deltaIndex++
+          if (!stopFlag) {
+            // 控制delta逐渐变小
+            if (status - temp > 10) {
+              temp = status
+              deltaIndex++
+            }
           }
 
           if (status >= 100) {
-            console.log('clearInterval: ' + interval)
             clearInterval(interval)
+            progress.style.display = 'none'
+            console.log('   ---   clearInterval: ' + interval)
             interval = null
           }
-        }, 10)
-        console.log('setInterval: ' + interval)
+        }, 20)
+        console.log('   ---   setInterval: ' + interval)
       }
     })
     document.getElementById('stop').addEventListener('click', function (e) {
-      
+      stopFlag = true
+      deltaIndex = 0
     })
   </script>
 </body>

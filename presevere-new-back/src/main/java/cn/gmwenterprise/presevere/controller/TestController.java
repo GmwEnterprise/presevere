@@ -1,6 +1,6 @@
 package cn.gmwenterprise.presevere.controller;
 
-import cn.gmwenterprise.presevere.common.AuthRequire;
+import cn.gmwenterprise.presevere.config.security.AuthRequire;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import org.slf4j.Logger;

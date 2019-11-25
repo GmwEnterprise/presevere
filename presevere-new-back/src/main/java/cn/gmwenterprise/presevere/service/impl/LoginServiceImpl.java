@@ -1,14 +1,15 @@
 package cn.gmwenterprise.presevere.service.impl;
 
 import cn.gmwenterprise.presevere.common.BusinessException;
+import cn.gmwenterprise.presevere.common.Constants;
 import cn.gmwenterprise.presevere.common.Role;
 import cn.gmwenterprise.presevere.common.TokenHelper;
+import cn.gmwenterprise.presevere.config.security.Authentication;
 import cn.gmwenterprise.presevere.dao.SysUserMapper;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.DtoSign;
 import cn.gmwenterprise.presevere.service.LoginService;
 import cn.gmwenterprise.presevere.service.RoleService;
-import cn.gmwenterprise.presevere.vo.Authentication;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
 import cn.gmwenterprise.presevere.vo.UsernameValidationResult;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,9 +34,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public LoginSuccess register(HttpServletRequest request, String username, String password) {
-        SysUser user = sysUserMapper.selectByUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
+    public LoginSuccess register(HttpServletRequest request, DtoSign body) {
+        SysUser user = sysUserMapper.selectByUsername(body.getLoginName());
+        user.setPassword(passwordEncoder.encode(body.getPassword()));
 
         SysUser tobeUpdated = new SysUser();
         tobeUpdated.setId(user.getId());
@@ -45,12 +46,9 @@ public class LoginServiceImpl implements LoginService {
         // 初始化用户角色信息
         roleService.setRoles(user.getId(), Role.USER.getRole());
 
-        // 注册成功，生成登录后需要的token
-        Authentication payload = new Authentication(
-            LocalDateTime.now(), request.getRemoteHost(),
-            user.getId(), Authentication.Platform.BROWSER, 0L
-        );
-        return new LoginSuccess(TokenHelper.generateToken(payload));
+        // 注册成功
+        Authentication payload;
+        return loginSuccess(request, user.getId(), body.getKeepLogin());
     }
 
     @Override
@@ -70,18 +68,22 @@ public class LoginServiceImpl implements LoginService {
         }
         if (passwordEquals) {
             // 登录成功
-            Authentication payload = new Authentication(
-                LocalDateTime.now(), request.getRemoteHost(),
-                sysUser.getId(), Authentication.Platform.BROWSER, 0L
-            );
-            return new LoginSuccess(TokenHelper.generateToken(payload));
+            return loginSuccess(request, sysUser.getId(), body.getKeepLogin());
         }
         throw new BusinessException("密码错误，请重新输入！");
     }
 
+    private LoginSuccess loginSuccess(HttpServletRequest request, Integer userId, Boolean keepLogin) {
+        Authentication payload = new Authentication(
+            LocalDateTime.now(), request.getRemoteHost(),
+            userId, Authentication.Platform.BROWSER, keepLogin ? 0L : Constants.DEFAULT_TOKEN_TIMEOUT
+        );
+        return new LoginSuccess(TokenHelper.generateToken(payload));
+    }
+
     @Override
     public void logout() {
-
+        // do nothing here
     }
 
     @Override
@@ -110,13 +112,4 @@ public class LoginServiceImpl implements LoginService {
         validationResult.setSalt(sysUser.getSalt());
         return validationResult;
     }
-<<<<<<< HEAD
-
-//    public static void main(String[] args) {
-//        String enc = "$2a$10$DoPkQM1.NBtWur/1gPvhEu/ciw9L0838N0cxfObDteOA53hc8R0a.";
-//        BCryptPasswordEncoder pass = new BCryptPasswordEncoder();
-//        System.out.println(pass.matches("639a0f49eed850e39f134943c4c37624", enc));
-//    }
-=======
->>>>>>> 4b1e2499a0b0a4dd6d8ccba3f9f7770eaa90fe7a
 }

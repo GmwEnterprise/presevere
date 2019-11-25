@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface LoginService {
 
-    LoginSuccess register(HttpServletRequest request, String username, String password);
+    LoginSuccess register(HttpServletRequest request, DtoSign body);
 
     LoginSuccess login(DtoSign body, HttpServletRequest request);
 
@@ -25,6 +25,7 @@ public interface LoginService {
 
     /**
      * 验证用户名是否存在、是否正确
+     *
      * @param username 用户名
      * @return 验证结果封装
      */

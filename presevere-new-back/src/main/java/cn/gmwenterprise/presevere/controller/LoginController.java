@@ -1,6 +1,6 @@
 package cn.gmwenterprise.presevere.controller;
 
-import cn.gmwenterprise.presevere.common.AuthRequire;
+import cn.gmwenterprise.presevere.config.security.AuthRequire;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.DtoSign;
 import cn.gmwenterprise.presevere.service.LoginService;
@@ -40,7 +40,7 @@ public class LoginController {
         // body.loginName: 已保存在库中的用户名username
         // body.password: 前端加盐加密后的密码
         log.info("Register message: loginName[{}], password[{}]", body.getLoginName(), body.getPassword());
-        LoginSuccess result = loginService.register(request, body.getLoginName(), body.getPassword());
+        LoginSuccess result = loginService.register(request, body);
         return AjaxResult.ok(result);
     }
 

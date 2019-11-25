@@ -7,6 +7,8 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 
+import './plugins/component-plugin.js'
+
 Vue.config.productionTip = false
 
 new Vue({

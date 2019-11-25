@@ -6,11 +6,17 @@
         <el-button style="float: right; padding: 3px 0" type="text" @click="login">切换到登录</el-button>
       </div>
       <el-form :model="loginForm" :rules="rules" ref="loginRuleForm">
-        <el-form-item label="输入登录账户" prop="loginName">
+        <el-form-item label="输入账号" prop="loginName">
           <el-input v-model="loginForm.loginName"></el-input>
         </el-form-item>
         <el-form-item label="输入密码" prop="password">
           <el-input v-model="loginForm.password" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="再次输入密码" prop="rePassword">
+          <el-input v-model="loginForm.rePassword" type="password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox v-model="loginForm.keep">保持登录状态</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('loginRuleForm')">注册新账号</el-button>
@@ -22,6 +28,7 @@
 </template>
 
 <script>
+import { validateCode, validatePsdReg1 } from '@/services/validator.js'
 import Security from '../../services/security.js'
 export default {
   name: 'Register',
@@ -32,24 +39,26 @@ export default {
       // 表单数据
       loginForm: {
         loginName: '',
-        password: ''
+        password: '',
+        rePassword: '',
+        keep: false
       },
       rules: {
         loginName: [
-          { required: true, message: '请输入登录账户', trigger: 'blur' },
-          {
-            min: 5,
-            max: 20,
-            message: '登陆账户长度在5到20个字符之间',
-            trigger: 'blur'
-          }
+          { validator: validateCode, trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: validatePsdReg1, trigger: 'blur' }
+        ],
+        rePassword: [
           {
-            min: 5,
-            max: 20,
-            message: '密码长度在5到20个字符之间',
+            validator: (rule, value, callback) => {
+              if (value !== this.loginForm.password) {
+                callback(new Error('两次输入密码不一致'))
+              } else {
+                callback()
+              }
+            },
             trigger: 'blur'
           }
         ]
@@ -89,7 +98,8 @@ export default {
       const encoded = Security.encode(this.loginForm.password, res.data.salt)
       const result = await this.axios.post('/sign/register', {
         loginName: res.data.username,
-        password: encoded
+        password: encoded,
+        keepLogin: this.loginForm.keep
       })
       // 保存登录凭据
       localStorage.setItem('token', result.data.token)
