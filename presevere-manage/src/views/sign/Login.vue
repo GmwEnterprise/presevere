@@ -56,12 +56,6 @@ export default {
             },
             trigger: 'blur'
           }
-          // {
-          //   min: 5,
-          //   max: 20,
-          //   message: '登陆账户长度在5到20个字符之间',
-          //   trigger: 'blur'
-          // }
         ],
         password: [
           {
@@ -75,7 +69,8 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      submitting: false
     }
   },
   methods: {
@@ -94,6 +89,8 @@ export default {
       this.$refs[refName].resetFields()
     },
     submitForm(refName) {
+      if (this.submitting) return
+      this.submitting = true
       this.$refs[refName].validate(valid => {
         if (valid) {
           this.login()
@@ -103,36 +100,42 @@ export default {
       })
     },
     async login() {
-      // 验证用户名，验证成功获取盐值
-      const res = await this.axios.get(
-        `/sign/validUsername/${this.loginForm.loginName}`
-      )
-      // 判断是否需要前端加密
-      let password
-      if (res.data.frontEncoded) {
-        password = Security.encode(this.loginForm.password, res.data.salt)
-        // console.log(`salt: ${res.data.salt}`)
-        // console.log(`encoded password: ${password}`)
-      } else {
-        password = this.loginForm.password
+      try {
+        // 验证用户名，验证成功获取盐值
+        const res = await this.axios.get(
+          `/sign/validUsername/${this.loginForm.loginName}`
+        )
+        // 判断是否需要前端加密
+        let password
+        if (res.data.frontEncoded) {
+          password = Security.encode(this.loginForm.password, res.data.salt)
+          // console.log(`salt: ${res.data.salt}`)
+          // console.log(`encoded password: ${password}`)
+        } else {
+          password = this.loginForm.password
+        }
+        // 登录
+        const result = await this.axios.post('/sign/login', {
+          loginName: this.loginForm.loginName,
+          password,
+          keepLogin: this.loginForm.keep
+        })
+        // 保存登录凭据
+        localStorage.setItem('token', result.data.token)
+        // 登录成功后跳转并提示信息
+        this.$message({
+          message: '登录成功',
+          type: 'success',
+          center: true
+        })
+        this.$router.push({
+          path: this.redirectUrl || '/'
+        })
+      } catch (error) {
+        console.log('catch exp !')
+        console.error(error)
+        this.submitting = false
       }
-      // 登录
-      const result = await this.axios.post('/sign/login', {
-        loginName: this.loginForm.loginName,
-        password,
-        keepLogin: this.loginForm.keep
-      })
-      // 保存登录凭据
-      localStorage.setItem('token', result.data.token)
-      // 登录成功后跳转并提示信息
-      this.$message({
-        message: '登录成功',
-        type: 'success',
-        center: true
-      })
-      this.$router.push({
-        path: this.redirectUrl || '/'
-      })
     }
   },
   mounted() {

@@ -5,8 +5,8 @@ import _ from 'lodash'
 Vue.use(Router)
 
 const subRoutes = (() => {
-  const r = require.context('./views/', true, /\.router\.js$/)
-  const routes = r.keys().map(key => r(key).default)
+  const context = require.context('./views/', true, /\.router\.js$/)
+  const routes = context.keys().map(key => context(key).default)
   return _.flatten(routes)
 })()
 
@@ -14,8 +14,8 @@ const router =  new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: '/',
+    { path: '/', redirect: '/home' }, {
+      path: '/home',
       component: () => import('@/views/Home.vue'),
       meta: {
         loginRequired: true,
