@@ -1,11 +1,22 @@
 package cn.gmwenterprise.presevere.common;
 
+import cn.gmwenterprise.presevere.config.security.Authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
+import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Objects;
 
 public final class TokenHelper {
     private static final Logger log = LoggerFactory.getLogger(TokenHelper.class);
@@ -41,6 +52,7 @@ public final class TokenHelper {
             jwsObject.sign(signer);
             return jwsObject.serialize();
         } catch (Exception e) {
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -54,7 +66,70 @@ public final class TokenHelper {
             }
             return null;
         } catch (Exception e) {
+            log.error(e.getMessage());
             return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        Authentication authentication = new Authentication() {{
+            setUserId(100);
+            setLoginIp("127.0.0.1");
+            setLoginDatetime(LocalDateTime.now());
+        }};
+        try {
+            Objects.requireNonNull(authentication.getUserId());
+            log.info("传入userId: {}, 生成token中...", authentication.getUserId());
+
+            // RSA signatures require a public and private RSA key pair, the public key
+            // must be made known to the JWS recipient in order to verify the signatures
+            RSAKey rsaJWK = new RSAKeyGenerator(2048)
+                .keyID("123")
+                .generate();
+            RSAKey rsaPublicJWK = rsaJWK.toPublicJWK();
+
+            // Create RSA-signer with the private key
+            JWSSigner signer = new RSASSASigner(rsaJWK);
+
+            // Prepare JWT with claims set
+            JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
+                .claim("userId", authentication.getUserId())
+                .claim("ip", authentication.getLoginIp())
+                .claim("platform", authentication.getPlatform())
+                .claim("timeout", authentication.getTimeout())
+                .issuer("http://gmwenterprise.github.io/")
+                .issueTime(new Date());
+            JWTClaimsSet claimsSet;
+            if (authentication.getTimeout() > 0L) {
+                long expirationMills = System.currentTimeMillis() + Constants.DEFAULT_TOKEN_TIMEOUT * 60 * 1000;
+                claimsSet = builder.expirationTime(new Date(expirationMills)).build();
+            } else {
+                claimsSet = builder.build();
+            }
+
+            SignedJWT signedJWT = new SignedJWT(
+                new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaJWK.getKeyID()).build(),
+                claimsSet
+            );
+
+            // Compute the RSA signature
+            signedJWT.sign(signer);
+
+            String token = signedJWT.serialize();
+
+            // On the consumer side, parse the JWS and verify its RSA signature
+            signedJWT = SignedJWT.parse(token);
+
+            JWSVerifier verifier = new RSASSAVerifier(rsaPublicJWK);
+            assert signedJWT.verify(verifier);
+
+            assert authentication.getUserId().equals(signedJWT.getJWTClaimsSet().getClaim("userId"));
+            assert "http://gmwenterprise.github.io/".equals(signedJWT.getJWTClaimsSet().getIssuer());
+
+            System.out.println(signedJWT.getJWTClaimsSet());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+//            return null;
         }
     }
 }

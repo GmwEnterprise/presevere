@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { validateCode, validatePsdReg1 } from '@/services/validator.js'
-import Security from '../../services/security.js'
+import { validateCode, validatePsdReg1 } from '@/utils/validator.util.js'
+import Security from '@/utils/security.util.js'
 export default {
   name: 'Login',
   data() {
