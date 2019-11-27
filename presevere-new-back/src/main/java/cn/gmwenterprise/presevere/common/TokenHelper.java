@@ -71,11 +71,19 @@ public final class TokenHelper {
         }
     }
 
+    /**
+     * 测试一下jose-jwt的比较通用的功能。
+     * 实际上我写的Authetication已经实现了这个功能，没必要修改
+     *
+     * @param args args
+     */
     public static void main(String[] args) {
         Authentication authentication = new Authentication() {{
             setUserId(100);
             setLoginIp("127.0.0.1");
             setLoginDatetime(LocalDateTime.now());
+            setTimeout(Constants.TIMEOUT_ON);
+            setPlatform(Platform.BROWSER);
         }};
         try {
             Objects.requireNonNull(authentication.getUserId());
@@ -100,8 +108,8 @@ public final class TokenHelper {
                 .issuer("http://gmwenterprise.github.io/")
                 .issueTime(new Date());
             JWTClaimsSet claimsSet;
-            if (authentication.getTimeout() > 0L) {
-                long expirationMills = System.currentTimeMillis() + Constants.DEFAULT_TOKEN_TIMEOUT * 60 * 1000;
+            if (authentication.timeout()) {
+                long expirationMills = 500L; // System.currentTimeMillis() + Constants.DEFAULT_TOKEN_TIMEOUT * 60 * 1000;
                 claimsSet = builder.expirationTime(new Date(expirationMills)).build();
             } else {
                 claimsSet = builder.build();
@@ -114,6 +122,8 @@ public final class TokenHelper {
 
             // Compute the RSA signature
             signedJWT.sign(signer);
+
+            Thread.sleep(1000);
 
             String token = signedJWT.serialize();
 
@@ -128,8 +138,7 @@ public final class TokenHelper {
 
             System.out.println(signedJWT.getJWTClaimsSet());
         } catch (Exception e) {
-            log.error(e.getMessage());
-//            return null;
+            e.printStackTrace();
         }
     }
 }

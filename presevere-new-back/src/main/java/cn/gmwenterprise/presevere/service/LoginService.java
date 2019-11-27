@@ -23,11 +23,14 @@ public interface LoginService {
      */
     SysUser randomSalt(String username);
 
+    int LOGIN = 1;
+    int REGISTRY = 2;
+
     /**
-     * 验证用户名是否存在、是否正确
+     * 验证用户名
      *
      * @param username 用户名
      * @return 验证结果封装
      */
-    UsernameValidationResult validUsername(String username);
+    UsernameValidationResult verifyUsername(String username, int mode);
 }

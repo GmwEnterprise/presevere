@@ -1,5 +1,6 @@
 package cn.gmwenterprise.presevere.config;
 
+import cn.gmwenterprise.presevere.config.security.AccessRestrictionInterceptor;
 import cn.gmwenterprise.presevere.config.security.AuthenticationInterceptor;
 import cn.gmwenterprise.presevere.config.security.SecurityInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,12 +50,15 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     AuthenticationInterceptor authenticationInterceptor;
     @Resource
     SecurityInterceptor securityInterceptor;
+    @Resource
+    AccessRestrictionInterceptor accessRestrictionInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器
-        registry.addInterceptor(authenticationInterceptor).order(1);
-        registry.addInterceptor(securityInterceptor).order(2);
+        registry.addInterceptor(accessRestrictionInterceptor).order(1);
+        registry.addInterceptor(authenticationInterceptor).order(2);
+        registry.addInterceptor(securityInterceptor).order(3);
     }
 
     @Override

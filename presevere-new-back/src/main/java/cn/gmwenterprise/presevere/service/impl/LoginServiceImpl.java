@@ -35,20 +35,23 @@ public class LoginServiceImpl implements LoginService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public LoginSuccess register(HttpServletRequest request, DtoSign body) {
-        SysUser user = sysUserMapper.selectByUsername(body.getLoginName());
-        user.setPassword(passwordEncoder.encode(body.getPassword()));
-
-        SysUser tobeUpdated = new SysUser();
-        tobeUpdated.setId(user.getId());
-        tobeUpdated.setPassword(user.getPassword());
-        sysUserMapper.updateByPrimaryKeySelective(tobeUpdated);
+        // 插入新用户
+        SysUser user = randomSalt(body.getLoginName());
+        // 获取密码
+        String password = aesDecode(body.getPassword());
+        user.setPassword(passwordEncoder.encode(password));
+        sysUserMapper.insertSelective(user);
 
         // 初始化用户角色信息
         roleService.setRoles(user.getId(), Role.USER.getRole());
 
         // 注册成功
-        Authentication payload;
         return loginSuccess(request, user.getId(), body.getKeepLogin());
+    }
+
+    private String aesDecode(String password) {
+        // TODO AES解密
+        return password;
     }
 
     @Override
@@ -97,19 +100,23 @@ public class LoginServiceImpl implements LoginService {
         SysUser user = new SysUser();
         user.setUsername(username);
         user.setSalt(salt);
-        sysUserMapper.insertSelective(user);
         return user;
     }
 
     @Override
-    public UsernameValidationResult validUsername(String username) {
+    public UsernameValidationResult verifyUsername(String username, int mode) {
         SysUser sysUser = sysUserMapper.selectByUsername(username);
-        if (sysUser == null) {
-            throw new BusinessException("用户不存在，请重新输入！");
+        if (mode == LOGIN) {
+            if (sysUser == null) {
+                throw new BusinessException("用户不存在，请重新输入！");
+            }
+            return UsernameValidationResult.valid();
+        } else if (mode == REGISTRY) {
+            if (sysUser != null && sysUser.getId() != null) {
+                throw new BusinessException("用户名已存在");
+            }
+            return UsernameValidationResult.valid();
         }
-        UsernameValidationResult validationResult = new UsernameValidationResult();
-        validationResult.setFrontEncoded(!StringUtils.isEmpty(sysUser.getSalt()));
-        validationResult.setSalt(sysUser.getSalt());
-        return validationResult;
+        throw new RuntimeException("程序异常，mode值错误！");
     }
 }

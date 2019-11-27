@@ -19,4 +19,6 @@ public interface Constants {
     Long DEFAULT_REFRESH_TOKEN_TIMEOUT = 3L;
 
     String TOKEN_REFRESH_KEY = "user_token_refresh_key";
+    Long TIMEOUT_ON = 1L;
+    Long TIMEOUT_OFF = 0L;
 }

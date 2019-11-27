@@ -14,16 +14,20 @@
 
 import CryptoJS from 'crypto-js'
 
-function encode(password, salt) {
+export function encode(password, salt) {
   // AES加密每次结果都不一样
   // return CryptoJS.AES.encrypt(password, salt).toString()
   return CryptoJS.MD5(salt + password).toString()
 }
 
-// function decode(encodedPassword, salt) {
-//   return CryptoJS.AES.decrypt(encodedPassword, salt).toString(CryptoJS.enc.Utf8)
-// }
+export function symmetricEncryptionEncode(origin) {
+  // TODO 实现前后端的对称加密
+  console.log('对称加密未实现')
+  return origin
+}
 
-export default {
-  encode //, decode
+export function symmetricEncryptionDecode(encoded) {
+  // TODO 实现前后端的对称解密
+  console.log('对称解密未实现')
+  return encoded
 }

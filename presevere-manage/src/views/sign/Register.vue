@@ -29,7 +29,7 @@
 
 <script>
 import { validateCode, validatePsdReg1 } from '@/utils/validator.util.js'
-import Security from '@/utils/security.util.js'
+import { symmetricEncryptionEncode } from '@/utils/security.util.js'
 export default {
   name: 'Register',
   data() {
@@ -44,12 +44,8 @@ export default {
         keep: false
       },
       rules: {
-        loginName: [
-          { validator: validateCode, trigger: 'blur' }
-        ],
-        password: [
-          { validator: validatePsdReg1, trigger: 'blur' }
-        ],
+        loginName: [{ validator: validateCode, trigger: 'blur' }],
+        password: [{ validator: validatePsdReg1, trigger: 'blur' }],
         rePassword: [
           {
             validator: (rule, value, callback) => {
@@ -90,15 +86,12 @@ export default {
       })
     },
     async register() {
-      // 1. 发送loginName到后台，创建账户，生成数据，初始化密码盐，返回盐值
-      const res = await this.axios.get(
-        `/sign/randomSalt/${this.loginForm.loginName}`
-      )
-      // 2. 拿到返回的盐对密码进行加密，再次发送加密密码到后台，返回成功信息
-      const encoded = Security.encode(this.loginForm.password, res.data.salt)
+      // 验证用户名
+      await this.axios.get(`/sign/verifyUsername/2/${this.loginForm.loginName}`)
+      // 登录
       const result = await this.axios.post('/sign/register', {
-        loginName: res.data.username,
-        password: encoded,
+        loginName: this.loginForm.loginName,
+        password: symmetricEncryptionEncode(this.loginForm.password),
         keepLogin: this.loginForm.keep
       })
       // 保存登录凭据

@@ -1,5 +1,6 @@
 package cn.gmwenterprise.presevere.config.security;
 
+import cn.gmwenterprise.presevere.common.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -94,5 +95,9 @@ public class Authentication {
          * IOS
          */
         IOS
+    }
+
+    public boolean timeout() {
+        return timeout.equals(Constants.TIMEOUT_ON);
     }
 }

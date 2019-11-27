@@ -26,7 +26,7 @@
 
 <script>
 import { validateCode, validatePsdReg1 } from '@/utils/validator.util.js'
-import Security from '@/utils/security.util.js'
+import { symmetricEncryptionEncode } from '@/utils/security.util.js'
 export default {
   name: 'Login',
   data() {
@@ -101,23 +101,12 @@ export default {
     },
     async login() {
       try {
-        // 验证用户名，验证成功获取盐值
-        const res = await this.axios.get(
-          `/sign/validUsername/${this.loginForm.loginName}`
-        )
-        // 判断是否需要前端加密
-        let password
-        if (res.data.frontEncoded) {
-          password = Security.encode(this.loginForm.password, res.data.salt)
-          // console.log(`salt: ${res.data.salt}`)
-          // console.log(`encoded password: ${password}`)
-        } else {
-          password = this.loginForm.password
-        }
+        // 验证用户名
+        await this.axios.get(`/sign/verifyUsername/1/${this.loginForm.loginName}`)
         // 登录
         const result = await this.axios.post('/sign/login', {
           loginName: this.loginForm.loginName,
-          password,
+          password: symmetricEncryptionEncode(this.loginForm.password),
           keepLogin: this.loginForm.keep
         })
         // 保存登录凭据

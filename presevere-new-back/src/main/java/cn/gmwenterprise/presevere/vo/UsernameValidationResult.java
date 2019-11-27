@@ -1,30 +1,27 @@
 package cn.gmwenterprise.presevere.vo;
 
 public class UsernameValidationResult {
-    private boolean frontEncoded;
-    private String salt;
+    private Boolean value;
 
-    public UsernameValidationResult(boolean frontEncoded, String salt) {
-        this.frontEncoded = frontEncoded;
-        this.salt = salt;
+    public UsernameValidationResult() {}
+
+    public static UsernameValidationResult valid() {
+        UsernameValidationResult result = new UsernameValidationResult();
+        result.setValue(true);
+        return result;
     }
 
-    public UsernameValidationResult() {
+    public static UsernameValidationResult invalid() {
+        UsernameValidationResult result = new UsernameValidationResult();
+        result.setValue(false);
+        return result;
     }
 
-    public boolean isFrontEncoded() {
-        return frontEncoded;
+    public Boolean getValue() {
+        return value;
     }
 
-    public void setFrontEncoded(boolean frontEncoded) {
-        this.frontEncoded = frontEncoded;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setValue(Boolean value) {
+        this.value = value;
     }
 }

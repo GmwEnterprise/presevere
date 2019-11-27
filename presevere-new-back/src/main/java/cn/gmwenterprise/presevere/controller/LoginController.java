@@ -22,10 +22,9 @@ public class LoginController {
     @Resource
     LoginService loginService;
 
-    @GetMapping("/validUsername/{username}")
-    public AjaxResult validUsername(@PathVariable String username) {
-        UsernameValidationResult validationResult = loginService.validUsername(username);
-        return AjaxResult.ok(validationResult);
+    @GetMapping("/verifyUsername/{mode}/{username}")
+    public AjaxResult verifyUsername(@PathVariable String username, @PathVariable Integer mode) {
+        return AjaxResult.ok(loginService.verifyUsername(username, mode));
     }
 
     @PostMapping("/login")
@@ -37,17 +36,9 @@ public class LoginController {
 
     @PostMapping("/register")
     public AjaxResult register(@RequestBody DtoSign body, HttpServletRequest request) {
-        // body.loginName: 已保存在库中的用户名username
-        // body.password: 前端加盐加密后的密码
         log.info("Register message: loginName[{}], password[{}]", body.getLoginName(), body.getPassword());
         LoginSuccess result = loginService.register(request, body);
         return AjaxResult.ok(result);
-    }
-
-    @GetMapping("/randomSalt/{username}")
-    public AjaxResult randomSalt(@PathVariable String username) {
-        SysUser saltUser = loginService.randomSalt(username);
-        return AjaxResult.ok(saltUser);
     }
 
     @GetMapping("/logout")
