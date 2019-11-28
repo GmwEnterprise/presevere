@@ -1,7 +1,11 @@
 <template>
   <div id="md-editor-wrapper">
-    <textarea id="md-editor" :style="hwStyle" @input="editorInput" :value="value"></textarea>
-    <div v-html="renderContent"></div>
+    <textarea
+      ref="editor"
+      id="md-editor"
+      :value="value"
+      @input="input"
+    ></textarea>
   </div>
 </template>
 
@@ -9,29 +13,15 @@
 export default {
   name: 'TextareaEditor',
   props: {
-    width: {
-      type: Number,
-      required: false,
-      default: 400
-    },
-    height: {
-      type: Number,
-      required: false,
-      default: 300
-    },
     value: {
       type: String,
       required: true
     }
   },
-  computed: {
-    hwStyle() {
-      return `width:${this.width}px;height:${this.height}px`
-    }
-  },
   methods: {
-    editorInput() {
-      this.$emti('input', this.value)
+    input(e) {
+      console.log(JSON.stringify(this.$refs['editor']))
+      this.$emit('input', e.target.value)
     }
   }
 }
@@ -43,6 +33,15 @@ export default {
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: auto;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5em;
+  font-family: 'monaco';
+  border: 0;
+  background-color: rgb(226, 255, 226);
+  height: 100%;
+  width: 100%;
 }
 #md-editor:focus {
   outline: none;
