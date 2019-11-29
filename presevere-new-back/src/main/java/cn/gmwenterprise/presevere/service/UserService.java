@@ -10,4 +10,6 @@ public interface UserService {
     List<SysPermission> getUserPermissionsByUserId(Integer userId);
 
     SysUser getUserById(Integer userId);
+
+    boolean userIdExists(Integer userId);
 }

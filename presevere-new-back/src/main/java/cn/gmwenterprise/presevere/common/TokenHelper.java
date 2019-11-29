@@ -1,22 +1,11 @@
 package cn.gmwenterprise.presevere.common;
 
-import cn.gmwenterprise.presevere.config.security.Authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jose.crypto.RSASSASigner;
-import com.nimbusds.jose.crypto.RSASSAVerifier;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Objects;
 
 public final class TokenHelper {
     private static final Logger log = LoggerFactory.getLogger(TokenHelper.class);
@@ -71,14 +60,14 @@ public final class TokenHelper {
         }
     }
 
-    /**
+    /*
      * 测试一下jose-jwt的比较通用的功能。
      * 实际上我写的Authetication已经实现了这个功能，没必要修改
      *
      * @param args args
-     */
+
     public static void main(String[] args) {
-        Authentication authentication = new Authentication() {{
+        TokenPayload tokenPayload = new TokenPayload() {{
             setUserId(100);
             setLoginIp("127.0.0.1");
             setLoginDatetime(LocalDateTime.now());
@@ -86,8 +75,8 @@ public final class TokenHelper {
             setPlatform(Platform.BROWSER);
         }};
         try {
-            Objects.requireNonNull(authentication.getUserId());
-            log.info("传入userId: {}, 生成token中...", authentication.getUserId());
+            Objects.requireNonNull(tokenPayload.getUserId());
+            log.info("传入userId: {}, 生成token中...", tokenPayload.getUserId());
 
             // RSA signatures require a public and private RSA key pair, the public key
             // must be made known to the JWS recipient in order to verify the signatures
@@ -101,14 +90,14 @@ public final class TokenHelper {
 
             // Prepare JWT with claims set
             JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
-                .claim("userId", authentication.getUserId())
-                .claim("ip", authentication.getLoginIp())
-                .claim("platform", authentication.getPlatform())
-                .claim("timeout", authentication.getTimeout())
+                .claim("userId", tokenPayload.getUserId())
+                .claim("ip", tokenPayload.getLoginIp())
+                .claim("platform", tokenPayload.getPlatform())
+                .claim("timeout", tokenPayload.getTimeout())
                 .issuer("http://gmwenterprise.github.io/")
                 .issueTime(new Date());
             JWTClaimsSet claimsSet;
-            if (authentication.timeout()) {
+            if (tokenPayload.timeout()) {
                 long expirationMills = 500L; // System.currentTimeMillis() + Constants.DEFAULT_TOKEN_TIMEOUT * 60 * 1000;
                 claimsSet = builder.expirationTime(new Date(expirationMills)).build();
             } else {
@@ -133,12 +122,12 @@ public final class TokenHelper {
             JWSVerifier verifier = new RSASSAVerifier(rsaPublicJWK);
             assert signedJWT.verify(verifier);
 
-            assert authentication.getUserId().equals(signedJWT.getJWTClaimsSet().getClaim("userId"));
+            assert tokenPayload.getUserId().equals(signedJWT.getJWTClaimsSet().getClaim("userId"));
             assert "http://gmwenterprise.github.io/".equals(signedJWT.getJWTClaimsSet().getIssuer());
 
             System.out.println(signedJWT.getJWTClaimsSet());
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

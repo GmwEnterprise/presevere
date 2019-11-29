@@ -1,19 +1,26 @@
 package cn.gmwenterprise.presevere.config.security;
 
+import cn.gmwenterprise.presevere.common.BeanHelper;
 import cn.gmwenterprise.presevere.domain.SysUser;
+import cn.gmwenterprise.presevere.service.UserService;
 
 public class Authorization {
     private String token;
-    private SysUser currentUser;
-    private Authentication authentication;
+    private TokenPayload tokenPayload;
 
     public Authorization() {
     }
 
-    public Authorization(String token, SysUser currentUser, Authentication authentication) {
+    public Authorization(String token, TokenPayload tokenPayload) {
         this.token = token;
-        this.currentUser = currentUser;
-        this.authentication = authentication;
+        this.tokenPayload = tokenPayload;
+    }
+
+    public SysUser currentUser() {
+        if (tokenPayload == null || tokenPayload.getUserId() == null) {
+            return null;
+        }
+        return BeanHelper.getBean(UserService.class).getUserById(tokenPayload.getUserId());
     }
 
     public String getToken() {
@@ -24,19 +31,11 @@ public class Authorization {
         this.token = token;
     }
 
-    public SysUser getCurrentUser() {
-        return currentUser;
+    public TokenPayload getTokenPayload() {
+        return tokenPayload;
     }
 
-    public void setCurrentUser(SysUser currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public Authentication getAuthentication() {
-        return authentication;
-    }
-
-    public void setAuthentication(Authentication authentication) {
-        this.authentication = authentication;
+    public void setTokenPayload(TokenPayload tokenPayload) {
+        this.tokenPayload = tokenPayload;
     }
 }

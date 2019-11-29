@@ -20,7 +20,12 @@ public enum Res {
     /**
      * [4] 权限不足
      */
-    UNAUTHORIZED(4, "权限不足");
+    UNAUTHORIZED(4, "权限不足"),
+
+    /**
+     * [5] 需要刷新token
+     */
+    REFRESH_TOKEN(5, "需要刷新token");
 
     private int code;
     private String msg;

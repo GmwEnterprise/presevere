@@ -27,4 +27,9 @@ public class UserServiceImpl implements UserService {
     public SysUser getUserById(Integer userId) {
         return sysUserMapper.selectByPrimaryKey(userId);
     }
+
+    @Override
+    public boolean userIdExists(Integer userId) {
+        return sysUserMapper.countByUserId(userId) == 1;
+    }
 }

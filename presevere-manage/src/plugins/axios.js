@@ -14,7 +14,7 @@ import { Notification, Message } from 'element-ui'
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ''
   // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control,
+  withCredentials: true, // Check cross-site Access-Control,
 }
 
 const _axios = axios.create(config)
@@ -35,6 +35,11 @@ _axios.interceptors.request.use(
   }
 )
 
+// token是否处于刷新状态
+let isTokenRefreshing = false
+// 等待重试请求队列
+let retryRequests = []
+
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
@@ -47,10 +52,6 @@ _axios.interceptors.response.use(
      */
     // 成功
     if (response.data.code === 1) {
-      // 判断是否需要刷新token，需要，则覆盖当前token
-      if (response.data.tokenRefresh) {
-        localStorage.setItem('token', response.data.token)
-      }
       return response.data
     }
     if (response.data.code === 2 || response.data.code === 4) {
@@ -64,6 +65,7 @@ _axios.interceptors.response.use(
       //   title: '错误',
       //   message: `${response.data.message}: ${response.data.data || '网络繁忙！'}`
       // })
+      return Promise.reject(response.data)
     } else if (response.data.code === 3) {
       // 需要登录验证权限
       const redirectUrl = router.currentRoute.fullPath
@@ -73,9 +75,22 @@ _axios.interceptors.response.use(
           redirectUrl
         }
       })
+      // return Promise.reject(response.data)
+    } else if (response.data.code === 5) {
+      // 需要刷新token
+      const userId = response.data.data
+      if (isTokenRefreshing) {
+        // 正在刷新，将当前请求添加进等待队列
+
+
+      } else {
+        // 未刷新，先将请求刷新token请求添加进等待队列，然后再将当前请求添加进等待队列，然后开始执行队列
+        isTokenRefreshing = true
+        return new Promise((resolve, reject) => {
+          
+        })
+      }
     }
-    // 只要不成功，都返回reject
-    return Promise.reject(response.data)
   },
   function (error) {
     console.log('Ajax系统错误')

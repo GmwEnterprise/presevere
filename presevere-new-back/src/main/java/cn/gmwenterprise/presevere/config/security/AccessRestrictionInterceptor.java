@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * 限制单个请求的访问次数，不允许访问期间重复访问
+ * TODO 觉得有问题 待验证【高并发下可能会有问题】
  */
 @Component
 public class AccessRestrictionInterceptor implements HandlerInterceptor {

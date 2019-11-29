@@ -64,6 +64,9 @@
       </if>
     </where>
   </select>
+  <select id="countByUserId" resultType="java.lang.Integer">
+    select count(*) from sys_user a where a.id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

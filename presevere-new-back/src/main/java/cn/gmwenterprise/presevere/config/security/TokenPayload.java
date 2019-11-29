@@ -8,16 +8,16 @@ import java.time.LocalDateTime;
 /**
  * 登录凭据
  */
-public class Authentication {
-    public Authentication() {
+public class TokenPayload {
+    public TokenPayload() {
     }
 
-    public Authentication(LocalDateTime loginDatetime, String loginIp, Integer userId, Platform platform, Long timeout) {
+    public TokenPayload(LocalDateTime loginDatetime, String loginIp, Integer userId, Platform platform, boolean timeoutOpen) {
         this.loginDatetime = loginDatetime;
         this.loginIp = loginIp;
         this.userId = userId;
         this.platform = platform;
-        this.timeout = timeout;
+        this.timeout = timeoutOpen ? Constants.TIMEOUT_ON : Constants.TIMEOUT_OFF;
     }
 
     /**
@@ -98,6 +98,6 @@ public class Authentication {
     }
 
     public boolean timeout() {
-        return timeout.equals(Constants.TIMEOUT_ON);
+        return Constants.TIMEOUT_ON.equals(timeout);
     }
 }

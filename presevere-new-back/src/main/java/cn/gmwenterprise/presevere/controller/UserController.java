@@ -14,6 +14,6 @@ public class UserController {
     @AuthRequire("user")
     @GetMapping("/self")
     public AjaxResult getCurrentUserMessage() {
-        return AjaxResult.ok(AuthorizationHolder.get().getCurrentUser());
+        return AjaxResult.ok(AuthorizationHolder.get().currentUser());
     }
 }

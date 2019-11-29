@@ -58,4 +58,6 @@ public interface SysUserMapper {
     int countByUsername(String username);
 
     List<SysUser> selectByCondition(SysUser condition);
+
+    int countByUserId(Integer userId);
 }

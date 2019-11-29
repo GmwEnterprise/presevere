@@ -20,14 +20,14 @@ public final class AjaxResult {
     private int code;
     private String message;
     private Object data;
-    private Boolean tokenRefresh;
-    private String token;
+//    private Boolean tokenRefresh;
+//    private String token;
 
     private AjaxResult(int code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
-        this.tokenRefresh = false;
+//        this.tokenRefresh = false;
     }
 
     public int getCode() {
@@ -52,21 +52,5 @@ public final class AjaxResult {
 
     public void setData(Object data) {
         this.data = data;
-    }
-
-    public Boolean getTokenRefresh() {
-        return tokenRefresh;
-    }
-
-    public void setTokenRefresh(Boolean tokenRefresh) {
-        this.tokenRefresh = tokenRefresh;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }

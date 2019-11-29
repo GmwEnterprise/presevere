@@ -4,7 +4,7 @@ import cn.gmwenterprise.presevere.common.BusinessException;
 import cn.gmwenterprise.presevere.common.Constants;
 import cn.gmwenterprise.presevere.common.Role;
 import cn.gmwenterprise.presevere.common.TokenHelper;
-import cn.gmwenterprise.presevere.config.security.Authentication;
+import cn.gmwenterprise.presevere.config.security.TokenPayload;
 import cn.gmwenterprise.presevere.dao.SysUserMapper;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.DtoSign;
@@ -77,9 +77,9 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private LoginSuccess loginSuccess(HttpServletRequest request, Integer userId, Boolean keepLogin) {
-        Authentication payload = new Authentication(
+        TokenPayload payload = new TokenPayload(
             LocalDateTime.now(), request.getRemoteHost(),
-            userId, Authentication.Platform.BROWSER, keepLogin ? 0L : Constants.DEFAULT_TOKEN_TIMEOUT
+            userId, TokenPayload.Platform.BROWSER, !keepLogin
         );
         return new LoginSuccess(TokenHelper.generateToken(payload));
     }
