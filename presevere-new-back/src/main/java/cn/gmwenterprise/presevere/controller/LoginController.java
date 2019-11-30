@@ -41,10 +41,9 @@ public class LoginController {
         return AjaxResult.ok(result);
     }
 
-    @GetMapping("/logout")
-    @AuthRequire("user")
-    public AjaxResult logout() {
-        loginService.logout();
-        return AjaxResult.ok(null);
+    @PostMapping("/refreshToken/{userId}")
+    public AjaxResult logout(@PathVariable Integer userId, HttpServletRequest request) {
+        String token = loginService.refreshToken(userId, request.getRemoteHost());
+        return AjaxResult.ok(token);
     }
 }

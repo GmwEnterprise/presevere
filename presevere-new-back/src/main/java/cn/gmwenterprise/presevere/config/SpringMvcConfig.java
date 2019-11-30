@@ -1,6 +1,5 @@
 package cn.gmwenterprise.presevere.config;
 
-import cn.gmwenterprise.presevere.config.security.AccessRestrictionInterceptor;
 import cn.gmwenterprise.presevere.config.security.SecurityInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -47,13 +46,10 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
     @Resource
     SecurityInterceptor securityInterceptor;
-    @Resource
-    AccessRestrictionInterceptor accessRestrictionInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器
-        registry.addInterceptor(accessRestrictionInterceptor).order(2);
         registry.addInterceptor(securityInterceptor).order(3);
     }
 
@@ -84,13 +80,17 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         return javaTimeModule;
     }
 
-    interface String2LocalDateTime extends Converter<String, LocalDateTime> {}
+    interface String2LocalDateTime extends Converter<String, LocalDateTime> {
+    }
 
-    interface String2LocalDate extends Converter<String, LocalDate> {}
+    interface String2LocalDate extends Converter<String, LocalDate> {
+    }
 
-    interface String2LocalTime extends Converter<String, LocalTime> {}
+    interface String2LocalTime extends Converter<String, LocalTime> {
+    }
 
-    interface String2Date extends Converter<String, Date> {}
+    interface String2Date extends Converter<String, Date> {
+    }
 
     /**
      * 定义请求参数进入controller后的转换方式

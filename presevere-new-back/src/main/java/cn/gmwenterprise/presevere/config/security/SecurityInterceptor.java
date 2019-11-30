@@ -153,15 +153,15 @@ public class SecurityInterceptor implements HandlerInterceptor {
         // 是否过期
         if (tokenPayload.timeout()) {
             // 开启了token过期机制
-            LocalDateTime expireTime = tokenPayload.getLoginDatetime().plusMinutes(Constants.DEFAULT_TOKEN_TIMEOUT);
+            LocalDateTime expireTime = tokenPayload.getLoginDatetime().plusSeconds(Constants.DEFAULT_TOKEN_TIMEOUT);
             LocalDateTime now = LocalDateTime.now();
-            if (now.isAfter(expireTime)) {
+            if (now.isBefore(expireTime)) {
                 // 未过期
                 return TokenPayloadVerificationResults.SUCCESS;
             } else {
                 // 已过期，判断是否可以刷新
-                LocalDateTime refreshTime = expireTime.plusMinutes(Constants.DEFAULT_REFRESH_TOKEN_TIMEOUT);
-                if (now.isAfter(refreshTime)) {
+                LocalDateTime refreshTime = expireTime.plusSeconds(Constants.DEFAULT_REFRESH_TOKEN_TIMEOUT);
+                if (now.isBefore(refreshTime)) {
                     // 可以刷新
                     return TokenPayloadVerificationResults.WAIT_REFRESH;
                 } else {

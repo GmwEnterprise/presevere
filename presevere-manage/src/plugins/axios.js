@@ -14,7 +14,7 @@ import { Notification, Message } from 'element-ui'
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ''
   // timeout: 60 * 1000, // Timeout
-  withCredentials: true, // Check cross-site Access-Control,
+  // withCredentials: true, // Check cross-site Access-Control,
 }
 
 const _axios = axios.create(config)
@@ -22,9 +22,12 @@ const _axios = axios.create(config)
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    config.url = 'http://127.0.0.1:4399' + config.url
+    if (!config.url.includes('http')) {
+      config.url = 'http://127.0.0.1:4399' + config.url
+    }
     const token = localStorage.getItem('token')
     if (token) {
+      // console.log(`${config.url} 擕帶的token：${token}`)
       config.headers.Authorization = token
     }
     return config
@@ -35,15 +38,25 @@ _axios.interceptors.request.use(
   }
 )
 
-// token是否处于刷新状态
-let isTokenRefreshing = false
-// 等待重试请求队列
-let retryRequests = []
+let refreshTokenFlag = false
+let requestList = []
+
+function executeRequests(index) {
+  if (index < requestList.length) {
+    console.log(`隊列編號：${index}`)
+    requestList[index]().then(() => {
+      executeRequests(index + 1)
+    })
+  } else {
+    refreshTokenFlag = false
+    console.log(`${new Date()} -> ，队列执行结束，设置refreshTokenFlag = false`)
+    requestList.splice(0, requestList.length)
+  }
+}
 
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
-    console.log(response)
     // Do something with response data
     /** 
      * 在这里返回Promise.reject会进入代码的catch块;
@@ -75,19 +88,49 @@ _axios.interceptors.response.use(
           redirectUrl
         }
       })
-      // return Promise.reject(response.data)
+      return Promise.reject(response.data)
     } else if (response.data.code === 5) {
       // 需要刷新token
       const userId = response.data.data
-      if (isTokenRefreshing) {
-        // 正在刷新，将当前请求添加进等待队列
-
-
-      } else {
-        // 未刷新，先将请求刷新token请求添加进等待队列，然后再将当前请求添加进等待队列，然后开始执行队列
-        isTokenRefreshing = true
+      console.log(`${new Date()} -> 全局变量refreshTokenFlag = ${refreshTokenFlag}`)
+      if (refreshTokenFlag) {
+        // 正在刷新
+        // console.log(`正在刷新：${JSON.stringify(response.config.url)}`)
         return new Promise((resolve, reject) => {
-          
+          requestList.push(async function () {
+            console.log(`執行url: ${response.config.url}`)
+            // 这个被push进去的lambda function，必须是由pending -> fullfilled
+            try {
+              const r = await _axios(response.config)
+              // console.log(`${response.config.url}在隊列中執行結束`)
+              resolve(r)
+            } catch (err) {
+              reject(err)
+            }
+          })
+        })
+      } else {
+        // 未刷新
+        // console.log(`沒有刷新：${JSON.stringify(response.config.url)}`)
+        refreshTokenFlag = true
+        console.log(`${new Date()} -> 设置refreshTokenFlag = true`)
+        return new Promise((resolve, reject) => {
+          requestList.push(async function () {
+            console.log(`執行url: http://127.0.0.1:4399/sign/refreshToken/${userId}`)
+            // 这个被push进去的lambda function，不能返回reject，只能是resolve
+            // 只需要加上一个不会处理的try.. catch.. 就好了
+            try {
+              const result = await _axios.post(`/sign/refreshToken/${userId}`)
+              // console.log(`刷新token在隊列中執行結束`)
+              localStorage.setItem('token', result.data)
+              const r = await _axios(response.config)
+              // console.log(`${response.config.url}在隊列中執行結束`)
+              resolve(r)
+            } catch (err) {
+              reject(err)
+            }
+          })
+          executeRequests(0)
         })
       }
     }

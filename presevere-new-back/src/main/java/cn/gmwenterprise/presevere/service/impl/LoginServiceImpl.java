@@ -4,6 +4,7 @@ import cn.gmwenterprise.presevere.common.BusinessException;
 import cn.gmwenterprise.presevere.common.Constants;
 import cn.gmwenterprise.presevere.common.Role;
 import cn.gmwenterprise.presevere.common.TokenHelper;
+import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.config.security.TokenPayload;
 import cn.gmwenterprise.presevere.dao.SysUserMapper;
 import cn.gmwenterprise.presevere.domain.SysUser;
@@ -118,5 +119,14 @@ public class LoginServiceImpl implements LoginService {
             return UsernameValidationResult.valid();
         }
         throw new RuntimeException("程序异常，mode值错误！");
+    }
+
+    @Override
+    public String refreshToken(Integer userId, String host) {
+        TokenPayload tokenPayload = new TokenPayload(
+            LocalDateTime.now(), host,
+            userId, TokenPayload.Platform.BROWSER, true
+        );
+        return TokenHelper.generateToken(tokenPayload);
     }
 }

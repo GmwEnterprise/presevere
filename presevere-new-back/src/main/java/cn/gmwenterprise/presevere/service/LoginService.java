@@ -33,4 +33,6 @@ public interface LoginService {
      * @return 验证结果封装
      */
     UsernameValidationResult verifyUsername(String username, int mode);
+
+    String refreshToken(Integer userId, String host);
 }

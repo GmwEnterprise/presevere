@@ -10,15 +10,14 @@ public interface Constants {
      */
     String APPLICATION_JSON = "application/json";
     /**
-     * 默认过期时间，单位：分钟
+     * 默认过期时间，单位：秒
      */
-    Long DEFAULT_TOKEN_TIMEOUT = 40L;
+    Long DEFAULT_TOKEN_TIMEOUT = 20L;
     /**
-     * 默认token无痛刷新时间，单位：分钟
+     * 默认token无痛刷新时间，单位：秒
      */
-    Long DEFAULT_REFRESH_TOKEN_TIMEOUT = 3L;
+    Long DEFAULT_REFRESH_TOKEN_TIMEOUT = 60 * 60L;
 
-    String TOKEN_REFRESH_KEY = "user_token_refresh_key";
     Long TIMEOUT_ON = 1L;
     Long TIMEOUT_OFF = 0L;
 }
