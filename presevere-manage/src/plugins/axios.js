@@ -74,10 +74,6 @@ _axios.interceptors.response.use(
         type: 'error',
         center: true
       })
-      // Notification.error({
-      //   title: '错误',
-      //   message: `${response.data.message}: ${response.data.data || '网络繁忙！'}`
-      // })
       return Promise.reject(response.data)
     } else if (response.data.code === 3) {
       // 需要登录验证权限
@@ -95,14 +91,11 @@ _axios.interceptors.response.use(
       console.log(`${new Date()} -> 全局变量refreshTokenFlag = ${refreshTokenFlag}`)
       if (refreshTokenFlag) {
         // 正在刷新
-        // console.log(`正在刷新：${JSON.stringify(response.config.url)}`)
         return new Promise((resolve, reject) => {
           requestList.push(async function () {
             console.log(`執行url: ${response.config.url}`)
-            // 这个被push进去的lambda function，必须是由pending -> fullfilled
             try {
               const r = await _axios(response.config)
-              // console.log(`${response.config.url}在隊列中執行結束`)
               resolve(r)
             } catch (err) {
               reject(err)
@@ -111,20 +104,15 @@ _axios.interceptors.response.use(
         })
       } else {
         // 未刷新
-        // console.log(`沒有刷新：${JSON.stringify(response.config.url)}`)
         refreshTokenFlag = true
         console.log(`${new Date()} -> 设置refreshTokenFlag = true`)
         return new Promise((resolve, reject) => {
           requestList.push(async function () {
             console.log(`執行url: http://127.0.0.1:4399/sign/refreshToken/${userId}`)
-            // 这个被push进去的lambda function，不能返回reject，只能是resolve
-            // 只需要加上一个不会处理的try.. catch.. 就好了
             try {
               const result = await _axios.post(`/sign/refreshToken/${userId}`)
-              // console.log(`刷新token在隊列中執行結束`)
               localStorage.setItem('token', result.data)
               const r = await _axios(response.config)
-              // console.log(`${response.config.url}在隊列中執行結束`)
               resolve(r)
             } catch (err) {
               reject(err)
