@@ -1,19 +1,11 @@
 export default [
   {
-    path: 'article',
-    name: 'articleList',
+    path: 'article/write',
+    name: 'WriteArticle',
     meta: {
-      loginRequired: true,
-      title: '文章列表'
-    },
-    component: () => import('@/views/article/ArticleList.vue')
-  }, {
-    path: 'article/edit',
-    name: 'articleEdit',
-    meta: {
-      title: '文章编辑',
+      title: '写文章',
       loginRequired: true
     },
-    component: () => import('@/views/article/ArticleEdit.vue')
+    component: () => import('@/views/article/WriteArticle.vue')
   }
 ]

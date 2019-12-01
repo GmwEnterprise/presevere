@@ -1,0 +1,25 @@
+.article-area {
+  width: 100%;
+  max-width: 60rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.write-wrapper {
+  padding: 0.5rem;
+}
+
+.write-wrapper>input:focus {
+  outline: none;
+}
+
+.write-wrapper>input {
+  border: 0;
+  border-bottom: 1px solid;
+  font-size: 2rem;
+  line-height: 4rem;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+}
