@@ -86,25 +86,36 @@ export default {
       })
     },
     async register() {
-      // 验证用户名
-      await this.axios.get(`/sign/verifyUsername/2/${this.loginForm.loginName}`)
-      // 登录
-      const result = await this.axios.post('/sign/register', {
-        loginName: this.loginForm.loginName,
-        password: symmetricEncryptionEncode(this.loginForm.password),
-        keepLogin: this.loginForm.keep
-      })
-      // 保存登录凭据
-      localStorage.setItem('token', result.data.token)
-      // 注册成功后跳转并提示信息
-      this.$message({
-        message: '注册成功',
-        type: 'success',
-        center: true
-      })
-      this.$router.push({
-        path: this.redirectUrl || '/'
-      })
+      this.startLoading()
+      try {
+        // 验证用户名
+        await this.axios.get(
+          `/sign/verifyUsername/2/${this.loginForm.loginName}`
+        )
+        // 登录
+        const result = await this.axios.post('/sign/register', {
+          loginName: this.loginForm.loginName,
+          password: symmetricEncryptionEncode(this.loginForm.password),
+          keepLogin: this.loginForm.keep
+        })
+        // 保存登录凭据
+        localStorage.setItem('token', result.data.token)
+        // 注册成功后跳转并提示信息
+        this.$message({
+          message: '注册成功',
+          type: 'success',
+          center: true
+        })
+        this.$router.push({
+          path: this.redirectUrl || '/'
+        })
+      } catch (error) {
+        console.log('catch exp !')
+        console.error(error)
+        this.submitting = false
+      } finally {
+        this.stopLoading()
+      }
     }
   },
   mounted() {

@@ -100,6 +100,7 @@ export default {
       })
     },
     async login() {
+      this.startLoading()
       try {
         // 验证用户名
         await this.axios.get(`/sign/verifyUsername/1/${this.loginForm.loginName}`)
@@ -124,6 +125,8 @@ export default {
         console.log('catch exp !')
         console.error(error)
         this.submitting = false
+      } finally {
+        this.stopLoading()
       }
     }
   },

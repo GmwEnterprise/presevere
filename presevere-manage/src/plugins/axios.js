@@ -27,7 +27,6 @@ _axios.interceptors.request.use(
     }
     const token = localStorage.getItem('token')
     if (token) {
-      // console.log(`${config.url} 擕帶的token：${token}`)
       config.headers.Authorization = token
     }
     return config
@@ -43,13 +42,11 @@ let requestList = []
 
 function executeRequests(index) {
   if (index < requestList.length) {
-    console.log(`隊列編號：${index}`)
     requestList[index]().then(() => {
       executeRequests(index + 1)
     })
   } else {
     refreshTokenFlag = false
-    console.log(`${new Date()} -> ，队列执行结束，设置refreshTokenFlag = false`)
     requestList.splice(0, requestList.length)
   }
 }
@@ -57,6 +54,10 @@ function executeRequests(index) {
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
+    console.log(` >>> 拦截器开始`)
+    console.log(response.config.url)
+    console.log(response.config.headers.Authorization)
+    console.log(response.data)
     // Do something with response data
     /** 
      * 在这里返回Promise.reject会进入代码的catch块;
@@ -88,12 +89,10 @@ _axios.interceptors.response.use(
     } else if (response.data.code === 5) {
       // 需要刷新token
       const userId = response.data.data
-      console.log(`${new Date()} -> 全局变量refreshTokenFlag = ${refreshTokenFlag}`)
       if (refreshTokenFlag) {
         // 正在刷新
         return new Promise((resolve, reject) => {
           requestList.push(async function () {
-            console.log(`執行url: ${response.config.url}`)
             try {
               const r = await _axios(response.config)
               resolve(r)
@@ -105,10 +104,8 @@ _axios.interceptors.response.use(
       } else {
         // 未刷新
         refreshTokenFlag = true
-        console.log(`${new Date()} -> 设置refreshTokenFlag = true`)
         return new Promise((resolve, reject) => {
           requestList.push(async function () {
-            console.log(`執行url: http://127.0.0.1:4399/sign/refreshToken/${userId}`)
             try {
               const result = await _axios.post(`/sign/refreshToken/${userId}`)
               localStorage.setItem('token', result.data)

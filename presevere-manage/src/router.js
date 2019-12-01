@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 import _ from 'lodash'
 
 Vue.use(Router)
@@ -18,6 +19,7 @@ const router = new Router({
       path: '/home',
       component: () => import('@/views/Home.vue'),
       meta: {
+        title: '主页',
         loginRequired: true,
       },
       children: [
@@ -25,13 +27,22 @@ const router = new Router({
       ]
     }, {
       path: '/login',
-      component: () => import('@/views/sign/Login.vue')
+      component: () => import('@/views/sign/Login.vue'),
+      meta: {
+        title: '登录页'
+      }
     }, {
       path: '/register',
-      component: () => import('@/views/sign/Register.vue')
+      component: () => import('@/views/sign/Register.vue'),
+      meta: {
+        title: '注册页'
+      }
     }, {
       path: '/demo',
-      component: () => import('@/demo/Demo.vue')
+      component: () => import('@/demo/Demo.vue'),
+      meta: {
+        title: '测试页'
+      }
     }
   ]
 })
@@ -46,8 +57,15 @@ router.beforeEach((to, from, next) => {
       }
     })
   } else {
+    store.commit('setRouteTitle', to.meta.title || to.fullPath)
     next()
   }
 })
+
+const originalPush = router.push
+
+Router.prototype.push = function (location) {
+  originalPush.call(this, location).catch(err => err)
+}
 
 export default router

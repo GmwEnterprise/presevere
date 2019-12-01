@@ -13,8 +13,6 @@ public interface LoginService {
 
     LoginSuccess login(DtoSign body, HttpServletRequest request);
 
-    void logout();
-
     /**
      * 根据给定的username创建一个独一无二的盐值
      *

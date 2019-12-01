@@ -41,6 +41,7 @@ public class LoginServiceImpl implements LoginService {
         // 获取密码
         String password = aesDecode(body.getPassword());
         user.setPassword(passwordEncoder.encode(password));
+        user.setNickname(body.getLoginName());
         sysUserMapper.insertSelective(user);
 
         // 初始化用户角色信息
@@ -83,11 +84,6 @@ public class LoginServiceImpl implements LoginService {
             userId, TokenPayload.Platform.BROWSER, !keepLogin
         );
         return new LoginSuccess(TokenHelper.generateToken(payload));
-    }
-
-    @Override
-    public void logout() {
-        // do nothing here
     }
 
     @Override

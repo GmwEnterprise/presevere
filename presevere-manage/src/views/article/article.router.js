@@ -3,15 +3,17 @@ export default [
     path: 'article',
     name: 'articleList',
     meta: {
-      loginRequired: true
+      loginRequired: true,
+      title: '文章列表'
     },
-    component: () => import('@/views/article/List.vue')
+    component: () => import('@/views/article/ArticleList.vue')
   }, {
     path: 'article/edit',
     name: 'articleEdit',
     meta: {
+      title: '文章编辑',
       loginRequired: true
     },
-    component: () => import('@/views/article/Edit.vue')
+    component: () => import('@/views/article/ArticleEdit.vue')
   }
 ]

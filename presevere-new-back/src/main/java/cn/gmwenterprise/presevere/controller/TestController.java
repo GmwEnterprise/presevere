@@ -1,5 +1,6 @@
 package cn.gmwenterprise.presevere.controller;
 
+import cn.gmwenterprise.presevere.common.Auth;
 import cn.gmwenterprise.presevere.config.security.AuthRequire;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
@@ -15,7 +16,7 @@ public class TestController {
     private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
     @GetMapping("/hello")
-    @AuthRequire("user")
+    @AuthRequire(Auth.USER)
     public AjaxResult helloWorld() {
         return AjaxResult.ok("Hello world !");
     }

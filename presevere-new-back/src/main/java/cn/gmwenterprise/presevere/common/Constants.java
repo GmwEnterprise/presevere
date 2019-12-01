@@ -12,7 +12,7 @@ public interface Constants {
     /**
      * 默认过期时间，单位：秒
      */
-    Long DEFAULT_TOKEN_TIMEOUT = 20L;
+    Long DEFAULT_TOKEN_TIMEOUT = 120 * 60L;
     /**
      * 默认token无痛刷新时间，单位：秒
      */
