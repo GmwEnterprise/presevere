@@ -1,6 +1,6 @@
 package cn.gmwenterprise.presevere.common;
 
-public interface Auth {
+public interface Permission {
     String USER = "user";
     String ADMIN = "admin";
 }

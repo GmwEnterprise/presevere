@@ -5,6 +5,6 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface AuthRequire {
+public @interface RuquirePermissions {
     String[] value() default {};
 }

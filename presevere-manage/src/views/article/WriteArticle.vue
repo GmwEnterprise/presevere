@@ -1,19 +1,39 @@
 <template>
   <div class="article-area">
-    
     <div class="write-wrapper">
-      <input type="text" placeholder="输入标题" />
+      <input id="title" type="text" v-model="draft.title" placeholder="输入标题" @input="saveTitle" />
     </div>
     <div class="write-wrapper">
+      <input
+        id="introduction"
+        type="text"
+        v-model="draft.introduction"
+        placeholder="输入一段介绍（可不填写）"
+        @input="saveIntroduction"
+      />
+    </div>
+    <div class="write-wrapper">
+      <!-- box-shadow:none !important; -->
       <mavon-editor
         ref="mavon"
-        style="box-shadow:none !important"
-        v-model="markdownContent"
+        style="border:none;height:calc(100vh - 20rem);"
+        v-model="draft.markdown"
         :toolbars="toolbars"
         @change="contentChange"
         @imgAdd="imageUpload"
         @imgDel="imageRemove"
+        :tabSize="4"
+        codeStyle="atom-one-dark"
+        :boxShadow="false"
+        :subfield="false"
       ></mavon-editor>
+    </div>
+    <div class="empty-bar"></div>
+    <div id="publish">
+      <el-button type="text" :round="true" size="medium" @click="publish">
+        <i class="el-icon-upload el-icon--right"></i>
+        {{ publishButtonWord }}
+      </el-button>
     </div>
   </div>
 </template>
@@ -25,7 +45,21 @@ export default {
   name: 'WriteArticleComponent',
   data() {
     return {
-      markdownContent: '',
+      draft: {
+        key: null, // 唯一键
+        title: '', // 标题
+        introduction: '', // 介绍
+        tags: [], // 标签
+        markdown: '', // markdown内容
+        render: '' // 渲染后的html
+      },
+      publishButtonWord: '发布',
+      saveFlag: false,
+      timer: {
+        title: null,
+        introduction: null,
+        content: null
+      },
       // ==========================
       //       以下是工具栏属性
       // ==========================
@@ -70,15 +104,99 @@ export default {
     mavonEditor
   },
   methods: {
+    saveTitle() {
+      if (this.timer.title) {
+        clearTimeout(this.timer.title)
+      }
+      this.timer.title = setTimeout(() => {
+        this.articleSave({
+          title: this.draft.title
+        }).finally(() => {
+          clearTimeout(this.timer.title)
+          this.timer.title = null
+        })
+      }, 1500)
+    },
+    saveIntroduction() {
+      if (this.timer.introduction) {
+        clearTimeout(this.timer.introduction)
+      }
+      this.timer.introduction = setTimeout(() => {
+        this.articleSave({
+          introduction: this.draft.introduction
+        }).finally(() => {
+          clearTimeout(this.timer.introduction)
+          this.timer.introduction = null
+        })
+      }, 1500)
+    },
+    saveContent() {
+      if (this.timer.content) {
+        clearTimeout(this.timer.content)
+      }
+      this.timer.content = setTimeout(() => {
+        this.articleSave({
+          markdown: this.draft.markdown,
+          render: this.draft.render
+        }).finally(() => {
+          clearTimeout(this.timer.content)
+          this.timer.content = null
+        })
+      }, 1500)
+    },
+    async articleSave(param) {
+      this.saving()
+      const res = await this.axios.post('/article/save', {
+        ...param,
+        key: this.draft.key || null
+      })
+      if (res.data) {
+        this.draft.key = res.data
+      }
+      this.saved()
+    },
+    saving() {
+      if (!this.saveFlag) {
+        this.saveFlag = true
+        this.publishButtonWord = '保存中...'
+      }
+    },
+    saved() {
+      if (this.saveFlag) {
+        this.saveFlag = false
+        this.publishButtonWord = '发布'
+      }
+    },
+    // 内容变化回调函数
     contentChange(markdown, html) {
-      console.log(markdown)
-      console.log(html)
+      this.draft.render = html
+      this.saveContent()
     },
-    imageUpload() {
-      // arg[0]: image_index,
-      // arg[1]: file
+    // 上传图片回调
+    imageUpload(image_index, file) {
+      console.log(image_index)
+      console.log(file)
     },
-    imageRemove() {}
+    // 移除图片回调
+    imageRemove() {},
+    // 发布文章按钮事件
+    publish() {
+      if (!this.draft.title || !this.draft.title.trim()) {
+        this.$message({
+          message: '标题不能为空',
+          type: 'error',
+          center: true
+        })
+      } else if (!this.draft.markdown || !this.draft.markdown.trim()) {
+        this.$message({
+          message: '内容不能为空',
+          type: 'error',
+          center: true
+        })
+      } else {
+        console.log('published')
+      }
+    }
   }
 }
 </script>

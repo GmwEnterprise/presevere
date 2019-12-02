@@ -1,7 +1,7 @@
 package cn.gmwenterprise.presevere.service;
 
 import cn.gmwenterprise.presevere.domain.SysUser;
-import cn.gmwenterprise.presevere.dto.DtoSign;
+import cn.gmwenterprise.presevere.dto.SignDto;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
 import cn.gmwenterprise.presevere.vo.UsernameValidationResult;
 
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface LoginService {
 
-    LoginSuccess register(HttpServletRequest request, DtoSign body);
+    LoginSuccess register(HttpServletRequest request, SignDto body);
 
-    LoginSuccess login(DtoSign body, HttpServletRequest request);
+    LoginSuccess login(SignDto body, HttpServletRequest request);
 
     /**
      * 根据给定的username创建一个独一无二的盐值

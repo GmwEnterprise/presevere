@@ -1,7 +1,7 @@
 package cn.gmwenterprise.presevere.controller;
 
-import cn.gmwenterprise.presevere.common.Auth;
-import cn.gmwenterprise.presevere.config.security.AuthRequire;
+import cn.gmwenterprise.presevere.common.Permission;
+import cn.gmwenterprise.presevere.config.security.RuquirePermissions;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ public class TestController {
     private static final Logger log = LoggerFactory.getLogger(TestController.class);
 
     @GetMapping("/hello")
-    @AuthRequire(Auth.USER)
+    @RuquirePermissions(Permission.USER)
     public AjaxResult helloWorld() {
         return AjaxResult.ok("Hello world !");
     }

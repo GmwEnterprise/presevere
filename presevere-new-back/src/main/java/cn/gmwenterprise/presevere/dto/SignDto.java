@@ -1,6 +1,6 @@
 package cn.gmwenterprise.presevere.dto;
 
-public class DtoSign {
+public class SignDto {
     private String loginName;
     private String password;
     private Boolean keepLogin;

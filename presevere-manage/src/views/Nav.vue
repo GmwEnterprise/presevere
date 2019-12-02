@@ -15,7 +15,7 @@
     <el-submenu index="article">
       <template slot="title">文章管理</template>
       <el-menu-item :index="index.publishedArticles">已发布文章</el-menu-item>
-      <el-menu-item :index="index.draftArticles">编辑中文章(草稿)</el-menu-item>
+      <el-menu-item :index="index.draftArticles">我的草稿</el-menu-item>
       <el-menu-item :index="index.writeArticle">写文章</el-menu-item>
     </el-submenu>
   </el-menu>

@@ -42,41 +42,6 @@
                enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="article_metadata"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="article_body"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="sys_user"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="sys_role"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="sys_permission"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="sys_user_role"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="sys_role_permission"
-               schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
-               enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
 
     </context>
 </generatorConfiguration>

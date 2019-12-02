@@ -1,14 +1,12 @@
 package cn.gmwenterprise.presevere.service.impl;
 
 import cn.gmwenterprise.presevere.common.BusinessException;
-import cn.gmwenterprise.presevere.common.Constants;
 import cn.gmwenterprise.presevere.common.Role;
 import cn.gmwenterprise.presevere.common.TokenHelper;
-import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.config.security.TokenPayload;
 import cn.gmwenterprise.presevere.dao.SysUserMapper;
 import cn.gmwenterprise.presevere.domain.SysUser;
-import cn.gmwenterprise.presevere.dto.DtoSign;
+import cn.gmwenterprise.presevere.dto.SignDto;
 import cn.gmwenterprise.presevere.service.LoginService;
 import cn.gmwenterprise.presevere.service.RoleService;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
@@ -35,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public LoginSuccess register(HttpServletRequest request, DtoSign body) {
+    public LoginSuccess register(HttpServletRequest request, SignDto body) {
         // 插入新用户
         SysUser user = randomSalt(body.getLoginName());
         // 获取密码
@@ -57,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public LoginSuccess login(DtoSign body, HttpServletRequest request) {
+    public LoginSuccess login(SignDto body, HttpServletRequest request) {
         String username = body.getLoginName();
         String password = body.getPassword();
 

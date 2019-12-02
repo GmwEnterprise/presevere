@@ -9,11 +9,7 @@
   padding: 0.5rem;
 }
 
-.write-wrapper>input:focus {
-  outline: none;
-}
-
-.write-wrapper>input {
+#title {
   border: 0;
   border-bottom: 1px solid;
   font-size: 2rem;
@@ -22,4 +18,37 @@
   width: 100%;
   text-align: center;
   font-weight: 600;
+}
+
+#title:focus {
+  outline: none;
+}
+
+#introduction {
+  border: 0;
+  font-size: 1rem;
+  line-height: 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+}
+
+#introduction:focus {
+  outline: none;
+}
+
+.empty-bar {
+  height: 3rem;
+  width: 100%;
+}
+
+div#publish {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
 }
