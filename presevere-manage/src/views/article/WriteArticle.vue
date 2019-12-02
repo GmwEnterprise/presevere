@@ -1,5 +1,5 @@
 <template>
-  <div class="article-area">
+  <div>
     <div class="write-wrapper">
       <input id="title" type="text" v-model="draft.title" placeholder="输入标题" @input="saveTitle" />
     </div>

@@ -131,8 +131,8 @@ public class SecurityInterceptor implements HandlerInterceptor {
     private String[] getPermissions(Object handler) {
         if (handler instanceof HandlerMethod) {
             Method targetMethod = ((HandlerMethod) handler).getMethod();
-            if (targetMethod.isAnnotationPresent(RuquirePermissions.class)) {
-                String[] value = targetMethod.getAnnotation(RuquirePermissions.class).value();
+            if (targetMethod.isAnnotationPresent(RequirePermissions.class)) {
+                String[] value = targetMethod.getAnnotation(RequirePermissions.class).value();
                 return value.length > 0 ? value : null;
             }
         }

@@ -6,13 +6,16 @@ import cn.gmwenterprise.presevere.domain.ArticleDraft;
 import cn.gmwenterprise.presevere.domain.ArticleDraftWithBLOBs;
 import cn.gmwenterprise.presevere.domain.SysUser;
 import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
+import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
+import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -43,6 +46,11 @@ public class ArticleServiceImpl implements ArticleService {
             articleDraftMapper.updateByUrlNumberSelectiveWithBLOBs(articleDraft);
             return null;
         }
+    }
+
+    @Override
+    public List<ArticleDraftMetaData> search(ArticleSearchDto condition) {
+        return articleDraftMapper.selectByCondition(condition);
     }
 
     private String generateURLNumber(Integer userId) {

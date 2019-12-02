@@ -1,3 +1,3 @@
-.current-place{font-size:.9rem;line-height:1.6rem;text-align: right;}
+.current-place{font-size:.9rem;line-height:1.6rem;text-align: right;padding:1rem 0.5rem;}
 .current-place>span{font-style:italic}
-.body{padding-left:1.3rem;padding-right:1.3rem}
+.body{padding-left:1.3rem;padding-right:1.3rem;width:100%;max-width:60rem;height:auto;margin:0 auto;}
