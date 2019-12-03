@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import tokenService from '@/services/token.service.js'
 export default {
   data() {
     return {
@@ -53,7 +54,7 @@ export default {
       })
     },
     logout() {
-      localStorage.removeItem('token')
+      tokenService.removeToken()
       this.$router.push({
         path: '/login'
       })

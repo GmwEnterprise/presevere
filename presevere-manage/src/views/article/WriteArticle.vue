@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 export default {
@@ -102,6 +103,18 @@ export default {
   },
   components: {
     mavonEditor
+  },
+  mounted() {
+    const draftId = this.$route.params.draftId
+    if (draftId) {
+      this.axios.get(`/article/draft/${draftId}`).then(res => {
+        this.draft.key = res.data.urlNumber
+        this.draft.title = res.data.title
+        this.draft.introduction = res.data.introduction
+        this.draft.tags = res.data.tags ? res.data.tags.split(',') : []
+        this.draft.markdown = res.data.content ? res.data.content : ''
+      })
+    }
   },
   methods: {
     saveTitle() {
@@ -194,7 +207,16 @@ export default {
           center: true
         })
       } else {
+        // 发布
         console.log('published')
+        this.axios
+          .post(
+            '/article/publish',
+            qs.stringify({
+              key: this.draft.key
+            })
+          )
+          .then(() => {})
       }
     }
   }

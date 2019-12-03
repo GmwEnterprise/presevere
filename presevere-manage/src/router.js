@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from './store'
 import _ from 'lodash'
+import tokenService from '@/services/token.service.js'
 
 Vue.use(Router)
 
@@ -48,7 +49,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.loginRequired && !localStorage.getItem('token')) {
+  if (to.meta.loginRequired && !tokenService.exists()) {
     next({
       path: '/login',
       query: {
@@ -65,7 +66,12 @@ router.beforeEach((to, from, next) => {
 const originalPush = router.push
 
 Router.prototype.push = function (location) {
-  originalPush.call(this, location).catch(err => err)
+  originalPush.call(this, location).catch(err => {
+    if (!err.name === 'NavigationDuplicated') {
+      console.log('路由错误抛出')
+      return Promise.reject(err)
+    }
+  })
 }
 
 export default router

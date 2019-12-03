@@ -1,8 +1,14 @@
 package cn.gmwenterprise.presevere.dto;
 
 public class ArticleSearchDto {
+    // 分页参数, 用于分页插件
     private Integer startPage;
     private Integer countByPage;
+
+    // 当前用户主键, 用于查询
+    private Integer currentUserId;
+
+    // 查询条件
     private Boolean self;
     private String title;
     private String writerName;
@@ -45,5 +51,13 @@ public class ArticleSearchDto {
 
     public void setWriterName(String writerName) {
         this.writerName = writerName;
+    }
+
+    public Integer getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public void setCurrentUserId(Integer currentUserId) {
+        this.currentUserId = currentUserId;
     }
 }

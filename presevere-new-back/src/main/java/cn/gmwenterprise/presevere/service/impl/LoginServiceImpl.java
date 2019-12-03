@@ -81,7 +81,7 @@ public class LoginServiceImpl implements LoginService {
             LocalDateTime.now(), request.getRemoteHost(),
             userId, TokenPayload.Platform.BROWSER, !keepLogin
         );
-        return new LoginSuccess(TokenHelper.generateToken(payload));
+        return new LoginSuccess(TokenHelper.generateToken(payload), userId);
     }
 
     @Override

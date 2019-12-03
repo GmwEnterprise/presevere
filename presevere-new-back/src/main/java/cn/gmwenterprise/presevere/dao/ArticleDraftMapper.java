@@ -2,6 +2,10 @@ package cn.gmwenterprise.presevere.dao;
 
 import cn.gmwenterprise.presevere.domain.ArticleDraft;
 import cn.gmwenterprise.presevere.domain.ArticleDraftWithBLOBs;
+import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
+import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
+
+import java.util.List;
 
 public interface ArticleDraftMapper {
     /**
@@ -61,4 +65,6 @@ public interface ArticleDraftMapper {
     int updateByPrimaryKey(ArticleDraft record);
 
     int updateByUrlNumberSelectiveWithBLOBs(ArticleDraftWithBLOBs articleDraft);
+
+    List<ArticleDraftMetaData> selectByCondition(ArticleSearchDto condition);
 }

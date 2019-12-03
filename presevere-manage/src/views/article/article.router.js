@@ -8,6 +8,14 @@ export default [
     },
     component: () => import('@/views/article/WriteArticle.vue')
   }, {
+    path: 'article/write/:draftId',
+    name: 'WriteArticleWithDraftId',
+    meta: {
+      title: '写文章',
+      loginRequired: true
+    },
+    component: () => import('@/views/article/WriteArticle.vue')
+  }, {
     path: 'article/drafts',
     name: 'ArticleDrafts',
     meta: {

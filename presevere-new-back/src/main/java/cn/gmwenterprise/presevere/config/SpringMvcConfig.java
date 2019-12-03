@@ -35,7 +35,9 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 跨域配置
-        registry.addMapping("/**");
+        registry
+            .addMapping("/**")
+            .allowedMethods("POST", "GET", "DELETE", "PUT", "PATCH");
     }
 
     @Override

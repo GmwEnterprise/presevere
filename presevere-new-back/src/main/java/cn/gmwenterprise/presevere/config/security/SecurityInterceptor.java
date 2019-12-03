@@ -66,6 +66,7 @@ public class SecurityInterceptor implements HandlerInterceptor {
                             Authorization authorization = new Authorization();
                             authorization.setToken(token);
                             authorization.setTokenPayload(payload);
+                            authorization.setPermissions(permissionList);
                             AuthorizationHolder.set(authorization);
                             return true;
                         } else {

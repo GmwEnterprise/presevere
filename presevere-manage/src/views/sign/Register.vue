@@ -30,6 +30,7 @@
 <script>
 import { validateCode, validatePsdReg1 } from '@/utils/validator.util.js'
 import { symmetricEncryptionEncode } from '@/utils/security.util.js'
+import tokenService from '@/services/token.service.js'
 export default {
   name: 'Register',
   data() {
@@ -99,7 +100,7 @@ export default {
           keepLogin: this.loginForm.keep
         })
         // 保存登录凭据
-        localStorage.setItem('token', result.data.token)
+        tokenService.setToken(result.data.token, result.data.userId)
         // 注册成功后跳转并提示信息
         this.$message({
           message: '注册成功',
@@ -119,7 +120,7 @@ export default {
     }
   },
   mounted() {
-    localStorage.removeItem('token')
+    tokenService.removeToken()
     if (this.$route.query.redirectUrl) {
       this.redirectUrl = this.$route.query.redirectUrl
     }

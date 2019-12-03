@@ -6,6 +6,8 @@ import axios from 'axios'
 import router from '../router.js'
 import { Notification, Message } from 'element-ui'
 
+import tokenService from '@/services/token.service.js'
+
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || ''
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
@@ -25,7 +27,7 @@ _axios.interceptors.request.use(
     if (!config.url.includes('http')) {
       config.url = 'http://127.0.0.1:4399' + config.url
     }
-    const token = localStorage.getItem('token')
+    const token = tokenService.getToken()
     if (token) {
       config.headers.Authorization = token
     }
@@ -108,7 +110,7 @@ _axios.interceptors.response.use(
           requestList.push(async function () {
             try {
               const result = await _axios.post(`/sign/refreshToken/${userId}`)
-              localStorage.setItem('token', result.data)
+              tokenService.setToken(result.data)
               const r = await _axios(response.config)
               resolve(r)
             } catch (err) {
@@ -122,6 +124,7 @@ _axios.interceptors.response.use(
   },
   function (error) {
     console.log('Ajax系统错误')
+    console.log(arguments)
     Notification.error({
       title: '系统错误',
       message: `${error || 'No message available'}`
