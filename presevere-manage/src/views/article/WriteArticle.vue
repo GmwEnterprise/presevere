@@ -17,7 +17,7 @@
         id="tagString"
         ref="tagStringInputRef"
         type="text"
-        v-model="draft.tagString"
+        v-model="tagString"
         :placeholder="tagPlaceholder"
         @input="detectTagValue"
         @keypress="addTag"
@@ -82,12 +82,12 @@ export default {
       tagPlaceholder: '添加标签，回车确认',
       tagBtnTitle: '点击删除',
       duplicateId: null,
+      tagString: '',
       draft: {
         key: null, // 唯一键
         title: '', // 标题
         introduction: '', // 介绍
         tags: [], // 标签
-        tagString: '',
         markdown: '', // markdown内容
         render: '' // 渲染后的html
       },
@@ -139,6 +139,13 @@ export default {
       }
     }
   },
+  watch: {
+    tagString(newVal, oldVal) {
+      if (newVal.indexOf(',') >= 0) {
+        this.tagString = oldVal
+      }
+    }
+  },
   components: {
     mavonEditor
   },
@@ -165,7 +172,7 @@ export default {
   },
   methods: {
     detectTagValue() {
-      const index = this.draft.tags.indexOf(this.draft.tagString)
+      const index = this.draft.tags.indexOf(this.tagString)
       if (index >= 0) {
         // tag重复
         this.allowDeleteTag = false
@@ -201,9 +208,9 @@ export default {
     },
     addTag(e) {
       if (e.keyCode === 13 && this.allowAddTag) {
-        this.draft.tags.push(this.draft.tagString)
+        this.draft.tags.push(this.tagString)
         this.saveTags()
-        this.draft.tagString = ''
+        this.tagString = ''
         if (this.draft.tags.length >= 5) {
           // 最大长度为5
           this.tagIsFull = true
