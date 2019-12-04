@@ -60,6 +60,9 @@ export default {
       })
     },
     publishedArticles() {
+      this.$router.push({
+        path: '/home/article/published'
+      })
     },
     draftArticles() {
       this.$router.push({

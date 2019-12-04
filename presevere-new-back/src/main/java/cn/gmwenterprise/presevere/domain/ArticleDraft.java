@@ -323,6 +323,8 @@ public class ArticleDraft {
     public void setTagsList(List<String> tags) {
         if (tags != null && tags.size() > 0) {
             setTags(String.join(",", tags));
+        } else {
+            setTags("");
         }
     }
 }
