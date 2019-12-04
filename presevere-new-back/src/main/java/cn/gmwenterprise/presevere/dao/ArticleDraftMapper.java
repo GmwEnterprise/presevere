@@ -66,5 +66,7 @@ public interface ArticleDraftMapper {
 
     int updateByUrlNumberSelectiveWithBLOBs(ArticleDraftWithBLOBs articleDraft);
 
-    List<ArticleDraftMetaData> selectByCondition(ArticleSearchDto condition);
+    List<ArticleDraftMetaData> selectBySearchCondition(ArticleSearchDto condition);
+
+    ArticleDraftWithBLOBs selectByUrlNumber(Long urlNumber);
 }

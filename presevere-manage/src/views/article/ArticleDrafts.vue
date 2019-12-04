@@ -87,7 +87,7 @@ export default {
         .then(res => {
           const page = res.data
           if (more) {
-            this.articleDrafts.push(...page.list) 
+            this.articleDrafts.push(...page.list)
           } else {
             this.articleDrafts = page.list
           }
@@ -131,16 +131,19 @@ export default {
             spinner: 'el-icon-loading',
             background: 'rgba(0, 0, 0, 0.7)'
           })
-          this.axios.delete(`/article/draft/${draftId}`).then(() => {
-            // this.articleDrafts.splice(index, 1) // 排序后会误删
-            this.articleDrafts = this.articleDrafts.filter(
-              item => item.id !== draftId
-            )
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
+          this.axios
+            .delete(`/article/draft/${draftId}`)
+            .then(() => {
+              // this.articleDrafts.splice(index, 1) // 排序后会误删
+              this.articleDrafts = this.articleDrafts.filter(
+                item => item.id !== draftId
+              )
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
             })
-          }).finally(() => loading.close())
+            .finally(() => loading.close())
         })
         .catch(() => {
           this.$message({

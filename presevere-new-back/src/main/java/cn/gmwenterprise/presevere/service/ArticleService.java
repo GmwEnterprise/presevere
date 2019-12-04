@@ -17,5 +17,5 @@ public interface ArticleService {
 
     void deleteDraft(Integer draftId);
 
-    void publish(String urlNumber);
+    void publish(Long urlNumber);
 }

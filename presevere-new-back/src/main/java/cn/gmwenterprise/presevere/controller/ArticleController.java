@@ -1,7 +1,6 @@
 package cn.gmwenterprise.presevere.controller;
 
 import cn.gmwenterprise.presevere.common.Permission;
-import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.config.security.AuthorizationHolder;
 import cn.gmwenterprise.presevere.config.security.RequirePermissions;
 import cn.gmwenterprise.presevere.domain.ArticleDraftWithBLOBs;
@@ -16,7 +15,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +61,7 @@ public class ArticleController {
 
     @RequirePermissions(Permission.USER)
     @PostMapping("/publish")
-    public AjaxResult publish(String key) {
+    public AjaxResult publish(Long key) {
         articleService.publish(key);
         return AjaxResult.ok(null);
     }

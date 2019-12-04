@@ -13,6 +13,8 @@ public class ArticleSearchDto {
     private String title;
     private String writerName;
 
+    private Byte published;
+
     public Integer getStartPage() {
         return startPage;
     }
@@ -59,5 +61,13 @@ public class ArticleSearchDto {
 
     public void setCurrentUserId(Integer currentUserId) {
         this.currentUserId = currentUserId;
+    }
+
+    public Byte getPublished() {
+        return published;
+    }
+
+    public void setPublished(Byte published) {
+        this.published = published;
     }
 }

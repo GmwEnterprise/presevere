@@ -58,4 +58,6 @@ public interface ArticleBodyMapper {
      * @mbg.generated Mon Nov 18 11:38:29 CST 2019
      */
     int updateByPrimaryKey(ArticleBody record);
+
+    int updateByUrlNumberWithBLOBs(ArticleBody body);
 }

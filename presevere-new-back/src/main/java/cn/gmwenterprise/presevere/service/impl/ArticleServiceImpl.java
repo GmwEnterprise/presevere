@@ -2,12 +2,10 @@ package cn.gmwenterprise.presevere.service.impl;
 
 import cn.gmwenterprise.presevere.common.Permission;
 import cn.gmwenterprise.presevere.config.security.Authorization;
-import cn.gmwenterprise.presevere.config.security.AuthorizationHolder;
+import cn.gmwenterprise.presevere.dao.ArticleBodyMapper;
 import cn.gmwenterprise.presevere.dao.ArticleDraftMapper;
-import cn.gmwenterprise.presevere.domain.ArticleDraft;
-import cn.gmwenterprise.presevere.domain.ArticleDraftWithBLOBs;
-import cn.gmwenterprise.presevere.domain.SysPermission;
-import cn.gmwenterprise.presevere.domain.SysUser;
+import cn.gmwenterprise.presevere.dao.ArticleMetadataMapper;
+import cn.gmwenterprise.presevere.domain.*;
 import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
@@ -24,6 +22,10 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
     @Resource
     ArticleDraftMapper articleDraftMapper;
+    @Resource
+    ArticleMetadataMapper articleMetadataMapper;
+    @Resource
+    ArticleBodyMapper articleBodyMapper;
 
     private DecimalFormat decimalFormat = new DecimalFormat("00");
 
@@ -34,6 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleDraft.setIntroductionIfNotNull(draft.getIntroduction());
         articleDraft.setContentIfNotNull(draft.getMarkdown());
         articleDraft.setRenderHtmlIfNotNull(draft.getRender());
+        articleDraft.setTagsList(draft.getTags());
         if (StringUtils.isEmpty(draft.getKey())) {
             // 新建
             SysUser currentUser = authorization.currentUser();
@@ -66,7 +69,8 @@ public class ArticleServiceImpl implements ArticleService {
                 condition.setCurrentUserId(authorization.getTokenPayload().getUserId());
             }
         }
-        return articleDraftMapper.selectByCondition(condition);
+        condition.setPublished(ArticleDraft.UNPUBLISHED);
+        return articleDraftMapper.selectBySearchCondition(condition);
     }
 
     @Override
@@ -77,6 +81,40 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteDraft(Integer draftId) {
         articleDraftMapper.deleteByPrimaryKey(draftId);
+    }
+
+    @Override
+    public void publish(Long urlNumber) {
+        ArticleDraftWithBLOBs draft = articleDraftMapper.selectByUrlNumber(urlNumber);
+        ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(urlNumber);
+        ArticleBody body = new ArticleBody() {{
+            setUrlNumber(draft.getUrlNumber());
+            setContent(draft.getRenderHtml());
+        }};
+        if (metadata == null) {
+            // 发布文章
+            metadata = new ArticleMetadata() {{
+                setWriter(draft.getWriter());
+                setTitle(draft.getTitle());
+                setIntroduction(draft.getIntroduction());
+                setTags(draft.getTags());
+                setUrlNumber(draft.getUrlNumber());
+            }};
+            articleMetadataMapper.insertSelective(metadata);
+            articleBodyMapper.insertSelective(body);
+        } else {
+            // 修改更新文章
+            metadata.setTitle(draft.getTitle());
+            metadata.setIntroduction(draft.getIntroduction());
+            metadata.setTags(draft.getTags());
+            articleMetadataMapper.updateByUrlNumber(metadata);
+            articleBodyMapper.updateByUrlNumberWithBLOBs(body);
+        }
+        // 更新当前草稿状态为已发布
+        articleDraftMapper.updateByPrimaryKeySelective(new ArticleDraftWithBLOBs() {{
+            setId(draft.getId());
+            setPublished(ArticleDraft.PUBLISHED);
+        }});
     }
 
     private String generateURLNumber(Integer userId) {

@@ -133,4 +133,13 @@
     set url_number = #{urlNumber,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByUrlNumberWithBLOBs" parameterType="cn.gmwenterprise.presevere.domain.ArticleBody">
+    update article_body
+    <set>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where url_number = #{urlNumber,jdbcType=BIGINT}
+  </update>
 </mapper>

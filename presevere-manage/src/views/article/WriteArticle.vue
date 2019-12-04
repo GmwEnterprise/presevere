@@ -12,11 +12,40 @@
         @input="saveIntroduction"
       />
     </div>
+    <div class="write-wrapper" style="display:flex">
+      <input
+        id="tagString"
+        ref="tagStringInputRef"
+        type="text"
+        v-model="draft.tagString"
+        :placeholder="tagPlaceholder"
+        @input="detectTagValue"
+        @keypress="addTag"
+        @change="outputChange"
+        maxlength="20"
+        :disabled="tagIsFull"
+      />
+    </div>
+    <div class="write-wrapper" style="display:flex;justify-content:center">
+      <!-- <span class="tag" v-for="(tag, i) of draft.tags" :key="i">{{ tag }}</span> -->
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item v-for="(tag, i) of draft.tags" :key="i">
+          <el-button
+            class="customize-btn-style"
+            type="text"
+            size="small"
+            :title="tagBtnTitle"
+            @click="deleteTag(i)"
+            :id="`tag-btn-${i}`"
+          >{{ tag }}</el-button>
+        </el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <div class="write-wrapper">
       <!-- box-shadow:none !important; -->
       <mavon-editor
         ref="mavon"
-        style="border:none;height:calc(100vh - 20rem);"
+        style="border:none"
         v-model="draft.markdown"
         :toolbars="toolbars"
         @change="contentChange"
@@ -30,7 +59,7 @@
     </div>
     <div class="empty-bar"></div>
     <div id="publish">
-      <el-button type="text" :round="true" size="medium" @click="publish">
+      <el-button type="text" :round="true" size="medium" @click="publish" :disabled="saveFlag">
         <i class="el-icon-upload el-icon--right"></i>
         {{ publishButtonWord }}
       </el-button>
@@ -46,11 +75,19 @@ export default {
   name: 'WriteArticleComponent',
   data() {
     return {
+      contentInit: true,
+      tagIsFull: false, // 标签数量是否已达上限
+      allowAddTag: true, // 是否允许添加标签（用于鉴别重复标签）
+      allowDeleteTag: true, // 是否允许删除标签（重复情况下不允许删除）
+      tagPlaceholder: '添加标签，回车确认',
+      tagBtnTitle: '点击删除',
+      duplicateId: null,
       draft: {
         key: null, // 唯一键
         title: '', // 标题
         introduction: '', // 介绍
         tags: [], // 标签
+        tagString: '',
         markdown: '', // markdown内容
         render: '' // 渲染后的html
       },
@@ -59,7 +96,8 @@ export default {
       timer: {
         title: null,
         introduction: null,
-        content: null
+        content: null,
+        tags: null
       },
       // ==========================
       //       以下是工具栏属性
@@ -107,17 +145,74 @@ export default {
   mounted() {
     const draftId = this.$route.params.draftId
     if (draftId) {
-      this.axios.get(`/article/draft/${draftId}`).then(res => {
-        this.draft.key = res.data.urlNumber
-        this.draft.title = res.data.title
-        this.draft.introduction = res.data.introduction
-        this.draft.tags = res.data.tags ? res.data.tags.split(',') : []
-        this.draft.markdown = res.data.content ? res.data.content : ''
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
       })
+      this.axios
+        .get(`/article/draft/${draftId}`)
+        .then(res => {
+          this.draft.key = res.data.urlNumber
+          this.draft.title = res.data.title
+          this.draft.introduction = res.data.introduction
+          this.draft.tags = res.data.tags ? res.data.tags.split(',') : []
+          this.draft.markdown = res.data.content ? res.data.content : ''
+        })
+        .finally(() => loading.close())
     }
   },
   methods: {
+    detectTagValue() {
+      const index = this.draft.tags.indexOf(this.draft.tagString)
+      if (index >= 0) {
+        // tag重复
+        this.allowDeleteTag = false
+        this.tagBtnTitle = ''
+        if (this.allowAddTag) {
+          this.$refs['tagStringInputRef'].setAttribute('style', 'color:red')
+          const id = `tag-btn-${index}`
+          document.getElementById(id).setAttribute('style', 'color:red')
+          this.duplicateId = id
+        }
+        this.allowAddTag = false
+      } else {
+        this.allowDeleteTag = true
+        this.tagBtnTitle = '点击删除'
+        if (!this.allowAddTag) {
+          this.$refs['tagStringInputRef'].removeAttribute('style')
+          document.getElementById(this.duplicateId).removeAttribute('style')
+        }
+        this.allowAddTag = true
+      }
+    },
+    deleteTag(i) {
+      if (!this.allowDeleteTag) return
+      this.draft.tags.splice(i, 1)
+      this.saveTags()
+      if (this.draft.tags.length < 5) {
+        this.tagIsFull = false
+        this.tagPlaceholder = '添加标签，回车确认'
+      }
+    },
+    outputChange(e) {
+      console.log(e)
+    },
+    addTag(e) {
+      if (e.keyCode === 13 && this.allowAddTag) {
+        this.draft.tags.push(this.draft.tagString)
+        this.saveTags()
+        this.draft.tagString = ''
+        if (this.draft.tags.length >= 5) {
+          // 最大长度为5
+          this.tagIsFull = true
+          this.tagPlaceholder = '最多允许5个标签'
+        }
+      }
+    },
     saveTitle() {
+      this.saving()
       if (this.timer.title) {
         clearTimeout(this.timer.title)
       }
@@ -128,9 +223,10 @@ export default {
           clearTimeout(this.timer.title)
           this.timer.title = null
         })
-      }, 1500)
+      }, 1000)
     },
     saveIntroduction() {
+      this.saving()
       if (this.timer.introduction) {
         clearTimeout(this.timer.introduction)
       }
@@ -141,9 +237,24 @@ export default {
           clearTimeout(this.timer.introduction)
           this.timer.introduction = null
         })
-      }, 1500)
+      }, 1000)
+    },
+    saveTags() {
+      this.saving()
+      if (this.timer.tags) {
+        clearTimeout(this.timer.tags)
+      }
+      this.timer.tags = setTimeout(() => {
+        this.articleSave({
+          tags: this.draft.tags
+        }).finally(() => {
+          clearTimeout(this.timer.tags)
+          this.timer.tags = null
+        })
+      }, 1000)
     },
     saveContent() {
+      this.saving()
       if (this.timer.content) {
         clearTimeout(this.timer.content)
       }
@@ -155,10 +266,9 @@ export default {
           clearTimeout(this.timer.content)
           this.timer.content = null
         })
-      }, 1500)
+      }, 1000)
     },
     async articleSave(param) {
-      this.saving()
       const res = await this.axios.post('/article/save', {
         ...param,
         key: this.draft.key || null
@@ -183,7 +293,11 @@ export default {
     // 内容变化回调函数
     contentChange(markdown, html) {
       this.draft.render = html
-      this.saveContent()
+      if (!this.contentInit) {
+        this.saveContent()
+      } else {
+        this.contentInit = false
+      }
     },
     // 上传图片回调
     imageUpload(image_index, file) {
@@ -208,7 +322,6 @@ export default {
         })
       } else {
         // 发布
-        console.log('published')
         this.axios
           .post(
             '/article/publish',
@@ -216,7 +329,16 @@ export default {
               key: this.draft.key
             })
           )
-          .then(() => {})
+          .then(() => {
+            this.$message({
+              message: '发布成功!',
+              type: 'success',
+              center: true
+            })
+            this.$router.push({
+              path: '/home/article/drafts'
+            })
+          })
       }
     }
   }

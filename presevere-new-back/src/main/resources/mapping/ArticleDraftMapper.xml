@@ -75,7 +75,7 @@
     from article_draft
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByCondition"
+  <select id="selectBySearchCondition"
           parameterType="cn.gmwenterprise.presevere.dto.ArticleSearchDto"
           resultMap="ResultMapWithMetaData">
     select
@@ -97,7 +97,18 @@
       <if test="title != null and title != ''">
         and a.title like concat('%', #{title}, '%')
       </if>
+      <if test="published != null">
+        and a.published = #{published}
+      </if>
     </where>
+  </select>
+  <select id="selectByUrlNumber" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article_draft
+    where url_number = #{urlNumber,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--

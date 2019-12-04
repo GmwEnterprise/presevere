@@ -50,4 +50,8 @@ public interface ArticleMetadataMapper {
      * @mbg.generated Mon Nov 18 11:38:29 CST 2019
      */
     int updateByPrimaryKey(ArticleMetadata record);
+
+    ArticleMetadata selectByUrlNumber(Long urlNumber);
+
+    int updateByUrlNumber(ArticleMetadata metadata);
 }
