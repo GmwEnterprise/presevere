@@ -22,15 +22,18 @@ export default {
     return {
       currentUser: {
         nickname: ''
-      },
-      currentPlace: ''
+      }
+    }
+  },
+  computed: {
+    currentPlace() {
+      return this.$store.state.currentRouteTitle
     }
   },
   mounted() {
     this.axios
       .get('/user/currentUser')
       .then(res => (this.currentUser = res.data))
-    this.currentPlace = this.$route.meta.title
   }
 }
 </script>

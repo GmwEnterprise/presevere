@@ -1,6 +1,7 @@
 package cn.gmwenterprise.presevere.controller;
 
 import cn.gmwenterprise.presevere.common.Permission;
+import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.config.security.AuthorizationHolder;
 import cn.gmwenterprise.presevere.config.security.RequirePermissions;
 import cn.gmwenterprise.presevere.domain.ArticleDraftWithBLOBs;
@@ -9,6 +10,7 @@ import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
+import cn.gmwenterprise.presevere.vo.ArticleVo;
 import cn.gmwenterprise.presevere.vo.Res;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +26,12 @@ public class ArticleController {
     @Resource
     ArticleService articleService;
 
+    @GetMapping("/{url}")
+    public AjaxResult getByUrl(@PathVariable Long url) {
+        ArticleVo article = articleService.getArticleByUrl(url);
+        return AjaxResult.ok(article);
+    }
+
     @RequirePermissions(Permission.USER)
     @PostMapping("/save")
     public AjaxResult save(@RequestBody ArticleDraftDto articleDraft) {
@@ -35,7 +43,6 @@ public class ArticleController {
     public AjaxResult drafts(ArticleSearchDto condition) {
         Integer startPage = Optional.ofNullable(condition.getStartPage()).orElse(1);
         Integer count = Optional.ofNullable(condition.getCountByPage()).orElse(10);
-        System.out.println("startPage = " + startPage + ", count = " + count);
         PageHelper.startPage(startPage, count);
         List<ArticleDraftMetaData> list = articleService.search(condition, AuthorizationHolder.get());
         return AjaxResult.ok(new PageInfo<>(list));
@@ -64,5 +71,15 @@ public class ArticleController {
     public AjaxResult publish(Long key) {
         articleService.publish(key);
         return AjaxResult.ok(null);
+    }
+
+    @RequirePermissions(Permission.USER)
+    @GetMapping("/metadata")
+    public AjaxResult metadataList(ArticleSearchDto search) {
+        Authorization authorization = AuthorizationHolder.get();
+        Integer startPage = Optional.ofNullable(search.getStartPage()).orElse(1);
+        Integer count = Optional.ofNullable(search.getCountByPage()).orElse(10);
+        PageHelper.startPage(startPage, count);
+        return AjaxResult.ok(new PageInfo<>(articleService.getArticleMetaDataList(search, authorization)));
     }
 }

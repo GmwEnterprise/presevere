@@ -1,15 +1,24 @@
 <template>
   <div>
+    <!-- <div class="flag-wrapper">
+      <span style>
+        <i></i>自己的
+      </span>
+      <span style>
+        <i style="background-color:#f5faff"></i>其他人的
+      </span>
+    </div> -->
     <el-table
       :data="articleDrafts"
       style="width:100%"
       @selection-change="handleSelectionChange"
       @row-click="rowClick"
+      :row-class-name="tableRowClassName"
     >
       <el-table-column type="expand" v-slot="props">
         <el-button type="danger" @click="deleteDraft(props)">删除</el-button>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable>
+      <!-- <el-table-column prop="createTime" label="创建时间" sortable>
         <template v-slot:default="scope">
           <i class="el-icon-time"></i>
           <span
@@ -17,21 +26,21 @@
             :title="scope.row.createTime"
           >{{ scope.row.createTime.substring(0,10).replace(/\-/g, '/') }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="lastUpdateTime" label="上次更新时间" sortable v-slot="scope">
+      </el-table-column> -->
+      <el-table-column prop="title" label="标题"></el-table-column>
+      <el-table-column prop="version" label="版本" width="50"></el-table-column>
+      <el-table-column prop="introduction" label="简介"></el-table-column>
+      <el-table-column prop="tags" label="标签"></el-table-column>
+      <el-table-column prop="lastUpdateTime" label="更新时间" sortable v-slot="scope">
         <i class="el-icon-time"></i>
         <span
           style="margin-left: 10px"
           :title="scope.row.lastUpdateTime"
         >{{ scope.row.lastUpdateTime.substring(0,10).replace(/\-/g, '/') }}</span>
       </el-table-column>
-      <el-table-column prop="version" label="版本" width="50"></el-table-column>
-      <el-table-column prop="title" label="标题"></el-table-column>
-      <el-table-column prop="writerObject.nickname" label="作者" width="100"></el-table-column>
-      <el-table-column prop="introduction" label="简介"></el-table-column>
-      <el-table-column prop="tags" label="标签"></el-table-column>
+      <!-- <el-table-column prop="writerObject.nickname" label="作者" width="100"></el-table-column> -->
       <template v-slot:append>
-        <div class="loading-box">
+        <div style="display:flex;justify-content:center;align-items:center">
           <el-button
             type="text"
             @click="loadMore"
@@ -151,15 +160,32 @@ export default {
             message: '已取消删除'
           })
         })
+    },
+    tableRowClassName(param) {
+      if (param.row.writer === this.currentUserId) {
+        return 'self-row'
+      }
+      return 'others-row'
     }
   }
 }
 </script>
 
-<style scoped>
-.loading-box {
-  display: flex;
-  justify-content: center;
+<style>
+tr.el-table__row.others-row {
+  background-color: #f5faff;
+}
+.flag-wrapper > span {
+  font-size: 0.9rem;
+  display: inline-flex;
   align-items: center;
+  margin-right: 1rem;
+}
+.flag-wrapper > span > i {
+  border: 0.5px solid lightgray;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3rem;
+  display: inherit;
 }
 </style>

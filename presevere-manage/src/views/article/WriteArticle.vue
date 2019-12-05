@@ -343,7 +343,7 @@ export default {
               center: true
             })
             this.$router.push({
-              path: '/home/article/drafts'
+              path: '/home/article/published'
             })
           })
       }

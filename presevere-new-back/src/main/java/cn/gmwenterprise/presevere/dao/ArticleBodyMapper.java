@@ -60,4 +60,6 @@ public interface ArticleBodyMapper {
     int updateByPrimaryKey(ArticleBody record);
 
     int updateByUrlNumberWithBLOBs(ArticleBody body);
+
+    ArticleBody selectByUrlNumber(Long url);
 }

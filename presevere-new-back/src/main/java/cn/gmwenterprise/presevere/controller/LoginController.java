@@ -4,6 +4,7 @@ import cn.gmwenterprise.presevere.dto.SignDto;
 import cn.gmwenterprise.presevere.service.LoginService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import cn.gmwenterprise.presevere.vo.LoginSuccess;
+import cn.gmwenterprise.presevere.vo.UsernameValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,8 @@ public class LoginController {
 
     @GetMapping("/verifyUsername/{mode}/{username}")
     public AjaxResult verifyUsername(@PathVariable String username, @PathVariable Integer mode) {
-        return AjaxResult.ok(loginService.verifyUsername(username, mode));
+        UsernameValidationResult result = loginService.verifyUsername(username, mode);
+        return AjaxResult.ok(result);
     }
 
     @PostMapping("/login")

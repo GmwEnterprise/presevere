@@ -31,5 +31,13 @@ export default [
       loginRequired: true
     },
     component: () => import('@/views/article/PublishedList.vue')
+  }, {
+    path: 'article/published/:url',
+    name: 'Article',
+    meta: {
+      title: '文章',
+      loginRequired: true
+    },
+    component: () => import('@/views/article/Article.vue')
   }
 ]

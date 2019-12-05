@@ -1,5 +1,6 @@
 package cn.gmwenterprise.presevere.service.impl;
 
+import cn.gmwenterprise.presevere.common.BusinessException;
 import cn.gmwenterprise.presevere.common.Permission;
 import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.dao.ArticleBodyMapper;
@@ -10,6 +11,8 @@ import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
+import cn.gmwenterprise.presevere.vo.ArticleMetadataVo;
+import cn.gmwenterprise.presevere.vo.ArticleVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -61,7 +64,8 @@ public class ArticleServiceImpl implements ArticleService {
             .anyMatch(Permission.ADMIN::equals);
         if (!isAdmin) {
             // 非管理员只能查看自己的
-            condition.setSelf(false);
+            condition.setSelf(true);
+            condition.setCurrentUserId(authorization.getTokenPayload().getUserId());
         } else {
             // 管理员可以选择
             if (condition.getSelf() != null && condition.getSelf()) {
@@ -89,7 +93,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(urlNumber);
         ArticleBody body = new ArticleBody() {{
             setUrlNumber(draft.getUrlNumber());
-            setContent(draft.getRenderHtml());
+            setContent(draft.getContent());
         }};
         if (metadata == null) {
             // 发布文章
@@ -115,6 +119,37 @@ public class ArticleServiceImpl implements ArticleService {
             setId(draft.getId());
             setPublished(ArticleDraft.PUBLISHED);
         }});
+    }
+
+    @Override
+    public List<ArticleDraftMetaData> getArticleMetaDataList(ArticleSearchDto condition, Authorization authorization) {
+        boolean isAdmin = authorization.getPermissions()
+            .stream().map(SysPermission::getPermission)
+            .anyMatch(Permission.ADMIN::equals);
+        if (!isAdmin) {
+            // 非管理员只能查看自己的
+            condition.setSelf(true);
+            condition.setCurrentUserId(authorization.getTokenPayload().getUserId());
+        } else {
+            // 管理员可以选择
+            if (condition.getSelf() != null && condition.getSelf()) {
+                // 只查询当前用户
+                condition.setCurrentUserId(authorization.getTokenPayload().getUserId());
+            }
+        }
+        condition.setPublished(ArticleDraft.PUBLISHED);
+        return articleDraftMapper.selectBySearchCondition(condition);
+    }
+
+    @Override
+    public ArticleVo getArticleByUrl(Long url) {
+        ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(url);
+        ArticleBody body = articleBodyMapper.selectByUrlNumber(url);
+        try {
+            return new ArticleVo(metadata, body);
+        } catch (NullPointerException e) {
+            throw new BusinessException("未找到相关数据。");
+        }
     }
 
     private String generateURLNumber(Integer userId) {

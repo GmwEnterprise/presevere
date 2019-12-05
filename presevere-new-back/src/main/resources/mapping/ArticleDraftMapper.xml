@@ -85,7 +85,7 @@
     from article_draft a left join sys_user b on a.writer = b.id
     <where>
       <choose>
-        <when test="self != null and self and currentUserId != null">
+        <when test="self != null and self == true and currentUserId != null">
           and a.writer = #{currentUserId}
         </when>
         <otherwise>
