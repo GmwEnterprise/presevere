@@ -157,7 +157,7 @@
       <if test="introduction != null">
         introduction,
       </if>
-      <if test="tags != null">
+      <if test="tags != null and tags != ''">
         tags,
       </if>
       <if test="writer != null">

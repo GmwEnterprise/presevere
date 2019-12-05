@@ -24,7 +24,16 @@ const router = new Router({
         loginRequired: true,
       },
       children: [
-        ...subRoutes
+        ...subRoutes,
+        {
+          path: 'resume',
+          name: 'Resume',
+          meta: {
+            title: '简历',
+            loginRequired: true,
+          },
+          component: () => import('@/views/Resume.vue')
+        }
       ]
     }, {
       path: '/login',

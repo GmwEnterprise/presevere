@@ -67,7 +67,7 @@ export default {
       searchCondition: {
         startPage: 1,
         countByPage: 5,
-        self: true, // 是否只查询自己的草稿
+        self: false, // 是否只查询自己的草稿
         title: '', // 标题查询
         writerName: '' // 作者名查询，与self互斥
       },

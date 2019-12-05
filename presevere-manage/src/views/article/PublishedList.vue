@@ -12,9 +12,19 @@
       :data="articles"
       style="width:100%"
       @selection-change="handleSelectionChange"
-      @row-click="rowClick"
       :row-class-name="tableRowClassName"
     >
+      <el-table-column fixed="left" label="操作" width="100">
+        <template slot-scope="scope">
+          <el-button @click="rowClick(scope.row)" type="text" size="small">查看</el-button>
+          <el-button
+            @click="handleClick(scope.row)"
+            type="text"
+            size="small"
+            :disabled="scope.row.writer !== currentUserId"
+          >修改</el-button>
+        </template>
+      </el-table-column>
       <el-table-column prop="title" label="标题"></el-table-column>
       <!-- <el-table-column prop="writerObject.nickname" label="作者" width="100"></el-table-column> -->
       <el-table-column prop="introduction" label="简介"></el-table-column>
@@ -56,7 +66,7 @@ export default {
       searchCondition: {
         startPage: 1,
         countByPage: 5,
-        self: true, // 是否只查询自己的文章
+        self: false, // 是否只查询自己的文章
         title: '', // 标题查询
         writerName: '' // 作者名查询，与self互斥
       },
@@ -103,11 +113,8 @@ export default {
     loadMore() {
       this.loadArticles(true)
     },
-    handleSelectionChange() {
-      console.log(arguments)
-    },
+    handleSelectionChange() {},
     rowClick(row) {
-      console.log(row)
       this.$router.push({
         path: `/home/article/published/${row.urlNumber}`
       })
@@ -117,6 +124,12 @@ export default {
         return 'self-row'
       }
       return 'others-row'
+    },
+    handleClick(row) {
+      console.log(row)
+      this.$router.push({
+        path: `/home/article/write/${row.id}`
+      })
     }
   }
 }

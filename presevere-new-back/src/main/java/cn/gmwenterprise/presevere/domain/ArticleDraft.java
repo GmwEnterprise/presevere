@@ -324,7 +324,7 @@ public class ArticleDraft {
         if (tags != null && tags.size() > 0) {
             setTags(String.join(",", tags));
         } else {
-            setTags("");
+            setTags(null);
         }
     }
 }

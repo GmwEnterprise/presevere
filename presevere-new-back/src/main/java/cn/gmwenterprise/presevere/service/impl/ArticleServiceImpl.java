@@ -1,6 +1,7 @@
 package cn.gmwenterprise.presevere.service.impl;
 
 import cn.gmwenterprise.presevere.common.BusinessException;
+import cn.gmwenterprise.presevere.common.MarkdownUtils;
 import cn.gmwenterprise.presevere.common.Permission;
 import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.dao.ArticleBodyMapper;
@@ -52,17 +53,26 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             // 更新
             articleDraft.setUrlNumber(draft.getKey());
+            boolean tagsIsNull = articleDraft.getTags() == null;
+            boolean titleIsNull = articleDraft.getTitle() == null;
+            boolean contentIsNull = articleDraft.getContent() == null;
+            if (tagsIsNull && titleIsNull && contentIsNull) {
+                articleDraft.setTags("");
+            }
             articleDraftMapper.updateByUrlNumberSelectiveWithBLOBs(articleDraft);
             return null;
         }
     }
 
-    @Override
-    public List<ArticleDraftMetaData> search(ArticleSearchDto condition, Authorization authorization) {
-        boolean isAdmin = authorization.getPermissions()
+    private Boolean isAdmin(Authorization authorization) {
+        return authorization.getPermissions()
             .stream().map(SysPermission::getPermission)
             .anyMatch(Permission.ADMIN::equals);
-        if (!isAdmin) {
+    }
+
+    @Override
+    public List<ArticleDraftMetaData> search(ArticleSearchDto condition, Authorization authorization) {
+        if (!isAdmin(authorization)) {
             // 非管理员只能查看自己的
             condition.setSelf(true);
             condition.setCurrentUserId(authorization.getTokenPayload().getUserId());
@@ -93,7 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(urlNumber);
         ArticleBody body = new ArticleBody() {{
             setUrlNumber(draft.getUrlNumber());
-            setContent(draft.getContent());
+            setContent(MarkdownUtils.render(draft.getContent()));
         }};
         if (metadata == null) {
             // 发布文章
@@ -106,6 +116,11 @@ public class ArticleServiceImpl implements ArticleService {
             }};
             articleMetadataMapper.insertSelective(metadata);
             articleBodyMapper.insertSelective(body);
+            // 更新当前草稿状态为已发布
+            articleDraftMapper.updateByPrimaryKeySelective(new ArticleDraftWithBLOBs() {{
+                setId(draft.getId());
+                setPublished(ArticleDraft.PUBLISHED);
+            }});
         } else {
             // 修改更新文章
             metadata.setTitle(draft.getTitle());
@@ -113,20 +128,17 @@ public class ArticleServiceImpl implements ArticleService {
             metadata.setTags(draft.getTags());
             articleMetadataMapper.updateByUrlNumber(metadata);
             articleBodyMapper.updateByUrlNumberWithBLOBs(body);
+            // 版本 +1
+            articleDraftMapper.updateByPrimaryKeySelective(new ArticleDraftWithBLOBs() {{
+                setId(draft.getId());
+                setVersion(draft.getVersion() + 1);
+            }});
         }
-        // 更新当前草稿状态为已发布
-        articleDraftMapper.updateByPrimaryKeySelective(new ArticleDraftWithBLOBs() {{
-            setId(draft.getId());
-            setPublished(ArticleDraft.PUBLISHED);
-        }});
     }
 
     @Override
     public List<ArticleDraftMetaData> getArticleMetaDataList(ArticleSearchDto condition, Authorization authorization) {
-        boolean isAdmin = authorization.getPermissions()
-            .stream().map(SysPermission::getPermission)
-            .anyMatch(Permission.ADMIN::equals);
-        if (!isAdmin) {
+        if (!isAdmin(authorization)) {
             // 非管理员只能查看自己的
             condition.setSelf(true);
             condition.setCurrentUserId(authorization.getTokenPayload().getUserId());

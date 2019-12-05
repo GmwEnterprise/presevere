@@ -8,6 +8,7 @@
   >
     <el-submenu index="user">
       <template slot="title">欢迎您，{{ username }}</template>
+      <el-menu-item :index="index.myResume">玮哥的简历</el-menu-item>
       <el-menu-item :index="index.changeUsermsg">修改个人信息</el-menu-item>
       <el-menu-item :index="index.manageUserList">管理已注册用户</el-menu-item>
       <el-menu-item :index="index.logout">注销</el-menu-item>
@@ -27,6 +28,7 @@ export default {
   data() {
     return {
       index: {
+        myResume: 'resume',
         changeUsermsg: '1-1',
         manageUserList: '1-2',
         logout: '1-3',
@@ -74,6 +76,11 @@ export default {
         path: '/home/article/write'
       })
     },
+    configResume() {
+      this.$router.push({
+        path: '/home/resume'
+      })
+    },
     handleSelect(index, indexPath) {
       console.log(index, indexPath)
       switch (index) {
@@ -95,6 +102,10 @@ export default {
         case this.index.writeArticle:
           this.writeArticle()
           break
+        case this.index.myResume:
+          this.configResume()
+          break
+        default:
       }
     }
   }
