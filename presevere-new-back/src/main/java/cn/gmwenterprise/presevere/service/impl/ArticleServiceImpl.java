@@ -12,7 +12,6 @@ import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
-import cn.gmwenterprise.presevere.vo.ArticleMetadataVo;
 import cn.gmwenterprise.presevere.vo.ArticleVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +20,7 @@ import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -162,6 +162,12 @@ public class ArticleServiceImpl implements ArticleService {
         } catch (NullPointerException e) {
             throw new BusinessException("未找到相关数据。");
         }
+    }
+
+    @Override
+    public List<String> getAllTabs() {
+        List<ArticleMetadata> metadataList = articleMetadataMapper.selective(null);
+        return metadataList.stream().map(ArticleMetadata::getTags).collect(Collectors.toList());
     }
 
     private String generateURLNumber(Integer userId) {

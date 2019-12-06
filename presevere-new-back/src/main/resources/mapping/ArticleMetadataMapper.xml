@@ -40,6 +40,28 @@
     from article_metadata
     where url_number = #{urlNumber,jdbcType=BIGINT}
   </select>
+  <select id="selective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from article_metadata
+    <where>
+      <if test="urlNumber != null">
+        and url_number = #{urlNumber}
+      </if>
+      <if test="title != null">
+        and title = #{title}
+      </if>
+      <if test="introduction != null">
+        and introduction = #{introduction}
+      </if>
+      <if test="tags != null">
+        and tags = #{tags}
+      </if>
+      <if test="writer != null">
+        and writer = #{writer}
+      </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

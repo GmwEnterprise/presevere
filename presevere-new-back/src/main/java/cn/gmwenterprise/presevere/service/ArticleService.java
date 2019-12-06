@@ -24,4 +24,6 @@ public interface ArticleService {
     List<ArticleDraftMetaData> getArticleMetaDataList(ArticleSearchDto condition, Authorization authorization);
 
     ArticleVo getArticleByUrl(Long url);
+
+    List<String> getAllTabs();
 }

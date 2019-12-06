@@ -6,30 +6,30 @@
 //#########################################
 
 // 电话号码
-export function validatePhone(rule, value,callback) {
-  const reg =/^[1][3-9][0-9]{9}$/;
-  if(value==''||value==undefined||value==null){
-    callback();
-  }else {
+export function validatePhone(rule, value, callback) {
+  const reg = /^[1][3-9][0-9]{9}$/
+  if (value == '' || value == undefined || value == null) {
+    callback()
+  } else {
     if ((!reg.test(value)) && value != '') {
-      callback(new Error('请输入正确的电话号码'));
+      callback(new Error('请输入正确的电话号码'))
     } else {
-      callback();
+      callback()
     }
   }
 }
 
 // 邮箱
-export function validateEMail(rule, value,callback) {
-  // const reg =/^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/; no-useless-escape
-  const reg =/^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;
-  if(value==''||value==undefined||value==null){
-    callback();
-  }else{
-    if (!reg.test(value)){
-      callback(new Error('请输入正确的邮箱'));
+export function validateEmail(rule, value, callback) {
+  // const reg =/^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/ no-useless-escape
+  const reg = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+\.[a-z]+$/
+  if (value == '' || value == undefined || value == null) {
+    callback()
+  } else {
+    if (!reg.test(value)) {
+      callback(new Error('请输入正确的邮箱'))
     } else {
-      callback();
+      callback()
     }
   }
 }

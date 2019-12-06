@@ -67,6 +67,15 @@
   <select id="countByUserId" resultType="java.lang.Integer">
     select count(*) from sys_user a where a.id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="countByFullNickname" resultType="java.lang.Integer">
+    select count(*) from sys_user a where a.nickname = #{nickname,jdbcType=VARCHAR} and a.id != #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="countByPhone" resultType="java.lang.Integer">
+    select count(*) from sys_user a where a.phone = #{phone,jdbcType=VARCHAR} and a.id != #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="countByEmail" resultType="java.lang.Integer">
+    select count(*) from sys_user a where a.email = #{email,jdbcType=VARCHAR} and a.id != #{userId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

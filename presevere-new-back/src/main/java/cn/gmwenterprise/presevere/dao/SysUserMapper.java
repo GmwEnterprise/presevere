@@ -60,4 +60,10 @@ public interface SysUserMapper {
     List<SysUser> selectByCondition(SysUser condition);
 
     int countByUserId(Integer userId);
+
+    int countByFullNickname(Integer userId, String nickname);
+
+    int countByPhone(Integer userId, String phone);
+
+    int countByEmail(Integer userId, String email);
 }

@@ -12,6 +12,8 @@ public class Authorization {
     private TokenPayload tokenPayload;
     private List<SysPermission> permissions;
 
+    private SysUser currentUser;
+
     public Authorization() {
     }
 
@@ -30,7 +32,10 @@ public class Authorization {
         if (tokenPayload == null || tokenPayload.getUserId() == null) {
             return null;
         }
-        return BeanHelper.getBean(UserService.class).getUserById(tokenPayload.getUserId());
+        if (currentUser == null) {
+            currentUser = BeanHelper.getBean(UserService.class).getUserById(tokenPayload.getUserId());
+        }
+        return currentUser;
     }
 
     public String getToken() {
