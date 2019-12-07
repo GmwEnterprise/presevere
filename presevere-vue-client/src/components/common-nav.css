@@ -1,0 +1,68 @@
+@media screen and (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+}
+.drawer-logo {
+  width: 100%;
+}
+.nav-icon {
+  color:#43c2cb;
+  margin:9.75px;
+}
+.link-hover-style:hover {
+  cursor: pointer;
+}
+.nav-icon::before {
+  font-size: 2rem;
+}
+.flex-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.plain-link {
+  color: #C0C4CC;
+  text-decoration: none;
+}
+.nav-wrapper {
+  border-bottom: 0.5px solid lightgray;
+  height: 50px;
+  width: 100%;
+}
+.nav-height {
+  height: 49.5px;
+}
+.nav-router-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+.nav-router {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .4s color;
+}
+.nav-router:hover {
+  color: #303133;
+}
+.logo-wrapper {
+  padding: 5px;
+}
+.logo-pc {
+  background: url(~@/assets/images/presevere-word.png);
+  background-size: cover;
+  display: block;
+  height: 100%;
+  width: 169.96969696px;
+  margin-left: 1rem;
+}
+.logo-mobile {
+  background: url(~@/assets/images/presevere-word.png);
+  background-size: cover;
+  display: block;
+  height: 100%;
+  width: 169.96969696px;
+}

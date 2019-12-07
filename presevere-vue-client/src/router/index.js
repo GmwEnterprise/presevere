@@ -9,11 +9,16 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
-    }, {
-      path: '/home',
       name: 'Home',
       component: () => import('@/views/Home.vue')
+    }, {
+      path: '/archives',
+      name: 'Archives',
+      component: () => import('@/views/Archives.vue')
+    }, {
+      path: '/catalog',
+      name: 'Catalog',
+      component: () => import('@/views/Catalog.vue')
     }
   ]
 })

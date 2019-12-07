@@ -1,6 +1,6 @@
 import 'normalize.css'
-import './init.js'
-import './init.css'
+import './assets/js/init.js'
+import './assets/css/init.css'
 
 import Vue from 'vue'
 import './plugins/axios'

@@ -16,12 +16,13 @@ let config = {
 }
 
 const _axios = axios.create(config)
+const systemUrl = 'http://127.0.0.1:4399/client'
 
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    if (!config.url.includes('http')) {
-      config.url = 'http://127.0.0.1:4399/client' + config.url
+    if (!config.url.includes(systemUrl)) {
+      config.url = systemUrl + config.url
     }
     return config
   },
