@@ -28,6 +28,7 @@
 
     <!-- mobile drawer -->
     <el-drawer
+      ref="mobileDrawer"
       size="70%"
       direction="ltr"
       :visible.sync="drawerDisplay"
@@ -44,13 +45,13 @@
           <div class="flex-wrapper" style="margin-top:2rem">
             <el-breadcrumb separator="/">
               <el-breadcrumb-item>
-                <span class="link-hover-style ">归档</span>
+                <span class="link-hover-style" @click="routeTo('/archives')">归档</span>
               </el-breadcrumb-item>
               <el-breadcrumb-item>
-                <span class="link-hover-style">目录</span>
+                <span class="link-hover-style" @click="routeTo('/catalog')">目录</span>
               </el-breadcrumb-item>
               <el-breadcrumb-item>
-                <span class="link-hover-style">关于</span>
+                <span class="link-hover-style" @click="routeTo('/about')">关于</span>
               </el-breadcrumb-item>
             </el-breadcrumb>
           </div>
@@ -68,7 +69,14 @@ export default {
       drawerDisplay: false
     }
   },
-  methods: {}
+  methods: {
+    routeTo(path) {
+      this.$refs['mobileDrawer'].closeDrawer()
+      this.$router.push({
+        path
+      })
+    }
+  }
 }
 </script>
 
