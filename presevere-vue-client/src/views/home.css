@@ -1,6 +1,6 @@
 .see-more{display:flex;justify-content:center;align-items:center}
 .item{cursor:pointer;margin-bottom:1.05rem}
-.introduction{font-size:.9rem;line-height:1.4em;max-height:5.6em;overflow:hidden}
+.introduction{font-size:.9rem;line-height:1.4rem;max-height:5.6rem;overflow:hidden}
 .floor{margin-bottom:10px}
 .title{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .title:hover{text-decoration-line:underline}
@@ -12,3 +12,15 @@
 .tags{display:flex;justify-content:flex-start}
 .tag{margin-right:.4em}
 .bar-tags{font-size:0.9em;}
+.el-dropdown-link {
+  cursor: pointer;
+  color: #43c2cb;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+.block-head {
+  line-height: 2rem;
+  font-size: 1rem;
+  padding: .7rem 0;
+}
