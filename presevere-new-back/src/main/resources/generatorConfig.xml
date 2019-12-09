@@ -37,7 +37,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="article_draft"
+        <table tableName="article_tag_store"
                schema="db_presevere_new" enableCountByExample="false" enableUpdateByExample="false"
                enableSelectByExample="false" enableDeleteByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

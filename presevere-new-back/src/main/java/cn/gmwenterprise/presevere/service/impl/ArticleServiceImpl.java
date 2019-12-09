@@ -7,18 +7,22 @@ import cn.gmwenterprise.presevere.config.security.Authorization;
 import cn.gmwenterprise.presevere.dao.ArticleBodyMapper;
 import cn.gmwenterprise.presevere.dao.ArticleDraftMapper;
 import cn.gmwenterprise.presevere.dao.ArticleMetadataMapper;
+import cn.gmwenterprise.presevere.dao.ArticleTagStoreMapper;
 import cn.gmwenterprise.presevere.domain.*;
 import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
 import cn.gmwenterprise.presevere.vo.ArticleVo;
+import cn.gmwenterprise.presevere.vo.TagCountVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +34,8 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleMetadataMapper articleMetadataMapper;
     @Resource
     ArticleBodyMapper articleBodyMapper;
+    @Resource
+    ArticleTagStoreMapper articleTagStoreMapper;
 
     private DecimalFormat decimalFormat = new DecimalFormat("00");
 
@@ -97,20 +103,25 @@ public class ArticleServiceImpl implements ArticleService {
         articleDraftMapper.deleteByPrimaryKey(draftId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void publish(Long urlNumber) {
         ArticleDraftWithBLOBs draft = articleDraftMapper.selectByUrlNumber(urlNumber);
         ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(urlNumber);
-        ArticleBody body = new ArticleBody() {{
+        ArticleBodyWithBLOBs body = new ArticleBodyWithBLOBs() {{
             setUrlNumber(draft.getUrlNumber());
             setContent(MarkdownUtils.render(draft.getContent()));
+            setContentMd(draft.getContent());
+            setContentPlain(MarkdownUtils.plain(draft.getRenderHtml()));
         }};
+        String introduction = StringUtils.isEmpty(draft.getIntroduction()) || draft.getIntroduction().trim().length() == 0 ?
+            body.getContentPlain().substring(0, Math.min(body.getContentPlain().length(), 250)) : draft.getIntroduction();
         if (metadata == null) {
             // 发布文章
             metadata = new ArticleMetadata() {{
                 setWriter(draft.getWriter());
                 setTitle(draft.getTitle());
-                setIntroduction(draft.getIntroduction());
+                setIntroduction(introduction);
                 setTags(draft.getTags());
                 setUrlNumber(draft.getUrlNumber());
             }};
@@ -124,7 +135,7 @@ public class ArticleServiceImpl implements ArticleService {
         } else {
             // 修改更新文章
             metadata.setTitle(draft.getTitle());
-            metadata.setIntroduction(draft.getIntroduction());
+            metadata.setIntroduction(introduction);
             metadata.setTags(draft.getTags());
             articleMetadataMapper.updateByUrlNumber(metadata);
             articleBodyMapper.updateByUrlNumberWithBLOBs(body);
@@ -134,6 +145,22 @@ public class ArticleServiceImpl implements ArticleService {
                 setVersion(draft.getVersion() + 1);
             }});
         }
+        // 插入分类信息
+        List<ArticleTagStore> tagStores = generateTagStoreList(metadata);
+        articleTagStoreMapper.deleteByUrlNumber(metadata.getUrlNumber());
+        articleTagStoreMapper.insertBatch(tagStores);
+    }
+
+    private List<ArticleTagStore> generateTagStoreList(ArticleMetadata metadata) {
+        String tags = metadata.getTags();
+        if (StringUtils.isEmpty(tags) || tags.trim().length() == 0) {
+            return null;
+        }
+        return Arrays.stream(tags.split(","))
+            .map(tag -> new ArticleTagStore() {{
+                setTag(tag);
+                setUrlNumber(metadata.getUrlNumber());
+            }}).collect(Collectors.toList());
     }
 
     @Override
@@ -156,7 +183,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleVo getArticleByUrl(Long url) {
         ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(url);
-        ArticleBody body = articleBodyMapper.selectByUrlNumber(url);
+        ArticleBodyWithBLOBs body = articleBodyMapper.selectByUrlNumber(url);
         try {
             return new ArticleVo(metadata, body);
         } catch (NullPointerException e) {
@@ -165,9 +192,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<String> getAllTabs() {
-        List<ArticleMetadata> metadataList = articleMetadataMapper.selective(null);
-        return metadataList.stream().map(ArticleMetadata::getTags).collect(Collectors.toList());
+    public List<TagCountVo> getAllTabs() {
+        return articleTagStoreMapper.groupByTag();
+    }
+
+    @Override
+    public List<ArticleMetadata> getListOrderBy(String orderBy, boolean desc) {
+        try {
+            return articleMetadataMapper.selectOrderBy(orderBy.replaceAll("[A-Z]", "_$0").toLowerCase(), desc);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException("请求参数错误!");
+        }
     }
 
     private String generateURLNumber(Integer userId) {

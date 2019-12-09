@@ -1,6 +1,7 @@
 <template>
   <div class="nav-wrapper">
     <el-row class="hidden-xs-only">
+      <!-- pc only -->
       <el-col :span="7">
         <div class="logo-wrapper nav-height">
           <router-link class="logo-pc" to="/"></router-link>

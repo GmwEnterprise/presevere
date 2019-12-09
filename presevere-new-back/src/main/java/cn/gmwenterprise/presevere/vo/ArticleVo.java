@@ -1,19 +1,20 @@
 package cn.gmwenterprise.presevere.vo;
 
 import cn.gmwenterprise.presevere.domain.ArticleBody;
+import cn.gmwenterprise.presevere.domain.ArticleBodyWithBLOBs;
 import cn.gmwenterprise.presevere.domain.ArticleMetadata;
 
 public class ArticleVo extends ArticleMetadata {
-    private ArticleBody body;
+    private ArticleBodyWithBLOBs body;
 
     {
-        body = new ArticleBody();
+        body = new ArticleBodyWithBLOBs();
     }
 
     public ArticleVo() {
     }
 
-    public ArticleVo(ArticleMetadata metadata, ArticleBody body) {
+    public ArticleVo(ArticleMetadata metadata, ArticleBodyWithBLOBs body) {
         setTitle(metadata.getTitle());
         setIntroduction(metadata.getIntroduction());
         setTags(metadata.getTags());

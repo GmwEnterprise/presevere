@@ -101,6 +101,7 @@
         and a.published = #{published}
       </if>
     </where>
+    order by a.last_update_time desc
   </select>
   <select id="selectByUrlNumber" resultMap="ResultMapWithBLOBs">
     select

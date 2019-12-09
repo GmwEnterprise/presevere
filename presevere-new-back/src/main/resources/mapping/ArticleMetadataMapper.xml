@@ -62,6 +62,13 @@
       </if>
     </where>
   </select>
+  <select id="selectOrderBy" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from article_metadata
+    order by ${orderBy}
+    <if test="desc">desc</if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

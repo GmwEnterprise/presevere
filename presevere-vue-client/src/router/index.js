@@ -23,6 +23,10 @@ export default new Router({
       path: '/about',
       name: 'About',
       component: () => import('@/views/About.vue')
+    }, {
+      path: '/post/:urlNumber',
+      name: 'Post',
+      component: () => import('@/views/Article.vue')
     }
   ]
 })

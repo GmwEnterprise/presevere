@@ -58,4 +58,6 @@ public interface ArticleMetadataMapper {
     int updateByUrlNumber(ArticleMetadata metadata);
 
     List<ArticleMetadata> selective(ArticleMetadata metadata);
+
+    List<ArticleMetadata> selectOrderBy(String orderBy, boolean desc);
 }

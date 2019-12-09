@@ -10,7 +10,7 @@
 <style scoped>
 .container {
   width: 100%;
-  padding: 15px;
+  padding: 1.2rem;
   margin: 0 auto;
 }
 @media screen and (min-width: 768px) {

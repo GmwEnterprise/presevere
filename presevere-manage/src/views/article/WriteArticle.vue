@@ -218,6 +218,20 @@ export default {
         }
       }
     },
+    saveTags() {
+      this.saving()
+      if (this.timer.tags) {
+        clearTimeout(this.timer.tags)
+      }
+      this.timer.tags = setTimeout(() => {
+        this.articleSave({
+          tags: this.draft.tags
+        }).finally(() => {
+          clearTimeout(this.timer.tags)
+          this.timer.tags = null
+        })
+      }, 1000)
+    },
     saveTitle() {
       this.saving()
       if (this.timer.title) {
@@ -243,20 +257,6 @@ export default {
         }).finally(() => {
           clearTimeout(this.timer.introduction)
           this.timer.introduction = null
-        })
-      }, 1000)
-    },
-    saveTags() {
-      this.saving()
-      if (this.timer.tags) {
-        clearTimeout(this.timer.tags)
-      }
-      this.timer.tags = setTimeout(() => {
-        this.articleSave({
-          tags: this.draft.tags
-        }).finally(() => {
-          clearTimeout(this.timer.tags)
-          this.timer.tags = null
         })
       }, 1000)
     },

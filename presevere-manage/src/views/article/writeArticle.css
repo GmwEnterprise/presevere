@@ -4,7 +4,7 @@
 #introduction{border:0;font-size:1rem;line-height:3rem;box-sizing:border-box;width:100%;text-align:center}
 #introduction:focus{outline:0}
 .empty-bar{height:3rem;width:100%}
-div#publish{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;align-items:center;height:3rem}
+div#publish{background-color:rgba(255,255,255,0.8);z-index:10000;position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;align-items:center;height:3rem}
 input#tagString:focus{outline:0}
 input#tagString{border:none;border-bottom:1px solid #d3d3d3;width:15rem;margin:0 auto;text-align:center;font-size:.9rem;line-height:1.7em}
 .customize-btn-style{line-height:1.3em;padding:0;color:gray}
