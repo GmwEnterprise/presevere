@@ -28,5 +28,5 @@ public interface ArticleService {
 
     List<TagCountVo> getAllTabs();
 
-    List<ArticleMetadata> getListOrderBy(String orderBy, boolean desc);
+    List<ArticleMetadata> getListOrderBy(String orderBy, boolean desc, String tag);
 }

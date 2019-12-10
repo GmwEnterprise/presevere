@@ -1,6 +1,5 @@
 package cn.gmwenterprise.presevere.vo;
 
-import cn.gmwenterprise.presevere.domain.ArticleBody;
 import cn.gmwenterprise.presevere.domain.ArticleBodyWithBLOBs;
 import cn.gmwenterprise.presevere.domain.ArticleMetadata;
 

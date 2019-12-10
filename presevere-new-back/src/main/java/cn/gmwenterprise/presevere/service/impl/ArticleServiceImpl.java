@@ -197,9 +197,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleMetadata> getListOrderBy(String orderBy, boolean desc) {
+    public List<ArticleMetadata> getListOrderBy(String orderBy, boolean desc, String tag) {
         try {
-            return articleMetadataMapper.selectOrderBy(orderBy.replaceAll("[A-Z]", "_$0").toLowerCase(), desc);
+            return articleMetadataMapper.selectOrderBy(orderBy.replaceAll("[A-Z]", "_$0").toLowerCase(), desc, tag);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BusinessException("请求参数错误!");

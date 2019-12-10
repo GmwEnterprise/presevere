@@ -58,6 +58,11 @@
           </div>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col :span="24">
+          <div id="global-catalog-element-mounter-mobile"></div>
+        </el-col>
+      </el-row>
     </el-drawer>
   </div>
 </template>

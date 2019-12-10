@@ -59,5 +59,5 @@ public interface ArticleMetadataMapper {
 
     List<ArticleMetadata> selective(ArticleMetadata metadata);
 
-    List<ArticleMetadata> selectOrderBy(String orderBy, boolean desc);
+    List<ArticleMetadata> selectOrderBy(String orderBy, boolean desc, String tag);
 }

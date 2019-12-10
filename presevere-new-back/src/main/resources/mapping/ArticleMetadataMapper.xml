@@ -66,6 +66,11 @@
     select
     <include refid="Base_Column_List" />
     from article_metadata
+    <where>
+      <if test="tag != null and tag != ''">
+        and tags like concat('%', #{tag}, '%')
+      </if>
+    </where>
     order by ${orderBy}
     <if test="desc">desc</if>
   </select>

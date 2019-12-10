@@ -10,6 +10,8 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "element-ui": "^2.4.5",
+    "github-markdown-css": "^3.0.1",
+    "highlight.js": "^9.16.2",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",

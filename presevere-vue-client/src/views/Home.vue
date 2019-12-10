@@ -14,6 +14,9 @@
             </el-dropdown-menu>
           </el-dropdown>
         </div>
+        <div class="block-head" v-if="currentTag">
+          <span class="tag" @click="resetTag">#{{ currentTag }}</span>
+        </div>
         <div
           v-for="(article, i) of articleList"
           :key="i"
@@ -50,6 +53,9 @@
       </el-col>
       <el-col :sm="8" style="padding-left:1.2rem" class="hidden-xs-only">
         <!-- 边栏 -->
+        <div class="block-head">
+          <span>标签</span>
+        </div>
         <el-card shadow="never" style="border-radius:0" class="bar-item">
           <div class="bar-tags">
             <span
@@ -83,6 +89,9 @@ export default {
       choiceOrderString: '最早',
       currentOrder: DESC,
 
+      // 筛选tag
+      currentTag: '',
+
       // 状态
       statusLoading: false
     }
@@ -103,6 +112,12 @@ export default {
     })
   },
   methods: {
+    resetTag() {
+      this.currentTag = null
+      this.articleList = []
+      this.pageStart = 1
+      this.load()
+    },
     handleCommand(order) {
       if (order === DESC) {
         // 用ASC
@@ -127,7 +142,8 @@ export default {
           params: {
             start: this.pageStart,
             orderBy: this.orderBy,
-            desc: this.currentOrder === DESC
+            desc: this.currentOrder === DESC,
+            tag: this.currentTag
           }
         })
         .then(res => {
@@ -137,10 +153,8 @@ export default {
             item.tagList = item.tags ? item.tags.split(',') : []
           })
           if (this.articleList.length > 0) {
-            console.log('here')
             list.forEach(item => this.articleList.push(item))
           } else {
-            console.log('there')
             this.articleList = list
           }
           this.pageStart = res.data.nextPage
@@ -157,7 +171,10 @@ export default {
       if (e) {
         e.stopPropagation()
       }
-      alert(tag)
+      this.currentTag = tag
+      this.articleList = []
+      this.pageStart = 1
+      this.load()
     }
   }
 }

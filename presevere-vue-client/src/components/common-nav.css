@@ -7,7 +7,7 @@
 .nav-icon::before{font-size:2rem}
 .flex-wrapper{display:flex;justify-content:center;align-items:center}
 .plain-link{color:#c0c4cc;text-decoration:none}
-.nav-wrapper{border-bottom:.5px solid #d3d3d3;height:50px;width:100%}
+.nav-wrapper{background-color:#fff;border-bottom:.5px solid #d3d3d3;height:50px;width:100%}
 .nav-height{height:49.5px}
 .nav-router-wrapper{display:flex;justify-content:flex-end;padding-right:20px}
 .nav-router{width:70px;display:flex;justify-content:center;align-items:center;transition:.4s color}
