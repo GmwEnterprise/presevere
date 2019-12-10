@@ -2,9 +2,9 @@
 .item{cursor:pointer;margin-bottom:1.05rem}
 .introduction{font-size:.9rem;line-height:1.4rem;max-height:5.6rem;overflow:hidden}
 .floor{margin-bottom:10px}
-.title{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.title:hover{text-decoration-line:underline}
-.title>.word{font-weight:600;font-size:1.2em}
+.item-title{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.item-title:hover{text-decoration-line:underline}
+.item-title>.word{font-weight:600;font-size:1.2em}
 .metadata{display:flex;flex-direction:column;font-size:.9em;color:#909399}
 .metadata>.metadata-item{margin-top:5px}
 .tag{display:inline-block;color:#43c2cb;font-weight:700;line-height:1.7;}

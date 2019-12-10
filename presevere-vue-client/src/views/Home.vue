@@ -13,9 +13,12 @@
               <el-dropdown-item :command="currentOrder">{{ choiceOrderString }}</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div>
-        <div class="block-head" v-if="currentTag">
-          <span class="tag" @click="resetTag">#{{ currentTag }}</span>
+          <span
+            class="tag"
+            @click="resetTag"
+            v-if="currentTag"
+            style="float:right"
+          >#{{ currentTag }}</span>
         </div>
         <div
           v-for="(article, i) of articleList"
@@ -24,7 +27,7 @@
           @click="toArticle(article.urlNumber)"
         >
           <el-card shadow="never" style="border-radius:0">
-            <div class="floor title">
+            <div class="floor item-title">
               <span class="word">{{ article.title }}</span>
             </div>
             <div class="floor introduction">
@@ -39,10 +42,6 @@
                   :key="j"
                   @click="chooseTag(tag, $event)"
                 >{{ `#${tag}` }}</span>
-                <!-- 
-                <span class="tag" @click="chooseTag('java', $event)">#java</span>
-                <span class="tag" @click="chooseTag('javascript', $event)">#javascript</span>
-                <span class="tag" @click="chooseTag('前后分离', $event)">#前后分离</span>-->
               </div>
             </div>
           </el-card>

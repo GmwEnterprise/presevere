@@ -60,6 +60,9 @@ export default {
       if (this.visibilityHeight <= 0) {
         this.$emit('click')
       } else {
+        if (!document.documentElement.scrollTop) {
+          alert('该浏览器无法使用此按钮, 请使用Chrome浏览器.')
+        }
         // 设置了可见高度，则click时间由组件本身使用，不向外传递
         const beginTime = Date.now()
         const rAF = window.requestAnimationFrame || (func => setTimeout(func, 16))

@@ -12,10 +12,7 @@
         <div class="markdown-body" id="md-article-wrapper"></div>
       </el-col>
       <el-col :sm="6" style="padding-left:1.2rem;position:relative" class="hidden-xs-only">
-        <div
-          id="global-catalog-element-mounter-pc"
-          :style="`position:absolute;top:${articlePositionTop}px;left:1.2rem;right:1.2rem`"
-        ></div>
+        <div id="global-catalog-element-mounter-pc" :style="computedCatalogPosition"></div>
       </el-col>
     </el-row>
   </div>
@@ -31,10 +28,16 @@ export default {
     return {
       urlNumber: 0,
       articlePositionTop: 0,
+      catalogPosition: 'absolute',
       post: {
         title: '',
         content: ''
       }
+    }
+  },
+  computed: {
+    computedCatalogPosition() {
+      return `position:${this.catalogPosition};top:${this.articlePositionTop}rem`
     }
   },
   watch: {
@@ -60,15 +63,15 @@ export default {
         path: '/'
       })
     }
-    this.onScrollTimer = null
     this.onScroll = event => {
-      if (this.onScrollTimer) {
-        clearTimeout(this.onScrollTimer)
+      const scrollTop = event.target.scrollingElement.scrollTop
+      if (scrollTop > 50) {
+        this.articlePositionTop = 1.2
+        this.catalogPosition = 'fixed'
+      } else {
+        this.articlePositionTop = 0
+        this.catalogPosition = 'absolute'
       }
-      this.onScrollTimer = setTimeout(() => {
-        this.articlePositionTop = event.target.scrollingElement.scrollTop
-        this.onScrollTimer = null
-      }, 20)
     }
     document.addEventListener('scroll', this.onScroll)
   },
@@ -184,6 +187,9 @@ export default {
 .article-title-router {
   color: #444;
   text-decoration: none;
+}
+.article-title-router:hover {
+  text-decoration: underline;
 }
 </style>
 

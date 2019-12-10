@@ -16,7 +16,7 @@ let config = {
 }
 
 const _axios = axios.create(config)
-const systemUrl = 'http://127.0.0.1:4399/client'
+const systemUrl = 'http://localhost:4399/client'
 
 _axios.interceptors.request.use(
   function (config) {
