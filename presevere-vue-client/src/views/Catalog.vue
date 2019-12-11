@@ -1,3 +1,3 @@
 <template>
-  <div>catalog</div>
+  <div>To be finished.</div>
 </template>

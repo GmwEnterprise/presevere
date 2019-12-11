@@ -5,6 +5,7 @@ import cn.gmwenterprise.presevere.domain.ArticleDraftWithBLOBs;
 import cn.gmwenterprise.presevere.domain.ArticleMetadata;
 import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
+import cn.gmwenterprise.presevere.vo.Archive;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
 import cn.gmwenterprise.presevere.vo.ArticleVo;
 import cn.gmwenterprise.presevere.vo.TagCountVo;
@@ -29,4 +30,6 @@ public interface ArticleService {
     List<TagCountVo> getAllTabs();
 
     List<ArticleMetadata> getListOrderBy(String orderBy, boolean desc, String tag);
+
+    Archive getArchiveDataByYear(Integer year);
 }

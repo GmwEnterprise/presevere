@@ -3,6 +3,7 @@ package cn.gmwenterprise.presevere.controller.client;
 import cn.gmwenterprise.presevere.domain.ArticleMetadata;
 import cn.gmwenterprise.presevere.service.ArticleService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
+import cn.gmwenterprise.presevere.vo.Archive;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,11 @@ public class ArticleClientController {
         orderBy = orderBy.trim().length() > 0 ? orderBy : "publishedTime";
         List<ArticleMetadata> metadataList = articleService.getListOrderBy(orderBy, desc, tag);
         return AjaxResult.ok(new PageInfo<>(metadataList));
+    }
+
+    @GetMapping("/archive/{year}")
+    public AjaxResult archive(@PathVariable Integer year) {
+        Archive archive = articleService.getArchiveDataByYear(year);
+        return AjaxResult.ok(archive);
     }
 }

@@ -3,7 +3,7 @@
     <fix-button @click="back()">
       <i class="el-icon-caret-left"></i>
     </fix-button>
-    <fix-button @click="backTop()" :bottom="80" :visibilityHeight="300">
+    <fix-button :bottom="80" :visibilityHeight="300">
       <i class="el-icon-caret-top"></i>
     </fix-button>
     <el-row>
@@ -12,7 +12,10 @@
         <div class="markdown-body" id="md-article-wrapper"></div>
       </el-col>
       <el-col :sm="6" style="padding-left:1.2rem;position:relative" class="hidden-xs-only">
-        <div id="global-catalog-element-mounter-pc" :style="computedCatalogPosition"></div>
+        <div
+          id="global-catalog-element-mounter-pc"
+          :style="pcCatalogWrapperStyle + 'overflow-y:auto;transition:max-height .3s;'"
+        ></div>
       </el-col>
     </el-row>
   </div>
@@ -29,6 +32,7 @@ export default {
       urlNumber: 0,
       articlePositionTop: 0,
       catalogPosition: 'absolute',
+      catalogBottomDistance: 'calc(80vh - 2.4rem)',
       post: {
         title: '',
         content: ''
@@ -36,8 +40,11 @@ export default {
     }
   },
   computed: {
-    computedCatalogPosition() {
-      return `position:${this.catalogPosition};top:${this.articlePositionTop}rem`
+    pcCatalogWrapperStyle() {
+      return `
+        position:${this.catalogPosition};
+        top:${this.articlePositionTop}rem;
+        max-height:${this.catalogBottomDistance};`
     }
   },
   watch: {
@@ -68,9 +75,11 @@ export default {
       if (scrollTop > 50) {
         this.articlePositionTop = 1.2
         this.catalogPosition = 'fixed'
+        this.catalogBottomDistance = 'calc(100vh - 2.4rem)'
       } else {
         this.articlePositionTop = 0
         this.catalogPosition = 'absolute'
+        this.catalogBottomDistance = 'calc(80vh - 2.4rem)'
       }
     }
     document.addEventListener('scroll', this.onScroll)
@@ -178,6 +187,13 @@ export default {
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
+}
+#global-catalog-element-mounter-pc {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+#global-catalog-element-mounter-pc::-webkit-scrollbar {
+  width: 0 !important;
 }
 #global-catalog-element-mounter-pc ul {
   list-style-type: none;

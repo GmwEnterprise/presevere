@@ -74,6 +74,16 @@
     order by ${orderBy}
     <if test="desc">desc</if>
   </select>
+  <select id="selectByYear" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from article_metadata
+    where published_time <![CDATA[>=]]> #{from} and published_time <![CDATA[<=]]> #{to}
+    order by published_time desc
+  </select>
+  <select id="selectAllYears" resultType="java.lang.Integer">
+    select distinct year(a.published_time) from article_metadata a;
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

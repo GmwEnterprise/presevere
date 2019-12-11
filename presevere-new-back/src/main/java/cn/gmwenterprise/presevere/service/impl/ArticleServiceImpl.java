@@ -1,6 +1,7 @@
 package cn.gmwenterprise.presevere.service.impl;
 
 import cn.gmwenterprise.presevere.common.BusinessException;
+import cn.gmwenterprise.presevere.common.LinkedHashMapArrayList;
 import cn.gmwenterprise.presevere.common.MarkdownUtils;
 import cn.gmwenterprise.presevere.common.Permission;
 import cn.gmwenterprise.presevere.config.security.Authorization;
@@ -12,6 +13,7 @@ import cn.gmwenterprise.presevere.domain.*;
 import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
+import cn.gmwenterprise.presevere.vo.Archive;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
 import cn.gmwenterprise.presevere.vo.ArticleVo;
 import cn.gmwenterprise.presevere.vo.TagCountVo;
@@ -204,6 +206,24 @@ public class ArticleServiceImpl implements ArticleService {
             e.printStackTrace();
             throw new BusinessException("请求参数错误!");
         }
+    }
+
+    @Override
+    public Archive getArchiveDataByYear(Integer year) {
+        if (year == null || year < 1000 || year > 9999) {
+            throw new BusinessException("年份格式错误.");
+        }
+        LocalDateTime from = LocalDateTime.of(year, 1, 1, 0, 0, 0);
+        LocalDateTime to = LocalDateTime.of(year, 12, 31, 23, 59, 59);
+        List<ArticleMetadata> resultList = articleMetadataMapper.selectByYear(from, to);
+        List<Integer> years = articleMetadataMapper.selectAllYears();
+        LinkedHashMapArrayList<Integer, ArticleMetadata> byMonth = new LinkedHashMapArrayList<>();
+        resultList.forEach(metadata -> byMonth.set(metadata.getPublishedTime().getMonthValue(), metadata));
+        return new Archive() {{
+            setCurrentYear(year);
+            setByMonth(byMonth);
+            setHistoryYears(years);
+        }};
     }
 
     private String generateURLNumber(Integer userId) {

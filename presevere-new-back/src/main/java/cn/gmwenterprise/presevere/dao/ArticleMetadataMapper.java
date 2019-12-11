@@ -2,6 +2,7 @@ package cn.gmwenterprise.presevere.dao;
 
 import cn.gmwenterprise.presevere.domain.ArticleMetadata;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ArticleMetadataMapper {
@@ -60,4 +61,8 @@ public interface ArticleMetadataMapper {
     List<ArticleMetadata> selective(ArticleMetadata metadata);
 
     List<ArticleMetadata> selectOrderBy(String orderBy, boolean desc, String tag);
+
+    List<ArticleMetadata> selectByYear(LocalDateTime from, LocalDateTime to);
+
+    List<Integer> selectAllYears();
 }
