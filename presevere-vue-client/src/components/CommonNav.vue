@@ -11,7 +11,11 @@
         <router-link to="/archives" class="nav-router nav-height plain-link">归档</router-link>
         <router-link to="/catalog" class="nav-router nav-height plain-link">目录</router-link>
         <router-link to="/about" class="nav-router nav-height plain-link">关于</router-link>
-        <a href="javascript:void(0)" class="nav-router nav-height plain-link">订阅</a>
+        <a
+          href="javascript:void(0)"
+          @click="drawerSubscribe = true"
+          class="nav-router nav-height plain-link"
+        >订阅</a>
       </el-col>
     </el-row>
 
@@ -56,6 +60,9 @@
               </el-breadcrumb-item>
             </el-breadcrumb>
           </div>
+          <div class="flex-wrapper" style="margin-top:2rem">
+            <el-button type="text" @click="mobileSubscribe">订阅本站</el-button>
+          </div>
         </el-col>
       </el-row>
       <el-row>
@@ -64,14 +71,35 @@
         </el-col>
       </el-row>
     </el-drawer>
+    <el-drawer direction="btt" :visible.sync="drawerSubscribe" size="40%" :show-close="false">
+      <template #title>
+        <span style="font-weight:bold;line-height:1.5;font-size:1.5rem;display:block">订阅我的邮件</span>
+      </template>
+      <template #default>
+        <div class="flex-wrapper">
+          <el-input
+            placeholder="输入你的常用邮箱"
+            v-model="subscribeEmail"
+            style="width:80%;max-width:500px"
+          >
+            <template #append>
+              <el-button @click="subscribe">订阅</el-button>
+            </template>
+          </el-input>
+        </div>
+      </template>
+    </el-drawer>
   </div>
 </template>
 
 <script>
+import qs from 'qs'
 export default {
   name: 'CommonNav',
   data() {
     return {
+      subscribeEmail: '',
+      drawerSubscribe: false,
       drawerDisplay: false
     }
   },
@@ -81,6 +109,35 @@ export default {
       this.$router.push({
         path
       })
+    },
+    subscribe() {
+      const reg = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+\.[a-z]+$/
+      if (reg.test(this.subscribeEmail)) {
+        // 通过验证
+        this.axios
+          .post(
+            '/article/subscribe',
+            qs.stringify({
+              email: this.subscribeEmail
+            })
+          )
+          .then(res => {
+            console.log(res)
+            alert('订阅成功!')
+            this.drawerSubscribe = false
+          })
+          .catch(errRes => {
+            console.log(errRes)
+            alert(errRes.data)
+            this.drawerSubscribe = false
+          })
+      } else {
+        alert('请输入正确的邮箱.')
+      }
+    },
+    mobileSubscribe() {
+      this.drawerDisplay = false
+      setTimeout(() => (this.drawerSubscribe = true), 300)
     }
   }
 }

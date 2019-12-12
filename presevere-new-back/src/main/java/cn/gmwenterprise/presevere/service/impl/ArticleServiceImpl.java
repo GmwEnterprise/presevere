@@ -13,6 +13,7 @@ import cn.gmwenterprise.presevere.domain.*;
 import cn.gmwenterprise.presevere.dto.ArticleDraftDto;
 import cn.gmwenterprise.presevere.dto.ArticleSearchDto;
 import cn.gmwenterprise.presevere.service.ArticleService;
+import cn.gmwenterprise.presevere.service.AsyncTaskService;
 import cn.gmwenterprise.presevere.vo.Archive;
 import cn.gmwenterprise.presevere.vo.ArticleDraftMetaData;
 import cn.gmwenterprise.presevere.vo.ArticleVo;
@@ -38,6 +39,8 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleBodyMapper articleBodyMapper;
     @Resource
     ArticleTagStoreMapper articleTagStoreMapper;
+    @Resource
+    AsyncTaskService asyncTaskService;
 
     private DecimalFormat decimalFormat = new DecimalFormat("00");
 
@@ -151,6 +154,9 @@ public class ArticleServiceImpl implements ArticleService {
         List<ArticleTagStore> tagStores = generateTagStoreList(metadata);
         articleTagStoreMapper.deleteByUrlNumber(metadata.getUrlNumber());
         articleTagStoreMapper.insertBatch(tagStores);
+
+        // 发布成功后，调用邮件推送的异步程序
+        asyncTaskService.pushNewPostEmails(draft.getUrlNumber());
     }
 
     private List<ArticleTagStore> generateTagStoreList(ArticleMetadata metadata) {

@@ -2,6 +2,7 @@ package cn.gmwenterprise.presevere.controller.client;
 
 import cn.gmwenterprise.presevere.domain.ArticleMetadata;
 import cn.gmwenterprise.presevere.service.ArticleService;
+import cn.gmwenterprise.presevere.service.MailService;
 import cn.gmwenterprise.presevere.vo.AjaxResult;
 import cn.gmwenterprise.presevere.vo.Archive;
 import com.github.pagehelper.PageHelper;
@@ -16,6 +17,8 @@ import java.util.List;
 public class ArticleClientController {
     @Resource
     ArticleService articleService;
+    @Resource
+    MailService mailService;
 
     @GetMapping("/post/{urlNumber}")
     public AjaxResult post(@PathVariable Long urlNumber) {
@@ -43,5 +46,11 @@ public class ArticleClientController {
     public AjaxResult archive(@PathVariable Integer year) {
         Archive archive = articleService.getArchiveDataByYear(year);
         return AjaxResult.ok(archive);
+    }
+
+    @PostMapping("/subscribe")
+    public AjaxResult subscribe(String email) {
+        mailService.subscribe(email);
+        return AjaxResult.ok(null);
     }
 }

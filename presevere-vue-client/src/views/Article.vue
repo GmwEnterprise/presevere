@@ -10,6 +10,10 @@
       <el-col :sm="18" :xs="24" class="article-block-wrapper">
         <h1 class="title">{{ post.title }}</h1>
         <div class="markdown-body" id="md-article-wrapper"></div>
+        <div class="article-footer">
+          <span>发表于 {{ post.publishedTime }}</span>
+          <span>分类: {{ post.tags }}</span>
+        </div>
       </el-col>
       <el-col :sm="6" style="padding-left:1.2rem;position:relative" class="hidden-xs-only">
         <div
@@ -210,11 +214,16 @@ export default {
 </style>
 
 <style scoped>
-/* .article-wrapper {
-  background-color: #f4f5f5;
-  margin: -1.2rem;
-  padding: 1.2rem;
-} */
+.article-footer {
+  margin-top: 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: darkgray;
+  line-height: 2;
+}
 .title {
   margin: 0.7em auto;
   border-bottom: 0.5px solid gray;

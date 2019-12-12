@@ -10,12 +10,22 @@ spring:
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    suffix: .html
+    prefix: classpath:/templates/
+    check-template-location: on
+    check-template: false
 
 mybatis:
   type-aliases-package: cn.gmwenterprise.presevere.domain
   mapper-locations: classpath:mapping/**
   configuration:
-    cache-enabled: true
+    cache-enabled: on
 
 logging:
   level:
