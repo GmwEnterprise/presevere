@@ -31,7 +31,7 @@ public class MailServiceImpl implements MailService {
     private String from;
 
     public MailServiceImpl(JavaMailSender javaMailSender) {
-        // 构造方法注入javaMailSender，因为再sender的bean create函数中初始化了SystemConfig.params
+        // 构造方法注入javaMailSender，因为sender的bean create函数中初始化了SystemConfig.params
         this.javaMailSender = javaMailSender;
         from = SystemConfig.params.get("username");
         Objects.requireNonNull(from);
@@ -67,13 +67,18 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public boolean sendBatch(String template, Long articleUrl) {
-        String[] toList = articleSubscriberMapper.selectAll(ArticleSubscriber.SUBSCRIBER_ON)
-            .stream().map(ArticleSubscriber::getEmail).toArray(String[]::new);
         ArticleMetadata metadata = articleMetadataMapper.selectByUrlNumber(articleUrl);
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("url", metadata.getUrlNumber());
-        String html = thymeleafTemplateService.render(template, params);
-        return mimeMail(from, "Presevere文章推送 - " + metadata.getTitle(), html, toList);
+        articleSubscriberMapper
+            .selectAll(ArticleSubscriber.SUBSCRIBER_ON)
+            .stream().map(ArticleSubscriber::getEmail)
+            .forEach(email -> {
+                HashMap<String, Object> params = new HashMap<>();
+                params.put("url", metadata.getUrlNumber());
+                params.put("email", metadata.getUrlNumber());
+                String html = thymeleafTemplateService.render(template, params);
+                mimeMail(from, "Presevere文章推送 - " + metadata.getTitle(), html, email);
+            });
+        return true;
     }
 
     @Override

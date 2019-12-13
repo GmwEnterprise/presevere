@@ -53,4 +53,10 @@ public class ArticleClientController {
         mailService.subscribe(email);
         return AjaxResult.ok(null);
     }
+
+    @PostMapping("/unsubscribe")
+    public AjaxResult unsubscribe(String email) {
+        mailService.unsubscribe(email);
+        return AjaxResult.ok(null);
+    }
 }

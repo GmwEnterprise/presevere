@@ -153,7 +153,9 @@ public class ArticleServiceImpl implements ArticleService {
         // 插入分类信息
         List<ArticleTagStore> tagStores = generateTagStoreList(metadata);
         articleTagStoreMapper.deleteByUrlNumber(metadata.getUrlNumber());
-        articleTagStoreMapper.insertBatch(tagStores);
+        if (tagStores != null && tagStores.size() > 0) {
+            articleTagStoreMapper.insertBatch(tagStores);
+        }
 
         // 发布成功后，调用邮件推送的异步程序
         asyncTaskService.pushNewPostEmails(draft.getUrlNumber());
