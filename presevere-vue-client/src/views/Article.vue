@@ -66,7 +66,7 @@ export default {
     this.urlNumber = Number.parseInt(urlNumber)
     if (typeof this.urlNumber === 'number') {
       this.axios.get(`/article/post/${this.urlNumber}`).then(res => {
-        console.log(res)
+        // console.log(res)
         this.post = res.data
       })
     } else {
@@ -97,10 +97,10 @@ export default {
       const pcContainer = document.querySelector(
         '#global-catalog-element-mounter-pc'
       )
-      const mobileContainer = document.querySelector(
-        '#global-catalog-element-mounter-mobile'
-      )
-      console.log(pcContainer, mobileContainer)
+      // const mobileContainer = document.querySelector(
+      //   '#global-catalog-element-mounter-mobile'
+      // )
+      // console.log(pcContainer, mobileContainer)
       // 获取目录元信息
       const metadataList = []
       this.articleContainer
@@ -128,12 +128,12 @@ export default {
         meta.current = index
         meta.parent = rEC(metadataList, index - 1, meta.hIndex)
       })
-      console.log(
-        metadataList.map(item => ({
-          current: item.current,
-          parent: item.parent
-        }))
-      )
+      // console.log(
+      //   metadataList.map(item => ({
+      //     current: item.current,
+      //     parent: item.parent
+      //   }))
+      // )
 
       // 此时树状数组基本结构已构建成功，接下来构建html
       const root = document.createElement('ul')
@@ -176,7 +176,7 @@ export default {
       this.$router.go(-1)
     },
     backTop() {
-      console.log(1)
+      // console.log(1)
     }
   }
 }

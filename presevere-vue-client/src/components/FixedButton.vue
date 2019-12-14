@@ -62,6 +62,7 @@ export default {
       } else {
         if (!document.documentElement.scrollTop) {
           alert('该浏览器无法使用此按钮, 请使用Chrome浏览器.')
+          return
         }
         // 设置了可见高度，则click时间由组件本身使用，不向外传递
         const beginTime = Date.now()

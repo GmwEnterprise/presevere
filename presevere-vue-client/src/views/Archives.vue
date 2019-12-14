@@ -77,8 +77,8 @@ export default {
         this.axios
           .get(`/article/archive/${year ? year : new Date().getFullYear()}`)
           .then(res => (this.archive = res.data))
-          .catch(err => {
-            console.log(err)
+          .catch(() => {
+            // console.log(err)
             alert('网络繁忙，请稍后再试.')
           })
       }

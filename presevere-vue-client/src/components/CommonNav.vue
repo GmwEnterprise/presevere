@@ -121,13 +121,13 @@ export default {
               email: this.subscribeEmail
             })
           )
-          .then(res => {
-            console.log(res)
+          .then(() => {
+            // console.log(res)
             alert('订阅成功!')
             this.drawerSubscribe = false
           })
           .catch(errRes => {
-            console.log(errRes)
+            // console.log(errRes)
             alert(errRes.data)
             this.drawerSubscribe = false
           })
