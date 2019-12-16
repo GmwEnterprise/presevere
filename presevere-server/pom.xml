@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.gmwenterprise</groupId>
-    <artifactId>presevere-new</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>presevere-new</name>
-    <description>Demo project for Spring Boot</description>
+    <artifactId>presevere-server</artifactId>
+    <version>1.0.0</version>
+    <name>presevere-server</name>
+    <description>Gmw's Web project for Spring Boot</description>
 
     <properties>
         <java.version>11</java.version>
