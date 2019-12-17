@@ -9,8 +9,8 @@
 
 // let decoded = CryptoJS.AES.decrypt(encoded, secretKey).toString(CryptoJS.enc.Utf8)
 
-// console.log(encoded)
-// console.log(decoded)
+// // console.log(encoded)
+// // console.log(decoded)
 
 import CryptoJS from 'crypto-js'
 
@@ -22,12 +22,12 @@ export function encode(password, salt) {
 
 export function symmetricEncryptionEncode(origin) {
   // TODO 实现前后端的对称加密
-  console.log('对称加密未实现')
+  // // console.log('对称加密未实现')
   return origin
 }
 
 export function symmetricEncryptionDecode(encoded) {
   // TODO 实现前后端的对称解密
-  console.log('对称解密未实现')
+  // // console.log('对称解密未实现')
   return encoded
 }

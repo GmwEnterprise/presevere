@@ -111,8 +111,8 @@ export default {
           path: this.redirectUrl || '/'
         })
       } catch (error) {
-        console.log('catch exp !')
-        console.error(error)
+        // console.log('catch exp !')
+        // console.error(error)
         this.submitting = false
       } finally {
         this.stopLoading()

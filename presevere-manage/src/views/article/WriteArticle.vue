@@ -203,8 +203,8 @@ export default {
         this.tagPlaceholder = '添加标签，回车确认'
       }
     },
-    outputChange(e) {
-      console.log(e)
+    outputChange() {
+      // console.log(e)
     },
     addTag(e) {
       if (e.keyCode === 13 && this.allowAddTag) {
@@ -307,9 +307,9 @@ export default {
       }
     },
     // 上传图片回调
-    imageUpload(image_index, file) {
-      console.log(image_index)
-      console.log(file)
+    imageUpload(/* image_index, file */) {
+      // console.log(image_index)
+      // console.log(file)
     },
     // 移除图片回调
     imageRemove() {},

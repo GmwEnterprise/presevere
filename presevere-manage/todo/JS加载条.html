@@ -50,7 +50,7 @@
         deltaIndex = 0
         stopFlag = false
         temp = 0
-        console.log(`deltaIndex = ${deltaIndex}, stopFlag = ${stopFlag}`)
+        // console.log(`deltaIndex = ${deltaIndex}, stopFlag = ${stopFlag}`)
         interval = setInterval(function () {
 
           let delta = deltaList[deltaIndex]
@@ -68,11 +68,11 @@
           if (status >= 100) {
             clearInterval(interval)
             progress.style.display = 'none'
-            console.log('   ---   clearInterval: ' + interval)
+            // console.log('   ---   clearInterval: ' + interval)
             interval = null
           }
         }, 20)
-        console.log('   ---   setInterval: ' + interval)
+        // console.log('   ---   setInterval: ' + interval)
       }
     })
     document.getElementById('stop').addEventListener('click', function (e) {

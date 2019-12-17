@@ -1,5 +1,6 @@
 package cn.gmwenterprise.presevere.config;
 
+import cn.gmwenterprise.presevere.common.RequestMessageInterceptor;
 import cn.gmwenterprise.presevere.config.security.SecurityInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -48,10 +49,12 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
     @Resource
     SecurityInterceptor securityInterceptor;
-
+    @Resource
+    RequestMessageInterceptor requestMessageInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器
+        registry.addInterceptor(requestMessageInterceptor).order(2);
         registry.addInterceptor(securityInterceptor).order(3);
     }
 

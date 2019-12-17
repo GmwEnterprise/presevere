@@ -77,7 +77,7 @@ const originalPush = router.push
 Router.prototype.push = function (location) {
   originalPush.call(this, location).catch(err => {
     if (!err.name === 'NavigationDuplicated') {
-      console.log('路由错误抛出')
+      // // console.log('路由错误抛出')
       return Promise.reject(err)
     }
   })

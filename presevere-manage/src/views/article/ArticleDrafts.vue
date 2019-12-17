@@ -115,10 +115,10 @@ export default {
       this.loadDrafts(true)
     },
     handleSelectionChange() {
-      console.log(arguments)
+      // // console.log(arguments)
     },
     rowClick(row) {
-      console.log(row.writer)
+      // // console.log(row.writer)
       if (row.writer === this.currentUserId) {
         this.$router.push({
           path: `/home/article/write/${row.id}`

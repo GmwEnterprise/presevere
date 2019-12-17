@@ -126,7 +126,7 @@ export default {
       return 'others-row'
     },
     handleClick(row) {
-      console.log(row)
+      // console.log(row)
       this.$router.push({
         path: `/home/article/write/${row.id}`
       })

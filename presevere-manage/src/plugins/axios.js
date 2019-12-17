@@ -21,11 +21,13 @@ let config = {
 
 const _axios = axios.create(config)
 
+const API_PREFIX = '/HTTP_API_PREFIX'
+
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    if (!config.url.includes('http')) {
-      config.url = 'http://127.0.0.1:4399' + config.url
+    if (!config.url.includes(API_PREFIX)) {
+      config.url = API_PREFIX + config.url
     }
     const token = tokenService.getToken()
     if (token) {
@@ -56,10 +58,10 @@ function executeRequests(index) {
 // Add a response interceptor
 _axios.interceptors.response.use(
   function (response) {
-    console.log(` >>> 拦截器开始`)
-    console.log(response.config.url)
-    console.log(response.config.headers.Authorization)
-    console.log(response.data)
+    // // console.log(` >>> 拦截器开始`)
+    // // console.log(response.config.url)
+    // // console.log(response.config.headers.Authorization)
+    // // console.log(response.data)
     // Do something with response data
     /** 
      * 在这里返回Promise.reject会进入代码的catch块;
@@ -123,8 +125,8 @@ _axios.interceptors.response.use(
     }
   },
   function (error) {
-    console.log('Ajax系统错误')
-    console.log(arguments)
+    // // console.log('Ajax系统错误')
+    // // console.log(arguments)
     Notification.error({
       title: '系统错误',
       message: `${error || 'No message available'}`

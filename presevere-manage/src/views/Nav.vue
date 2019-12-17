@@ -81,8 +81,8 @@ export default {
         path: '/home/resume'
       })
     },
-    handleSelect(index, indexPath) {
-      console.log(index, indexPath)
+    handleSelect(index/*, indexPath*/) {
+      // console.log(index, indexPath)
       switch (index) {
         case this.index.changeUsermsg:
           this.changeUsermsg()

@@ -6,7 +6,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://120.79.155.125:3306/db_presevere_new?serverTimezone=Asia/Shanghai&useSSL=false
+      url: jdbc:mysql://localhost:3306/db_presevere_new?serverTimezone=Asia/Shanghai&useSSL=false
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,9 +23,8 @@ spring:
 
 mybatis:
   type-aliases-package: cn.gmwenterprise.presevere.domain
-  mapper-locations: classpath:mapping/**
-  configuration:
-    cache-enabled: on
+  mapper-locations: classpath:mappers/*.xml
+  config-location: classpath:mybatis.config.xml
 
 logging:
   level:

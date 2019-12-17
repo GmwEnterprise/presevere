@@ -145,8 +145,8 @@ export default {
     })
   },
   methods: {
-    onSubmit(e) {
-      console.log(e)
+    onSubmit() {
+      // console.log(e)
       this.$refs[this.basicRef].validate(valid => {
         if (valid) {
           // 提交
@@ -166,8 +166,8 @@ export default {
         }
       })
     },
-    switchingTabs(tab, event) {
-      console.log(tab, event)
+    switchingTabs(/*tab, event*/) {
+      // console.log(tab, event)
     }
   }
 }

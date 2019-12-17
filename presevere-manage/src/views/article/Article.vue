@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     const url = this.$route.params.url
-    console.log(url)
+    // console.log(url)
     this.axios.get(`/article/${url}`).then(res => {
       this.article = res.data
     })
