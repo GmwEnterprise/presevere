@@ -51,6 +51,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     SecurityInterceptor securityInterceptor;
     @Resource
     RequestMessageInterceptor requestMessageInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器
