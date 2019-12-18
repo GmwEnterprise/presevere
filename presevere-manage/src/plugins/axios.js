@@ -15,6 +15,7 @@ import tokenService from '@/services/token.service.js'
 
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ''
+  baseURL: process.env.VUE_APP_API_URL,
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control,
 }
@@ -26,9 +27,9 @@ const API_PREFIX = '/HTTP_API_PREFIX'
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    if (!config.url.includes(API_PREFIX)) {
-      config.url = API_PREFIX + config.url
-    }
+    // if (!config.url.includes(API_PREFIX)) {
+    //   config.url = API_PREFIX + config.url
+    // }
     const token = tokenService.getToken()
     if (token) {
       config.headers.Authorization = token
