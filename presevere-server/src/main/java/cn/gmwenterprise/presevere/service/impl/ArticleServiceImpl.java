@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleDraft.setVersion(1);
             articleDraft.setPublished(ArticleDraft.UNPUBLISHED);
             articleDraft.setWriter(currentUser.getId());
-            articleDraft.setUrlNumber(Long.parseLong(generateURLNumber(currentUser.getId())));
+            articleDraft.setUrlNumber(Long.parseLong(generateUrlNumber(currentUser.getId())));
             articleDraftMapper.insertSelective(articleDraft);
             return articleDraft.getUrlNumber(); // key
         } else {
@@ -234,7 +234,7 @@ public class ArticleServiceImpl implements ArticleService {
         }};
     }
 
-    private String generateURLNumber(Integer userId) {
+    private String generateUrlNumber(Integer userId) {
         LocalDateTime now = LocalDateTime.now();
         return now.getYear() % 100 +
             decimalFormat.format(now.getMonthValue()) +

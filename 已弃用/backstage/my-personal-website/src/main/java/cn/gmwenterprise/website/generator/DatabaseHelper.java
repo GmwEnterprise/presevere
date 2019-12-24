@@ -17,7 +17,7 @@ public class DatabaseHelper {
     private DatabaseMetaData databaseMetaData;
 
     private DatabaseHelper() throws Exception {
-        String url = "jdbc:mysql://120.79.155.125:3306/my_website?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8";
+        String url = "jdbc:mysql://localhost:3306/my_website?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8";
         String user = "root";
         String password = "root";
         Class.forName("com.mysql.cj.jdbc.Driver");

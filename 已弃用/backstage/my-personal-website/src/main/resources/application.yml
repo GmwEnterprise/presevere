@@ -13,7 +13,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
       password: root
-      url: jdbc:mysql://120.79.155.125:3306/db_presevere?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+      url: jdbc:mysql://localhost:3306/db_presevere?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
 
   thymeleaf:
     cache: false

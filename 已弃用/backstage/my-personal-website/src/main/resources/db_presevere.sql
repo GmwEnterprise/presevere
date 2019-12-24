@@ -4,7 +4,7 @@
  Source Server         : Aliyun
  Source Server Type    : MySQL
  Source Server Version : 80018
- Source Host           : 120.79.155.125:3306
+ Source Host           : localhost:3306
  Source Schema         : db_presevere
 
  Target Server Type    : MySQL
