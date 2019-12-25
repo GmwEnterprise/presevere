@@ -33,8 +33,9 @@ public class ReaderTest {
                 }
         ) {
             String line;
+            int n = 1;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                System.out.println(n++ + ": " + line);
             }
         }
     }
