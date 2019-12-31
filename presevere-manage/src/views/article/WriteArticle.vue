@@ -26,7 +26,7 @@
         :disabled="tagIsFull"
       />
     </div>
-    <div class="write-wrapper" style="display:flex;justify-content:center">
+    <div class="write-wrapper" style="display:flexjustify-content:center">
       <!-- <span class="tag" v-for="(tag, i) of draft.tags" :key="i">{{ tag }}</span> -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="(tag, i) of draft.tags" :key="i">
@@ -42,7 +42,7 @@
       </el-breadcrumb>
     </div>
     <div class="write-wrapper">
-      <!-- box-shadow:none !important; -->
+      <!-- box-shadow:none !important -->
       <mavon-editor
         ref="mavon"
         style="border:none"
@@ -62,6 +62,10 @@
       <el-button type="text" :round="true" size="medium" @click="publish" :disabled="saveFlag">
         <i class="el-icon-upload el-icon--right"></i>
         {{ publishButtonWord }}
+      </el-button>
+      <el-button type="text" :round="true" size="medium" @click="openFileChoose">
+        <i class="el-icon-upload2"></i>
+        本地文本
       </el-button>
     </div>
   </div>
@@ -171,6 +175,11 @@ export default {
     }
   },
   methods: {
+    openFileChoose() {
+    },
+    uploadLocal() {
+      // 上传本地文本文件
+    },
     detectTagValue() {
       const index = this.draft.tags.indexOf(this.tagString)
       if (index >= 0) {

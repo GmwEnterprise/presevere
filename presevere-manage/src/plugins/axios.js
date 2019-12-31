@@ -22,14 +22,9 @@ let config = {
 
 const _axios = axios.create(config)
 
-const API_PREFIX = '/HTTP_API_PREFIX'
-
 _axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    // if (!config.url.includes(API_PREFIX)) {
-    //   config.url = API_PREFIX + config.url
-    // }
     const token = tokenService.getToken()
     if (token) {
       config.headers.Authorization = token
