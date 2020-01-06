@@ -1,4 +1,4 @@
-package cn.gmwenterprise.thinkinjava.chapter21;
+package cn.gmwenterprise.thinkinjava.concurrency;
 
 import java.util.concurrent.*;
 

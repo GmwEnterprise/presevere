@@ -1,4 +1,4 @@
-package cn.gmwenterprise.thinkinjava.chapter21;
+package cn.gmwenterprise.thinkinjava.concurrency;
 
 public class Practice1 implements Runnable {
     private int count = 4;

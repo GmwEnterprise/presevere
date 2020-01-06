@@ -1,4 +1,4 @@
-package cn.gmwenterprise.thinkinjava.chapter21;
+package cn.gmwenterprise.thinkinjava.concurrency;
 
 public class MainThread {
     public static void main(String[] args) {
