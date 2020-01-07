@@ -1,4 +1,4 @@
-package cn.gmwenterprise.thinkinjava.chapter18.nio;
+package cn.gmwenterprise.thinkinjava.io.nio;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

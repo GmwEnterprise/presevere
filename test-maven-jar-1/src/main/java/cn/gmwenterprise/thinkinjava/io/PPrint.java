@@ -1,4 +1,4 @@
-package cn.gmwenterprise.thinkinjava.chapter18;
+package cn.gmwenterprise.thinkinjava.io;
 
 import java.util.Arrays;
 import java.util.Collection;

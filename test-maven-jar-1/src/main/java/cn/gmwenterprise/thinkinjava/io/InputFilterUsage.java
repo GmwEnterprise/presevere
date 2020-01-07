@@ -1,7 +1,6 @@
-package cn.gmwenterprise.thinkinjava.chapter18;
+package cn.gmwenterprise.thinkinjava.io;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
 public class InputFilterUsage {
 

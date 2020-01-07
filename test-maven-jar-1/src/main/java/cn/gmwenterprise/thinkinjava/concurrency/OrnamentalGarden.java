@@ -3,6 +3,7 @@ package cn.gmwenterprise.thinkinjava.concurrency;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 class Count {
@@ -66,7 +67,19 @@ class Entrance implements Runnable {
     }
 }
 
-// TODO Page 725
-
 public class OrnamentalGarden {
+    public static void main(String[] args) throws InterruptedException {
+        var exec = Executors.newCachedThreadPool();
+        for (int i = 0; i < 5; i++) {
+            exec.execute(new Entrance(i));
+        }
+        TimeUnit.SECONDS.sleep(3);
+        Entrance.cancel();
+        exec.shutdown();
+        if (!exec.awaitTermination(250, TimeUnit.MILLISECONDS)) {
+            System.out.println("Some tasks were not terminated!");
+        }
+        System.out.println("Total: " + Entrance.getTotalCount());
+        System.out.println("Sum of Entrances: " + Entrance.sumEntrances());
+    }
 }
