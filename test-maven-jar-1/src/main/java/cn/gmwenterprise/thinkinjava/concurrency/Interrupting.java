@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+// 睡眠导致阻塞
 class SleepBlocked implements Runnable {
     @Override
     public void run() {
@@ -19,6 +20,7 @@ class SleepBlocked implements Runnable {
     }
 }
 
+// 等待I/O导致阻塞
 class IOBlocked implements Runnable {
     private InputStream in;
     public IOBlocked(InputStream is) { in = is; }
@@ -26,8 +28,9 @@ class IOBlocked implements Runnable {
     public void run() {
         try {
             System.out.println("Waiting for read():");
+            // 传入为System.in，read()方法将持续阻塞直到用户在命令行输入
             in.read();
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (Thread.currentThread().isInterrupted()) {
                 System.out.println("Interrupted from blocked I/O");
             } else {
@@ -38,6 +41,7 @@ class IOBlocked implements Runnable {
     }
 }
 
+// 等待锁导致阻塞
 class SynchronizedBlocked implements Runnable {
     public synchronized void f() {
         while (true) {
