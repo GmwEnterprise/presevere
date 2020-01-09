@@ -1,12 +1,11 @@
 package cn.presevere.next.domain;
 
-import org.apache.ibatis.type.Alias;
+import cn.presevere.next.common.BaseDomain;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Alias("post")
-public class Post extends BaseDomain {
+public class Post extends BaseDomain<Post> {
     private String title; // 标题
     private String outline; // 概要
     private List<CatalogItem> catalog; // 目录
@@ -15,7 +14,8 @@ public class Post extends BaseDomain {
     private List<String> tags; // 标签列表
     private String classify; // 分类
     private Integer viewTimes; // 阅读次数
-    private String body; // 正文
+    private String markdownBody; // markdown正文
+    private String htmlBody; // html正文
 
     public String getTitle() {
         return title;
@@ -81,11 +81,19 @@ public class Post extends BaseDomain {
         this.viewTimes = viewTimes;
     }
 
-    public String getBody() {
-        return body;
+    public String getMarkdownBody() {
+        return markdownBody;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setMarkdownBody(String markdownBody) {
+        this.markdownBody = markdownBody;
+    }
+
+    public String getHtmlBody() {
+        return htmlBody;
+    }
+
+    public void setHtmlBody(String htmlBody) {
+        this.htmlBody = htmlBody;
     }
 }

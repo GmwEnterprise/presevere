@@ -1,9 +1,8 @@
 package cn.presevere.next.domain;
 
-import org.apache.ibatis.type.Alias;
+import cn.presevere.next.common.BaseDomain;
 
-@Alias("catItem")
-public class CatalogItem extends BaseDomain {
+public class CatalogItem extends BaseDomain<CatalogItem> {
     private Integer order; // 目录中的序号 / 行号
     private Integer level; // 层级
     private String title; // 目录项标题
