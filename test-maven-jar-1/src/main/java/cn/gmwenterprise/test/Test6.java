@@ -26,7 +26,7 @@ public class Test6 {
             }
         };
 
-        final var thread = new Thread(r);
+        var thread = new Thread(r);
         thread.start();
         List<Thread.State> states = new LinkedList<>();
         while (flag) {
