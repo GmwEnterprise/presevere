@@ -1,8 +1,11 @@
 package cn.presevere.next.common;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.*;
 
 /**
@@ -10,17 +13,33 @@ import java.io.*;
  *
  * @param <R> 基类泛型
  */
+@Slf4j
+@MappedSuperclass
 public abstract class BaseDomain<R> implements Serializable {
-    protected static final Logger log = LoggerFactory.getLogger(BaseDomain.class);
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object target) {
+        if (this == target) {
+            return true;
+        }
+        if (id == null || target == null || !getClass().equals(target.getClass())) {
+            return false;
+        }
+        var that = (BaseDomain) target;
+        return id.equals(that.getId());
+    }
+
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     /**

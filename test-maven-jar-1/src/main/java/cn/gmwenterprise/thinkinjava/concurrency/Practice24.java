@@ -7,8 +7,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-// TODO 745
-
 public class Practice24 {
     public static void main(String[] args) throws InterruptedException {
         var center = new Center();
