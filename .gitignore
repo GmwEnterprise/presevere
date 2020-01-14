@@ -4,6 +4,8 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
@@ -29,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+blog-next-server/blog-next-server/src/main/java/cn/.DS_Store
