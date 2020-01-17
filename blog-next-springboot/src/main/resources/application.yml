@@ -1,0 +1,12 @@
+server:
+  port: 4000
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+    active: develop
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
