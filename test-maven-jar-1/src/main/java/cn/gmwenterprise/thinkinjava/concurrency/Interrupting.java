@@ -1,6 +1,5 @@
 package cn.gmwenterprise.thinkinjava.concurrency;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +22,9 @@ class SleepBlocked implements Runnable {
 // 等待I/O导致阻塞
 class IOBlocked implements Runnable {
     private InputStream in;
+
     public IOBlocked(InputStream is) { in = is; }
+
     @Override
     public void run() {
         try {
@@ -48,7 +49,9 @@ class SynchronizedBlocked implements Runnable {
             Thread.yield();
         }
     }
+
     public SynchronizedBlocked() { new Thread(this::f).start(); }
+
     @Override
     public void run() {
         System.out.println("Trying to call f()");
@@ -59,6 +62,7 @@ class SynchronizedBlocked implements Runnable {
 
 public class Interrupting {
     private static ExecutorService exec = Executors.newCachedThreadPool();
+
     static void test(Runnable r) throws InterruptedException {
         Future<?> f = exec.submit(r);
         TimeUnit.MILLISECONDS.sleep(100);
@@ -66,6 +70,7 @@ public class Interrupting {
         f.cancel(true);
         System.out.println("Interrupt send to " + r.getClass().getName());
     }
+
     public static void main(String[] args) throws Exception {
         test(new SleepBlocked());
         test(new IOBlocked(System.in));
