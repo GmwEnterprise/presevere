@@ -57,7 +57,8 @@ public class ConfigWeb implements WebMvcConfigurer {
      * 配置拦截器
      */
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {}
+    public void addInterceptors(InterceptorRegistry registry) {
+    }
 
     /**
      * 自定义消息处理器
@@ -86,12 +87,24 @@ public class ConfigWeb implements WebMvcConfigurer {
     @Bean(name = "javaTimeModule")
     JavaTimeModule generateJavaTimeModule() {
         var module = new JavaTimeModule();
-        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
-        module.addSerializer(LocalDate.class, new LocalDateSerializer(DATE_FORMATTER));
-        module.addSerializer(LocalTime.class, new LocalTimeSerializer(TIME_FORMATTER));
-        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
-        module.addDeserializer(LocalDate.class, new LocalDateDeserializer(DATE_FORMATTER));
-        module.addDeserializer(LocalTime.class, new LocalTimeDeserializer(TIME_FORMATTER));
+        module.addSerializer(
+            LocalDateTime.class,
+            new LocalDateTimeSerializer(DATE_TIME_FORMATTER));
+        module.addSerializer(
+            LocalDate.class,
+            new LocalDateSerializer(DATE_FORMATTER));
+        module.addSerializer(
+            LocalTime.class,
+            new LocalTimeSerializer(TIME_FORMATTER));
+        module.addDeserializer(
+            LocalDateTime.class,
+            new LocalDateTimeDeserializer(DATE_TIME_FORMATTER));
+        module.addDeserializer(
+            LocalDate.class,
+            new LocalDateDeserializer(DATE_FORMATTER));
+        module.addDeserializer(
+            LocalTime.class,
+            new LocalTimeDeserializer(TIME_FORMATTER));
         return module;
     }
 

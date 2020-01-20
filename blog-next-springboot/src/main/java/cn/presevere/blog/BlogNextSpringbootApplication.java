@@ -12,6 +12,7 @@ import java.util.Map;
 
 @SpringBootApplication
 public class BlogNextSpringbootApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(BlogNextSpringbootApplication.class, args);
     }
@@ -19,10 +20,12 @@ public class BlogNextSpringbootApplication {
     @RestController
     @RequestMapping("/testCtrl")
     static class TestController {
+
         @GetMapping("/returnTime1")
         LocalDateTime returnTime1() {
             return LocalDateTime.now();
         }
+
         @GetMapping("/returnTime2")
         Map<Long, LocalDateTime> returnTime2() {
             var map = new HashMap<Long, LocalDateTime>(2);
