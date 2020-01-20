@@ -113,8 +113,30 @@ public class GreenhouseScheduler {
         public void run() {
             System.out.println("Collecting data");
             synchronized (GreenhouseScheduler.this) {
-                lastTime.set();
+                lastTime.set(Calendar.MINUTE, lastTime.get(Calendar.MINUTE) + 30);
+                if (rand.nextInt(5) == 4) {
+                    tempDirection = -tempDirection;
+                }
+                lastTemp += tempDirection * (1.0f + rand.nextFloat());
+                if (rand.nextInt(5) == 4) {
+                    humidityDirection = -humidityDirection;
+                }
+                lastHumidity += humidityDirection * rand.nextFloat();
+                data.add(new DataPoint(((Calendar) lastTime.clone()), lastTemp, lastHumidity));
             }
         }
+    }
+
+    public static void main(String[] args) {
+        var gh = new GreenhouseScheduler();
+        gh.schedule(gh.new Terminate(), 5000);
+        gh.repeat(gh.new Bell(), 0, 1000);
+        gh.repeat(gh.new ThermostatNight(), 0, 2000);
+        gh.repeat(gh.new LightOn(), 0, 200);
+        gh.repeat(gh.new LightOff(), 0, 400);
+        gh.repeat(gh.new WaterOn(), 0, 600);
+        gh.repeat(gh.new WaterOff(), 0, 800);
+        gh.repeat(gh.new ThermostatDay(), 0, 1400);
+        gh.repeat(gh.new CollectData(), 500, 500);
     }
 }
