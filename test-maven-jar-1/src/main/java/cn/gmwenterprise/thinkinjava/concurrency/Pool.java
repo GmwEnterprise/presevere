@@ -28,6 +28,12 @@ public class Pool<T> {
         return getItem();
     }
 
+    public void checkIn(T x) {
+        if (releaseItem(x)) {
+            available.release();
+        }
+    }
+
     private synchronized T getItem() {
         for (int i = 0; i < size; i++) {
             if (!checkedOut[i]) {
@@ -36,12 +42,6 @@ public class Pool<T> {
             }
         }
         return null;
-    }
-
-    public void checkIn(T x) {
-        if (releaseItem(x)) {
-            available.release();
-        }
     }
 
     private synchronized boolean releaseItem(T item) {
