@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <my-header title="Mrag's blogs" link-style @click="clickEvent"></my-header>
+    
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import MyHeader from '../components/Header'
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    MyHeader
+  },
+  methods: {
+    clickEvent(e) {
+      console.log(e)
+    }
   }
 }
 </script>
+
+<style scoped>
+
+</style>
