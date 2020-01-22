@@ -108,6 +108,9 @@ public class ConfigWeb implements WebMvcConfigurer {
         return module;
     }
 
+    /**
+     * 定义表单参数全局自动转化
+     */
     @Component
     static class ConvertersInitializer {
         @Autowired
