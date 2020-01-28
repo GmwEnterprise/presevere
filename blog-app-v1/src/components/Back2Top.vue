@@ -1,7 +1,7 @@
 <template>
   <div class="back2top">
     <v-btn icon @click="back2Top">
-      <v-icon size="40px">mdi-arrow-up-bold-circle</v-icon>
+      <v-icon size="50px">mdi-arrow-up-bold-circle</v-icon>
     </v-btn>
   </div>
 </template>
