@@ -8,11 +8,11 @@
     <version>2.2.4.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.example.microservice</groupId>
-  <artifactId>springcloud-start-one</artifactId>
+  <groupId>com.thoughtmechanix</groupId>
+  <artifactId>licensing-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>springcloud-start-one</name>
-  <description>Demo project for Spring Boot</description>
+  <name>EagleEye Licensing Service</name>
+  <description>Licensing Service</description>
 
   <properties>
     <java.version>11</java.version>
@@ -21,7 +21,11 @@
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
     <dependency>

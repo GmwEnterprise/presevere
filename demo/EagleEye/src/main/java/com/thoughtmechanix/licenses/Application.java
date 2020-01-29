@@ -1,13 +1,11 @@
-package com.example.microservice.springcloudstartone;
+package com.thoughtmechanix.licenses;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringcloudStartOneApplication {
-
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(SpringcloudStartOneApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
-
 }
