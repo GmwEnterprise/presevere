@@ -5,6 +5,7 @@
 
   <modules>
     <module>cloud-licensing-service</module>
+    <module>cloud-confsvr</module>
   </modules>
 
   <parent>
@@ -20,6 +21,23 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>cloud-parent</name>
   <description>parent module of spring cloud learning projects</description>
+
+  <properties>
+    <java.version>1.6</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Camden.SR5</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>

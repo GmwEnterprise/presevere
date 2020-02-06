@@ -1,0 +1,15 @@
+tracer:
+  property: "I AM THE DEFAULT"
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eagle-eye?useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.MySQLDialect"

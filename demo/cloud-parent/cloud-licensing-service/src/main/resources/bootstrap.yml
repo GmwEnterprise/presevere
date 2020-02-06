@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: licensingservice # 映射到confsvr配置的目录名称
+  profiles:
+    active: default # 请求配置的类型
+  cloud:
+    config:
+      uri: http://localhost:8888 # 配置服务器端点
