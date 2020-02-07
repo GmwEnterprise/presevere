@@ -15,7 +15,7 @@ public class LicenseServiceController {
         @PathVariable final String organizationId,
         @PathVariable final String licenseId) {
         return new License() {{
-            setId(licenseId);
+            setLicenseId(licenseId);
             setLicenseType("Seat");
             setProductName("Teleco111");
             setOrganizationId(organizationId);

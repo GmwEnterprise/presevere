@@ -1,4 +1,4 @@
-tracer:
+example:
   property: "I AM THE DEFAULT"
 
 spring:
@@ -13,3 +13,6 @@ spring:
     properties:
       hibernate:
         dialect: "org.hibernate.dialect.MySQLDialect"
+    show-sql: true
+    hibernate:
+      ddl-auto: update
