@@ -5,8 +5,10 @@ spring:
   cloud:
     config:
       server:
+        encrypt:
+          enabled: false
         git:
-          uri: https://github.com/GmwEnterprise/presevere/
-          search-paths: demo/cloud-parent/config-repo
-          username: GmwEnterprise
+          uri: https://gitee.com/mrag/demo-cloud-config-repo/
+          search-paths: licensingservice
+          username: mrag
           password: gan1ming2wei3
