@@ -9,6 +9,6 @@ spring:
           enabled: false
         git:
           uri: https://gitee.com/mrag/demo-cloud-config-repo/
-          search-paths: licensingservice
+          search-paths: licensingservice, organizationservice
           username: mrag
           password: gan1ming2wei3

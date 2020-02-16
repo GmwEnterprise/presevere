@@ -1,0 +1,9 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false # 不要使用Eureka服务注册，因为这个服务本身就是Eureka服务
+    fetch-registry: false # 不要在本地缓存注册表信息
+  server:
+    wait-time-in-ms-when-sync-empty: 5 # 在服务接收请求之前等待的初始时间

@@ -3,11 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <modules>
-    <module>cloud-licensing-service</module>
-    <module>cloud-confsvr</module>
-  </modules>
-
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -18,17 +13,33 @@
   <packaging>pom</packaging>
   <groupId>com.example.cloud</groupId>
   <artifactId>cloud-parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${project-version}</version>
   <name>cloud-parent</name>
   <description>parent module of spring cloud learning projects</description>
 
   <properties>
-    <java.version>1.6</java.version>
+    <project-version>0.0.1-SNAPSHOT</project-version>
+    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <modules>
+    <module>cloud-licensing-service</module>
+    <module>cloud-confsvr</module>
+    <module>cloud-eurekasvr</module>
+    <module>cloud-organization-service</module>
+
+    <module>common-model</module>
+  </modules>
+
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.example.cloud</groupId>
+        <artifactId>common-model</artifactId>
+        <version>${project-version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>

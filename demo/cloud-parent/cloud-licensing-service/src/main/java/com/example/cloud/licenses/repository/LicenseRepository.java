@@ -1,6 +1,6 @@
 package com.example.cloud.licenses.repository;
 
-import com.example.cloud.licenses.model.License;
+import com.example.cloud.common.model.License;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
