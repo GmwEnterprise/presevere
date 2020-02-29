@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 class PrioritizedTask implements Runnable, Comparable<PrioritizedTask> {
     private Random rand = new Random(47);
@@ -15,14 +12,17 @@ class PrioritizedTask implements Runnable, Comparable<PrioritizedTask> {
     private final int id = counter++;
     private final int priority;
     protected static List<PrioritizedTask> sequence = new ArrayList<>();
+
     public PrioritizedTask(int priority) {
         this.priority = priority;
         sequence.add(this);
     }
+
     @Override
     public int compareTo(PrioritizedTask arg) {
         return Integer.compare(arg.priority, priority);
     }
+
     @Override
     public void run() {
         try {
@@ -30,19 +30,24 @@ class PrioritizedTask implements Runnable, Comparable<PrioritizedTask> {
         } catch (InterruptedException ignored) {}
         System.out.println(this);
     }
+
     @Override
     public String toString() {
         return String.format("[%1$-3d]", priority) + " Task " + id;
     }
+
     public String summary() {
         return "(" + id + ": " + priority + ")";
     }
+
     public static class EndSentinel extends PrioritizedTask {
         private ExecutorService exec;
+
         public EndSentinel(ExecutorService e) {
             super(-1);
             exec = e;
         }
+
         @Override
         public void run() {
             int count = 0;
@@ -63,6 +68,7 @@ class PrioritizedTaskProducer implements Runnable {
     private Random rand = new Random(47);
     private Queue<Runnable> queue;
     private ExecutorService exec;
+
     public PrioritizedTaskProducer(Queue<Runnable> q, ExecutorService e) {
         queue = q;
         exec = e;
@@ -90,6 +96,7 @@ class PrioritizedTaskProducer implements Runnable {
 
 class PrioritizedTaskConsumer implements Runnable {
     private PriorityBlockingQueue<Runnable> q;
+
     public PrioritizedTaskConsumer(PriorityBlockingQueue<Runnable> q) {
         this.q = q;
     }
@@ -108,7 +115,9 @@ class PrioritizedTaskConsumer implements Runnable {
 public class PriorityBlockingQueueDemo {
     public static void main(String[] args) {
         var rand = new Random(47);
-        var exec = Executors.newCachedThreadPool();
+        var exec = new ThreadPoolExecutor(
+            0, Integer.MAX_VALUE, 1L, TimeUnit.MINUTES,
+            new SynchronousQueue<>(), Executors.defaultThreadFactory());
         var queue = new PriorityBlockingQueue<Runnable>();
         exec.execute(new PrioritizedTaskProducer(queue, exec));
         exec.execute(new PrioritizedTaskConsumer(queue));
