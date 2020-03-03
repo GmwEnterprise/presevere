@@ -3,9 +3,9 @@ package cn.gmwenterprise.alg;
 import java.util.Arrays;
 
 /**
- * 经典算法总结
+ * 排序 查找
  */
-public final class Alg {
+public final class SortAndSearch {
 
     // 查找
 
