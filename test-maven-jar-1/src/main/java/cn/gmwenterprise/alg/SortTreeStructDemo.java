@@ -1,5 +1,6 @@
 package cn.gmwenterprise.alg;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,10 +111,6 @@ public class SortTreeStructDemo {
     }
 
     /**
-     * @param parent
-     * @param node
-     * @param element
-     * @param <E>
      * @return 1 - 成功删除元素；2 - 根节点，特殊处理；3 - 未找到该元素
      */
     private static <E extends Comparable<E>> int d(Node<E> parent, Node<E> node, E element) {
@@ -154,7 +151,7 @@ public class SortTreeStructDemo {
         if (node.left != null) {
             return getLeftNode(node, node.left);
         } else {
-            parent.right = node.right;
+            parent.left = node.right;
             return node;
         }
     }
@@ -163,7 +160,7 @@ public class SortTreeStructDemo {
         if (node.right != null) {
             return getRightNode(node, node.right);
         } else {
-            parent.left = node.left;
+            parent.right = node.left;
             return node;
         }
     }
@@ -224,16 +221,25 @@ public class SortTreeStructDemo {
     @GetMapping("/test")
     public Node<Integer> test() {
 
-        var array = new Integer[]{5, 2, 6, 7, 4, 9};
+        var array = new Integer[]{46, 38, 65, 97, 76, 13, 27, 49};
         var tree = generateTree(array);
 
-        addNode(tree, 1, 3, 8);
+        addNode(tree, 66, 50);
 
-        deleteNode(tree, 6, 4);
+        deleteNode(tree, 65);
 
 //        threadedBinaryTree(tree);
-//        System.out.println();
 
         return tree;
+    }
+
+    private String leftPad(String origin, int len, String e) {
+        var count = len - origin.length();
+        StringBuilder originBuilder = new StringBuilder(origin);
+        for (int i = 0; i < count; i++) {
+            originBuilder.insert(0, e);
+        }
+        origin = originBuilder.toString();
+        return origin;
     }
 }
