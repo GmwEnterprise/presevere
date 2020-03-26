@@ -66,7 +66,9 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node put(Node h, Key key, Value val) {
-        if (h == null) return new Node(key, val, RED);
+        if (h == null) {
+            return new Node(key, val, RED);
+        }
         int cmp = key.compareTo(h.key);
         if (cmp < 0) {
             // 插入到h的左子树
@@ -79,9 +81,15 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             h.value = val;
         }
         // 旋转、调色
-        if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
-        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
-        if (isRed(h.left) && isRed(h.right)) flipColors(h);
+        if (isRed(h.right) && !isRed(h.left)) {
+            h = rotateLeft(h);
+        }
+        if (isRed(h.left) && isRed(h.left.left)) {
+            h = rotateRight(h);
+        }
+        if (isRed(h.left) && isRed(h.right)) {
+            flipColors(h);
+        }
         return h;
     }
 
@@ -97,7 +105,9 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
     private Value search(Node h, Key key) {
         count++;
-        if (h == null) return null;
+        if (h == null) {
+            return null;
+        }
         var cmp = h.key.compareTo(key);
         if (cmp == 0) {
             return h.value;
