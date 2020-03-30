@@ -3,10 +3,12 @@ package cn.gmwenterprise.algs4;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.concurrent.Callable;
+
 public class Example {
 
     private static <T extends Comparable<T>> void sort(T[] a) {
-
+        Callable<Integer> rs = () -> 1;
     }
 
     /**
