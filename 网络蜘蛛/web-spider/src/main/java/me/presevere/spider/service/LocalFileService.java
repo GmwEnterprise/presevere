@@ -7,9 +7,7 @@ import java.io.InputStream;
  */
 public interface LocalFileService {
 
-    InputStream getFileByName(String filename);
+    InputStream getFileAsInputStream(String filename);
 
-    InputStream getFileByPath(String absolutePath);
-
-    void saveFile(InputStream fin, String targetPath);
+    byte[] getFileAsByteArray(String filename);
 }
