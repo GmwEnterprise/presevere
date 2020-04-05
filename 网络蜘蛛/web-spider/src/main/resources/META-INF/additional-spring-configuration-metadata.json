@@ -1,9 +1,0 @@
-{
-    "properties": [
-        {
-            "name": "customProperties.filePathPrefix",
-            "type": "java.lang.String",
-            "description": "Description for customProperties.filePathPrefix."
-        }
-    ]
-}

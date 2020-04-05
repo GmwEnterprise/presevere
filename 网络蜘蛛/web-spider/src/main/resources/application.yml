@@ -1,5 +1,6 @@
+# 自定义属性
 customProperties:
-  filePathPrefix: E:\\Desktop\\web-spider-files
+  localFilePathPrefix: E:\\Desktop\\web-spider-files
 
 server:
   port: 80
