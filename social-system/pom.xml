@@ -11,6 +11,8 @@
 
   <!-- 子模块 -->
   <modules>
+    <module>social-dao</module>
+    <module>social-web</module>
   </modules>
 
   <build>
