@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.persevere.project.socialsys.dao.SysUserDao">
+  <resultMap id="BaseResultMap" type="me.persevere.project.socialsys.domain.SysUser">
+    <id column="sys_user_id" jdbcType="INTEGER" property="id" />
+    <result column="sys_user_username" jdbcType="VARCHAR" property="username" />
+    <result column="sys_user_password" jdbcType="VARCHAR" property="password" />
+    <result column="sys_user_phone" jdbcType="VARCHAR" property="phone" />
+    <result column="sys_user_email" jdbcType="VARCHAR" property="email" />
+    <result column="sys_user_available" jdbcType="TINYINT" property="available" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_user.id as sys_user_id, sys_user.username as sys_user_username, sys_user.`password` as `sys_user_password`, 
+    sys_user.phone as sys_user_phone, sys_user.email as sys_user_email, sys_user.available as sys_user_available
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user sys_user
+    where sys_user.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.persevere.project.socialsys.domain.SysUser" useGeneratedKeys="true">
+    insert into sys_user (username, `password`, phone, 
+      email, available)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.persevere.project.socialsys.domain.SysUser" useGeneratedKeys="true">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="available != null">
+        available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        #{available,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="me.persevere.project.socialsys.domain.SysUser">
+    update sys_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="available != null">
+        available = #{available,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.persevere.project.socialsys.domain.SysUser">
+    update sys_user
+    set username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      available = #{available,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

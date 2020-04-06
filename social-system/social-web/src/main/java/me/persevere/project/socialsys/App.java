@@ -1,11 +1,11 @@
-package me.persevere.project.socialsys.config;
+package me.persevere.project.socialsys;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SocialSystemAppEntry {
+public class App {
     public static void main(String[] args) {
-        SpringApplication.run(SocialSystemAppEntry.class, args);
+        SpringApplication.run(App.class, args);
     }
 }

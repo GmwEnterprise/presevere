@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.persevere.project.socialsys.dao.SysUserChatRecordDao">
+  <resultMap id="BaseResultMap" type="me.persevere.project.socialsys.domain.SysUserChatRecord">
+    <id column="sys_user_chat_record_id" jdbcType="INTEGER" property="id" />
+    <result column="sys_user_chat_record_from_user" jdbcType="INTEGER" property="fromUser" />
+    <result column="sys_user_chat_record_to_user" jdbcType="INTEGER" property="toUser" />
+    <result column="sys_user_chat_record_message_type" jdbcType="TINYINT" property="messageType" />
+    <result column="sys_user_chat_record_message" jdbcType="VARCHAR" property="message" />
+    <result column="sys_user_chat_record_send_status" jdbcType="TINYINT" property="sendStatus" />
+    <result column="sys_user_chat_record_send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="sys_user_chat_record_receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sys_user_chat_record.id as sys_user_chat_record_id, sys_user_chat_record.from_user as sys_user_chat_record_from_user, 
+    sys_user_chat_record.to_user as sys_user_chat_record_to_user, sys_user_chat_record.message_type as sys_user_chat_record_message_type, 
+    sys_user_chat_record.message as sys_user_chat_record_message, sys_user_chat_record.send_status as sys_user_chat_record_send_status, 
+    sys_user_chat_record.send_time as sys_user_chat_record_send_time, sys_user_chat_record.receive_time as sys_user_chat_record_receive_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_chat_record sys_user_chat_record
+    where sys_user_chat_record.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_user_chat_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.persevere.project.socialsys.domain.SysUserChatRecord" useGeneratedKeys="true">
+    insert into sys_user_chat_record (from_user, to_user, message_type,
+      message, send_status, send_time,
+      receive_time)
+    values (#{fromUser,jdbcType=INTEGER}, #{toUser,jdbcType=INTEGER}, #{messageType,jdbcType=TINYINT},
+      #{message,jdbcType=VARCHAR}, #{sendStatus,jdbcType=TINYINT}, #{sendTime,jdbcType=TIMESTAMP},
+      #{receiveTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.persevere.project.socialsys.domain.SysUserChatRecord" useGeneratedKeys="true">
+    insert into sys_user_chat_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fromUser != null">
+        from_user,
+      </if>
+      <if test="toUser != null">
+        to_user,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
+      <if test="sendStatus != null">
+        send_status,
+      </if>
+      <if test="sendTime != null">
+        send_time,
+      </if>
+      <if test="receiveTime != null">
+        receive_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fromUser != null">
+        #{fromUser,jdbcType=INTEGER},
+      </if>
+      <if test="toUser != null">
+        #{toUser,jdbcType=INTEGER},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=TINYINT},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null">
+        #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="me.persevere.project.socialsys.domain.SysUserChatRecord">
+    update sys_user_chat_record
+    <set>
+      <if test="fromUser != null">
+        from_user = #{fromUser,jdbcType=INTEGER},
+      </if>
+      <if test="toUser != null">
+        to_user = #{toUser,jdbcType=INTEGER},
+      </if>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=TINYINT},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null">
+        send_status = #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sendTime != null">
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveTime != null">
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.persevere.project.socialsys.domain.SysUserChatRecord">
+    update sys_user_chat_record
+    set from_user = #{fromUser,jdbcType=INTEGER},
+      to_user = #{toUser,jdbcType=INTEGER},
+      message_type = #{messageType,jdbcType=TINYINT},
+      message = #{message,jdbcType=VARCHAR},
+      send_status = #{sendStatus,jdbcType=TINYINT},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
