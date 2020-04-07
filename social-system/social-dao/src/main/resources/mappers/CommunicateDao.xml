@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.persevere.project.socialsys.dao.CommunicateDao">
+  <resultMap id="BaseResultMap" type="me.persevere.project.socialsys.domain.Communicate">
+    <id column="communicate_id" jdbcType="BIGINT" property="id" />
+    <result column="communicate_from_user" jdbcType="BIGINT" property="fromUser" />
+    <result column="communicate_to_user" jdbcType="BIGINT" property="toUser" />
+    <result column="communicate_msg_type" jdbcType="TINYINT" property="msgType" />
+    <result column="communicate_msg_body" jdbcType="VARCHAR" property="msgBody" />
+    <result column="communicate_response_type" jdbcType="TINYINT" property="responseType" />
+    <result column="communicate_send_time" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="communicate_response_time" jdbcType="TIMESTAMP" property="responseTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    communicate.id as communicate_id, communicate.from_user as communicate_from_user, 
+    communicate.to_user as communicate_to_user, communicate.msg_type as communicate_msg_type, 
+    communicate.msg_body as communicate_msg_body, communicate.response_type as communicate_response_type, 
+    communicate.send_time as communicate_send_time, communicate.response_time as communicate_response_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from communicate communicate
+    where communicate.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from communicate
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="me.persevere.project.socialsys.domain.Communicate" useGeneratedKeys="true">
+    insert into communicate (from_user, to_user, msg_type, 
+      msg_body, response_type, send_time, 
+      response_time)
+    values (#{fromUser,jdbcType=BIGINT}, #{toUser,jdbcType=BIGINT}, #{msgType,jdbcType=TINYINT}, 
+      #{msgBody,jdbcType=VARCHAR}, #{responseType,jdbcType=TINYINT}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{responseTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="me.persevere.project.socialsys.domain.Communicate" useGeneratedKeys="true">
+    insert into communicate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fromUser != null">
+        from_user,
+      </if>
+      <if test="toUser != null">
+        to_user,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="msgBody != null">
+        msg_body,
+      </if>
+      <if test="responseType != null">
+        response_type,
+      </if>
+      <if test="sendTime != null">
+        send_time,
+      </if>
+      <if test="responseTime != null">
+        response_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fromUser != null">
+        #{fromUser,jdbcType=BIGINT},
+      </if>
+      <if test="toUser != null">
+        #{toUser,jdbcType=BIGINT},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="msgBody != null">
+        #{msgBody,jdbcType=VARCHAR},
+      </if>
+      <if test="responseType != null">
+        #{responseType,jdbcType=TINYINT},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseTime != null">
+        #{responseTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="me.persevere.project.socialsys.domain.Communicate">
+    update communicate
+    <set>
+      <if test="fromUser != null">
+        from_user = #{fromUser,jdbcType=BIGINT},
+      </if>
+      <if test="toUser != null">
+        to_user = #{toUser,jdbcType=BIGINT},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="msgBody != null">
+        msg_body = #{msgBody,jdbcType=VARCHAR},
+      </if>
+      <if test="responseType != null">
+        response_type = #{responseType,jdbcType=TINYINT},
+      </if>
+      <if test="sendTime != null">
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="responseTime != null">
+        response_time = #{responseTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="me.persevere.project.socialsys.domain.Communicate">
+    update communicate
+    set from_user = #{fromUser,jdbcType=BIGINT},
+      to_user = #{toUser,jdbcType=BIGINT},
+      msg_type = #{msgType,jdbcType=TINYINT},
+      msg_body = #{msgBody,jdbcType=VARCHAR},
+      response_type = #{responseType,jdbcType=TINYINT},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      response_time = #{responseTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

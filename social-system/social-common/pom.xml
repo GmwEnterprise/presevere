@@ -9,12 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>social-web</artifactId>
-  <dependencies>
-    <dependency>
-      <groupId>me.persevere.project</groupId>
-      <artifactId>social-service</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+  <artifactId>social-common</artifactId>
+
+
 </project>

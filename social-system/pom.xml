@@ -14,6 +14,7 @@
     <module>social-dao</module>
     <module>social-web</module>
     <module>social-service</module>
+    <module>social-common</module>
   </modules>
 
   <build>
@@ -67,6 +68,11 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>me.persevere.project</groupId>
+      <artifactId>social-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>

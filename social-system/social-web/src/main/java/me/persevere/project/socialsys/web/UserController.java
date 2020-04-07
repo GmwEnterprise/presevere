@@ -1,13 +1,11 @@
 package me.persevere.project.socialsys.web;
 
-import me.persevere.project.socialsys.domain.SysUser;
+import me.persevere.project.socialsys.domain.UserMsg;
 import me.persevere.project.socialsys.service.UserService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -16,7 +14,18 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    SysUser getUserById(@PathVariable Long id) {
+    UserMsg getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
+    }
+
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    List<UserMsg> getUserByUsername(@RequestParam String username,
+                                    @RequestParam String phone,
+                                    @RequestParam String email) {
+        UserMsg user = new UserMsg();
+        user.setUsername(username);
+        user.setPhone(phone);
+        user.setEmail(email);
+        return userService.getUserList(user);
     }
 }
