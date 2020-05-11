@@ -73,9 +73,10 @@ public class Receiver {
                     logs.add("读取信息From[" + channel.getRemoteAddress() + "]：" + new String(Bytes.toArray(byteList)));
                 } else if (key.isWritable()) {
                     // 可写入数据
-
+                    // TODO
                 }
 
+                iterator.remove();
                 TimeUnit.MILLISECONDS.sleep(100);
             }
         }
