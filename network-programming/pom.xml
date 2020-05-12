@@ -10,6 +10,9 @@
     <modules>
         <module>socket1</module>
         <module>nio1</module>
+        <module>netty-demo1</module>
+        <module>netty-in-action-echo-server</module>
+        <module>netty-in-action-echo-client</module>
     </modules>
     <packaging>pom</packaging>
 
