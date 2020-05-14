@@ -16,7 +16,11 @@ public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         // 建立连接成功时调用这个方法
         ctx.writeAndFlush(Unpooled.copiedBuffer(
-                "[" + LocalDateTime.now() + "] Netty rocks!", CharsetUtil.UTF_8));
+                maxMessage("[" + LocalDateTime.now() + "] Netty rocks!"), CharsetUtil.UTF_8));
+    }
+
+    private String maxMessage(String origin) {
+        return String.valueOf(origin).repeat(1000);
     }
 
     @Override
