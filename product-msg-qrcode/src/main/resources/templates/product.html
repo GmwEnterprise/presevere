@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>产品信息展示</title>
+    <link rel="stylesheet" th:href="@{/static/css/materialize.min.css}" media="screen,projection">
+    <link th:href="@{/static/css/googlefonts.css}" rel="stylesheet">
+</head>
+<body>
+<table class="striped">
+    <tbody>
+    <tr>
+        <td>产品编号：</td>
+        <td th:text="${product.productId}">很牛逼的产品</td>
+    </tr>
+    <tr>
+        <td>产品名称：</td>
+        <td th:text="${product.productName}">秒天秒地秒美国</td>
+    </tr>
+    <tr>
+        <td>产品描述：</td>
+        <td th:text="${product.productDesc}">2020-04-20</td>
+    </tr>
+    <tr>
+        <td>生产日期：</td>
+        <td th:text="${product.pruductCreatedTime}">2020-04-20</td>
+    </tr>
+    </tbody>
+</table>
+<footer>样式库：<a href="https://materializecss.com/">https://materializecss.com/</a></footer>
+<script th:src="@{/static/js/materialize.min.js}"></script>
+</body>
+</html>

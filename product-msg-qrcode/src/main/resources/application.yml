@@ -6,11 +6,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
-#  thymeleaf:
-#    cache: false
-#    encoding: UTF-8
-#    mode: HTML
-#    servlet:
-#      content-type: text/html
-#    prefix: classpath:/templates/
-#    suffix: .html
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html
+    enabled: true
