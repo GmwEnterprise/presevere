@@ -1,4 +1,4 @@
-package com.example.pmq;
+package com.example.pmq.base;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

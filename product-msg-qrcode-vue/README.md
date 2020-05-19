@@ -23,4 +23,4 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-iview：https://www.iviewui.com/docs/guide/install
+样式使用：ant-design-vue
