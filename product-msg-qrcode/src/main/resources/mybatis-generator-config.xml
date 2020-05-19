@@ -1,0 +1,37 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- targetRuntime为MyBatis3DynamicSql则代表生成mybatis-dynamic-sql代码 -->
+    <context id="dsql" targetRuntime="MyBatis3DynamicSql">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <commentGenerator>
+            <!-- 去除自动生成的注解。无法全部去除，留下的可以直接replace掉 -->
+            <!-- 个人认为注解太多影响代码观感 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://120.79.155.125:3396/product-msg-qrcode?serverTimezone=Asia/Shanghai"
+                userId="root"
+                password="root"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+            <!-- 使用java8的新时间类型 -->
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator
+                targetPackage="com.example.pmq.domain"
+                targetProject="D:\.generatedfiles"/>
+
+        <javaClientGenerator
+                targetPackage="com.example.pmq.mapper"
+                targetProject="D:\.generatedfiles"/>
+
+        <table tableName="product"/>
+    </context>
+</generatorConfiguration>
