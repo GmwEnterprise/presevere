@@ -1,14 +1,12 @@
 package com.example.pmq.controller;
 
+import com.example.pmq.base.Page;
 import com.example.pmq.domain.Product;
 import com.example.pmq.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/product")
+@RequestMapping("/api/v1/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -20,5 +18,23 @@ public class ProductController {
     @GetMapping("/{productId}")
     public Product getProductByProductId(@PathVariable String productId) {
         return productService.getProduct(productId);
+    }
+
+    @GetMapping
+    public Page<Product> products(@RequestParam(required = false) String productId,
+                                  @RequestParam(required = false) String productName,
+                                  // 分页信息
+                                  @RequestParam(required = false) Integer pageNum,
+                                  @RequestParam(required = false) Integer pageSize) {
+        Product condition = new Product();
+        condition.setProductId(productId);
+        condition.setProductName(productName);
+        if (pageNum < 1) {
+            pageNum = 1; // 默认第1页开始
+        }
+        if (pageSize < 1) {
+            pageSize = 10; // 默认10条一页
+        }
+        return productService.getProduct(condition, pageNum, pageSize);
     }
 }

@@ -17,7 +17,7 @@ export default {
   <a-layout id="components-layout-demo-fixed-sider">
     <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
       <div class="logo" />
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['products']" @select="routeTo">
+      <a-menu theme="dark" mode="inline" @select="routeTo"> <!-- :default-selected-keys="['products']"-->
         <a-menu-item key="products">
           <a-icon type="user" />
           <span class="nav-text">产品信息管理</span>

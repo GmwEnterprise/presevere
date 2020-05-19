@@ -15,3 +15,5 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     enabled: true
+server:
+  port: 4200

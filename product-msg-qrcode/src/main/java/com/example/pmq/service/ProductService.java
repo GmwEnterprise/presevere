@@ -1,5 +1,6 @@
 package com.example.pmq.service;
 
+import com.example.pmq.base.Page;
 import com.example.pmq.domain.Product;
 
 import java.util.List;
@@ -19,9 +20,11 @@ public interface ProductService {
     /**
      * 获取多个产品信息
      * @param condition
+     * @param pageStart
+     * @param pageSize
      * @return
      */
-    List<Product> getProduct(Product condition);
+    Page<Product> getProduct(Product condition, Integer pageStart, Integer pageSize);
 
     /**
      * 保存/更新单个产品信息

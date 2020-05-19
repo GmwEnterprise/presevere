@@ -32,6 +32,6 @@
                 targetPackage="com.example.pmq.mapper"
                 targetProject="D:\.generatedfiles"/>
 
-        <table tableName="product"/>
+        <table tableName="pmq_param"/>
     </context>
 </generatorConfiguration>
