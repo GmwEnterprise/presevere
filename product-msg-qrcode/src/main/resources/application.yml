@@ -17,3 +17,6 @@ spring:
     enabled: true
 server:
   port: 4200
+logging:
+  level:
+    com.example.pmq: debug

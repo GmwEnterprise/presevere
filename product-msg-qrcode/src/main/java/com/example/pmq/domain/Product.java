@@ -18,7 +18,7 @@ public class Product implements Serializable {
     private String productDesc;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private LocalDateTime pruductCreatedTime;
+    private LocalDateTime productCreatedTime;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private byte[] productQrcode;
@@ -67,13 +67,13 @@ public class Product implements Serializable {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public LocalDateTime getPruductCreatedTime() {
-        return pruductCreatedTime;
+    public LocalDateTime getProductCreatedTime() {
+        return productCreatedTime;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setPruductCreatedTime(LocalDateTime pruductCreatedTime) {
-        this.pruductCreatedTime = pruductCreatedTime;
+    public void setProductCreatedTime(LocalDateTime productCreatedTime) {
+        this.productCreatedTime = productCreatedTime;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

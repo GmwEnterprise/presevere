@@ -37,4 +37,9 @@ public class ProductController {
         }
         return productService.getProduct(condition, pageNum, pageSize);
     }
+
+    @PostMapping
+    public void add(@RequestBody Product product) throws Exception {
+        productService.saveProduct(product);
+    }
 }

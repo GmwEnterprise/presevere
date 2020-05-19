@@ -1,12 +1,15 @@
 package com.example.pmq.service.impl;
 
 import com.example.pmq.base.Page;
+import com.example.pmq.domain.PmqParam;
 import com.example.pmq.domain.Product;
 import com.example.pmq.generator.QRCodeGenerator;
+import com.example.pmq.mapper.PmqParamMapper;
 import com.example.pmq.mapper.ProductMapper;
 import com.example.pmq.service.ProductService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -14,6 +17,7 @@ import java.util.List;
 
 import static com.example.pmq.mapper.ProductDynamicSqlSupport.productId;
 import static com.example.pmq.mapper.ProductDynamicSqlSupport.productName;
+import static com.example.pmq.mapper.PmqParamDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 
@@ -22,6 +26,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Resource
     ProductMapper productMapper;
+
+    @Resource
+    PmqParamMapper paramMapper;
 
     @Override
     public Product getProduct(String productIdVal) {
@@ -33,6 +40,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getProduct(Product condition, Integer pageNum, Integer pageSize) {
         Page<Product> page = new Page<>();
+
+        if (StringUtils.isEmpty(condition.getProductName())) {
+            condition.setProductId(null);
+        }
+        if (StringUtils.isEmpty(condition.getProductName())) {
+            condition.setProductName(null);
+        }
 
         long count = productMapper.count(dsl -> dsl
                 .where(productId, isLikeWhenPresent(condition.getProductId()))
@@ -47,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productMapper.select(dsl -> dsl
                 .where(productId, isLikeWhenPresent(condition.getProductId()))
                 .and(productName, isLikeWhenPresent(condition.getProductName()))
-                .limit((pageNum - 1) * pageSize + 1).offset(pageSize.longValue())
+                .limit(pageSize.longValue()).offset((pageNum - 1) * pageSize)
         );
         page.setHasData(true);
         page.setData(products);
@@ -77,25 +91,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveProduct(Product product) throws Exception {
+        PmqParam qrcodeLinkPrefix = paramMapper.selectOne(dsl -> dsl
+                .where(paramCode, isEqualTo("QRCODE_LINK_PREFIX")))
+                .orElseThrow();
         if (product.getId() == null) {
             // 新增
-            String httpUrl = "http://localhost:8080/v1/product/" + product.getProductId();
+            String httpUrl = qrcodeLinkPrefix + product.getProductId();
             byte[] bytes = QRCodeGenerator.content2Bytes(httpUrl);
             product.setProductQrcode(bytes);
-            if (product.getPruductCreatedTime() == null) {
-                product.setPruductCreatedTime(LocalDateTime.now());
+            if (product.getProductCreatedTime() == null) {
+                product.setProductCreatedTime(LocalDateTime.now());
             }
             productMapper.insert(product);
         } else {
             // 修改
             if (product.getProductId() != null) {
                 // 修改产品标识符
-                String httpUrl = "http://localhost:8080/v1/product/" + product.getProductId();
+                String httpUrl = qrcodeLinkPrefix + product.getProductId();
                 byte[] bytes = QRCodeGenerator.content2Bytes(httpUrl);
                 product.setProductQrcode(bytes);
             }
             product.setProductId(null);
-            product.setPruductCreatedTime(null);
+            product.setProductCreatedTime(null);
             productMapper.updateByPrimaryKeySelective(product);
         }
     }

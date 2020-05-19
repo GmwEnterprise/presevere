@@ -35,7 +35,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 @Mapper
 public interface ProductMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    BasicColumn[] selectList = BasicColumn.columnList(id, productId, productName, productDesc, pruductCreatedTime, productQrcode);
+    BasicColumn[] selectList = BasicColumn.columnList(id, productId, productName, productDesc, productCreatedTime, productQrcode);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -65,7 +65,7 @@ public interface ProductMapper {
         @Result(column="product_id", property="productId", jdbcType=JdbcType.VARCHAR),
         @Result(column="product_name", property="productName", jdbcType=JdbcType.VARCHAR),
         @Result(column="product_desc", property="productDesc", jdbcType=JdbcType.VARCHAR),
-        @Result(column="pruduct_created_time", property="pruductCreatedTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="pruduct_created_time", property="productCreatedTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="product_qrcode", property="productQrcode", jdbcType=JdbcType.LONGVARBINARY)
     })
     List<Product> selectMany(SelectStatementProvider selectStatement);
@@ -98,7 +98,7 @@ public interface ProductMapper {
             .map(productId).toProperty("productId")
             .map(productName).toProperty("productName")
             .map(productDesc).toProperty("productDesc")
-            .map(pruductCreatedTime).toProperty("pruductCreatedTime")
+            .map(productCreatedTime).toProperty("productCreatedTime")
             .map(productQrcode).toProperty("productQrcode")
         );
     }
@@ -110,7 +110,7 @@ public interface ProductMapper {
             .map(productId).toProperty("productId")
             .map(productName).toProperty("productName")
             .map(productDesc).toProperty("productDesc")
-            .map(pruductCreatedTime).toProperty("pruductCreatedTime")
+            .map(productCreatedTime).toProperty("productCreatedTime")
             .map(productQrcode).toProperty("productQrcode")
         );
     }
@@ -122,7 +122,7 @@ public interface ProductMapper {
             .map(productId).toPropertyWhenPresent("productId", record::getProductId)
             .map(productName).toPropertyWhenPresent("productName", record::getProductName)
             .map(productDesc).toPropertyWhenPresent("productDesc", record::getProductDesc)
-            .map(pruductCreatedTime).toPropertyWhenPresent("pruductCreatedTime", record::getPruductCreatedTime)
+            .map(productCreatedTime).toPropertyWhenPresent("productCreatedTime", record::getProductCreatedTime)
             .map(productQrcode).toPropertyWhenPresent("productQrcode", record::getProductQrcode)
         );
     }
@@ -160,7 +160,7 @@ public interface ProductMapper {
                 .set(productId).equalTo(record::getProductId)
                 .set(productName).equalTo(record::getProductName)
                 .set(productDesc).equalTo(record::getProductDesc)
-                .set(pruductCreatedTime).equalTo(record::getPruductCreatedTime)
+                .set(productCreatedTime).equalTo(record::getProductCreatedTime)
                 .set(productQrcode).equalTo(record::getProductQrcode);
     }
 
@@ -170,7 +170,7 @@ public interface ProductMapper {
                 .set(productId).equalToWhenPresent(record::getProductId)
                 .set(productName).equalToWhenPresent(record::getProductName)
                 .set(productDesc).equalToWhenPresent(record::getProductDesc)
-                .set(pruductCreatedTime).equalToWhenPresent(record::getPruductCreatedTime)
+                .set(productCreatedTime).equalToWhenPresent(record::getProductCreatedTime)
                 .set(productQrcode).equalToWhenPresent(record::getProductQrcode);
     }
 
@@ -180,7 +180,7 @@ public interface ProductMapper {
             c.set(productId).equalTo(record::getProductId)
             .set(productName).equalTo(record::getProductName)
             .set(productDesc).equalTo(record::getProductDesc)
-            .set(pruductCreatedTime).equalTo(record::getPruductCreatedTime)
+            .set(productCreatedTime).equalTo(record::getProductCreatedTime)
             .set(productQrcode).equalTo(record::getProductQrcode)
             .where(id, isEqualTo(record::getId))
         );
@@ -192,7 +192,7 @@ public interface ProductMapper {
             c.set(productId).equalToWhenPresent(record::getProductId)
             .set(productName).equalToWhenPresent(record::getProductName)
             .set(productDesc).equalToWhenPresent(record::getProductDesc)
-            .set(pruductCreatedTime).equalToWhenPresent(record::getPruductCreatedTime)
+            .set(productCreatedTime).equalToWhenPresent(record::getProductCreatedTime)
             .set(productQrcode).equalToWhenPresent(record::getProductQrcode)
             .where(id, isEqualTo(record::getId))
         );

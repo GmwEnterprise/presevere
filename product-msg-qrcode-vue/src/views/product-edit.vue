@@ -42,9 +42,9 @@ export default {
       wrapperCol: { span: 14 },
 
       product: {
-        productId: '',
-        productName: '',
-        productDesc: '',
+        productId: "",
+        productName: "",
+        productDesc: "",
         productCreatedTime: null
       },
       productRules: {
@@ -53,29 +53,49 @@ export default {
         // https://github.com/yiminghe/async-validator
         // 需要通过 rules 属性传入约定的验证规则，并将 FormItem 的 prop 属性设置为需校验的字段名
         productId: [
-          { required: true, message: '产品编号为必填项', trigger: 'blur' }
+          { required: true, message: "产品编号为必填项", trigger: "blur" }
         ],
         productName: [
-          { required: true, message: '产品名称为必填项', trigger: 'blur' }
+          { required: true, message: "产品名称为必填项", trigger: "blur" }
         ]
       }
-    }
+    };
   },
   methods: {
     onSubmit() {
-      console.log('submit!', this.form)
+      console.log("submit!", this.form);
       this.$refs.productRuleForm.validate(valid => {
         if (valid) {
           // TODO submit
+          this.axios
+            .post("http://localhost:4200/api/v1/product", {
+              productId: this.product.productId,
+              productName: this.product.productName,
+              productDesc: this.product.productDesc,
+              productCreatedTime: this.product.productCreatedTime !== null ? this.product.productCreatedTime.format("YYYY-MM-DD HH:mm:ss") : null
+            })
+            .then(resp => {
+              console.log("添加后响应：");
+              console.log(resp);
+
+              this.$notification["success"]({
+                message: "成功",
+                description: "成功插入产品信息"
+              });
+              this.product.productId = ''
+              this.product.productName = ''
+              this.product.productDesc = ''
+              this.product.productCreatedTime = null
+            });
         } else {
-          alert('请完成表单') // TODO 提示框美化
-          return false
+          alert("请完成表单"); // TODO 提示框美化
+          return false;
         }
-      })
+      });
     },
     goback() {
-      this.$router.push({ path: '/admin/products' })
+      this.$router.push({ path: "/admin/products" });
     }
   }
-}
+};
 </script>

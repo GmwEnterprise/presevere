@@ -23,7 +23,7 @@ public final class ProductDynamicSqlSupport {
     public static final SqlColumn<String> productDesc = product.productDesc;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<LocalDateTime> pruductCreatedTime = product.pruductCreatedTime;
+    public static final SqlColumn<LocalDateTime> productCreatedTime = product.productCreatedTime;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<byte[]> productQrcode = product.productQrcode;
@@ -38,7 +38,7 @@ public final class ProductDynamicSqlSupport {
 
         public final SqlColumn<String> productDesc = column("product_desc", JDBCType.VARCHAR);
 
-        public final SqlColumn<LocalDateTime> pruductCreatedTime = column("pruduct_created_time", JDBCType.TIMESTAMP);
+        public final SqlColumn<LocalDateTime> productCreatedTime = column("product_created_time", JDBCType.TIMESTAMP);
 
         public final SqlColumn<byte[]> productQrcode = column("product_qrcode", JDBCType.LONGVARBINARY);
 
