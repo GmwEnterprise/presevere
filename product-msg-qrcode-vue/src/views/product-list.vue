@@ -22,66 +22,24 @@
       </a-form>
     </div>
     <hr style="border-color: red; margin: 2em 0; border: .1px solid #d9d9d9;" />
-    <a-table
-      v-if="pageParam.hasData"
-      :row-selection="rowSelection"
-      :columns="columns"
-      :data-source="data"
-      bordered
-    >
-      <a slot="name" slot-scope="text">{{ text }}</a>
+    <a-table :data-source="data" bordered>
+      <a-table-column key="productId" data-index="productId" title="产品编号" />
+      <a-table-column key="productName" data-index="productName" title="产品名称" />
+      <a-table-column key="productDesc" data-index="productDesc" title="产品描述" />
+      <a-table-column key="productCreatedTime" data-index="productCreatedTime" title="生产日期" />
+      <a-table-column key="base64QRCode" data-index="base64QRCode" title="二维码">
+        <template slot-scope="text, record">
+          <img :src="`data:image/jpeg;base64,${record.base64QRCode}`" width="100" height="100" />
+        </template>
+      </a-table-column>
     </a-table>
-    <div v-else class="has-no-data">暂无数据</div>
   </div>
 </template>
 <script>
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    scopedSlots: { customRender: 'name' }
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age'
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address'
-  }
-]
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park'
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park'
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park'
-  },
-  {
-    key: '4',
-    name: 'Disabled User',
-    age: 99,
-    address: 'Sidney No. 1 Lake Park'
-  }
-]
-
 export default {
   data() {
     return {
-      data,
-      columns,
+      data: [],
 
       // 查询条件
       condition: {
@@ -99,25 +57,7 @@ export default {
       }
     }
   },
-  computed: {
-    rowSelection() {
-      return {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            'selectedRows: ',
-            selectedRows
-          )
-        },
-        getCheckboxProps: record => ({
-          props: {
-            disabled: record.name === 'Disabled User', // Column configuration not to be checked
-            name: record.name
-          }
-        })
-      }
-    }
-  },
+  computed: {},
   methods: {
     addNewProduct() {
       this.$router.push({ path: '/admin/product/new' })
@@ -134,16 +74,32 @@ export default {
           }
         })
         .then(resp => {
+          this.data = []
           const data = resp.data
-          this.pageParam.hasData = data.hasdata
-          if (!this.pageParam.hasData) {
-            // TODO 将列表页的显示修改为无数据模式
-            this.data = []
+          if (!data.hasData) {
+            this.$notification['info']({
+              message: '提示',
+              description: '暂无数据'
+            })
           } else {
-            // TODO 展示数据
+            console.log(data)
 
-            // TODO 已经可以返回数据
-            console.log(this.pageParam)
+            this.pageParam.currentPage = data.currentPage
+            this.pageParam.hasData = true
+            this.pageParam.hasNext = data.hasNext
+            this.pageParam.hasPrev = data.hasPrev
+            this.pageParam.totalPageSize = data.totalPageSize
+
+            data.data.forEach(item => {
+              this.data.push({
+                key: item.id,
+                productId: item.productId,
+                productName: item.productName,
+                productDesc: item.productDesc,
+                productCreatedTime: item.productCreatedTime,
+                base64QRCode: item.base64qrcode
+              })
+            })
           }
         })
     }

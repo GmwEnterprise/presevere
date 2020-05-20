@@ -3,6 +3,7 @@ package com.example.pmq.controller;
 import com.example.pmq.base.Page;
 import com.example.pmq.domain.Product;
 import com.example.pmq.service.ProductService;
+import com.example.pmq.vo.ProductVO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,11 +22,11 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<Product> products(@RequestParam(required = false) String productId,
-                                  @RequestParam(required = false) String productName,
-                                  // 分页信息
-                                  @RequestParam(required = false) Integer pageNum,
-                                  @RequestParam(required = false) Integer pageSize) {
+    public Page<ProductVO> products(@RequestParam(required = false) String productId,
+                                    @RequestParam(required = false) String productName,
+                                    // 分页信息
+                                    @RequestParam(required = false) Integer pageNum,
+                                    @RequestParam(required = false) Integer pageSize) {
         Product condition = new Product();
         condition.setProductId(productId);
         condition.setProductName(productName);

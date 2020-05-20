@@ -4,7 +4,7 @@ create table if not exists `product-msg-qrcode`.product
     product_id           varchar(32)                    not null comment '产品标识符',
     product_name         varchar(64)  default ''        not null comment '产品名称',
     product_desc         varchar(128) default '此产品暂无描述' not null comment '产品描述',
-    pruduct_created_time datetime                       not null comment '产品创建时间',
+    product_created_time datetime                       not null comment '产品创建时间',
     product_qrcode       blob                           null,
     constraint product_id
         unique (product_id)

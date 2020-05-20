@@ -7,6 +7,8 @@ import com.example.pmq.generator.QRCodeGenerator;
 import com.example.pmq.mapper.PmqParamMapper;
 import com.example.pmq.mapper.ProductMapper;
 import com.example.pmq.service.ProductService;
+import com.example.pmq.vo.ProductVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -14,10 +16,11 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.example.pmq.mapper.PmqParamDynamicSqlSupport.paramCode;
 import static com.example.pmq.mapper.ProductDynamicSqlSupport.productId;
 import static com.example.pmq.mapper.ProductDynamicSqlSupport.productName;
-import static com.example.pmq.mapper.PmqParamDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 
@@ -38,8 +41,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProduct(Product condition, Integer pageNum, Integer pageSize) {
-        Page<Product> page = new Page<>();
+    public Page<ProductVO> getProduct(Product condition, Integer pageNum, Integer pageSize) {
+        Page<ProductVO> page = new Page<>();
 
         if (StringUtils.isEmpty(condition.getProductName())) {
             condition.setProductId(null);
@@ -64,7 +67,12 @@ public class ProductServiceImpl implements ProductService {
                 .limit(pageSize.longValue()).offset((pageNum - 1) * pageSize)
         );
         page.setHasData(true);
-        page.setData(products);
+        page.setData(products.stream().map(domain -> {
+            ProductVO vo = new ProductVO();
+            BeanUtils.copyProperties(domain, vo);
+            vo.setBase64qrcode(QRCodeGenerator.bytesToBase64(domain.getProductQrcode()));
+            return vo;
+        }).collect(Collectors.toList()));
         int totalPage = (int) ((count + pageSize - 1) / pageSize);
         page.setTotalPageSize(totalPage);
         if (totalPage == 1) {
@@ -96,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow();
         if (product.getId() == null) {
             // 新增
-            String httpUrl = qrcodeLinkPrefix + product.getProductId();
+            String httpUrl = qrcodeLinkPrefix.getParamValue() + product.getProductId();
             byte[] bytes = QRCodeGenerator.content2Bytes(httpUrl);
             product.setProductQrcode(bytes);
             if (product.getProductCreatedTime() == null) {
@@ -107,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
             // 修改
             if (product.getProductId() != null) {
                 // 修改产品标识符
-                String httpUrl = qrcodeLinkPrefix + product.getProductId();
+                String httpUrl = qrcodeLinkPrefix.getParamValue() + product.getProductId();
                 byte[] bytes = QRCodeGenerator.content2Bytes(httpUrl);
                 product.setProductQrcode(bytes);
             }

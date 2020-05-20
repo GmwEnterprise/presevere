@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 public class Product implements Serializable {
+
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Integer id;
 

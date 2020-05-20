@@ -65,7 +65,7 @@ public interface ProductMapper {
         @Result(column="product_id", property="productId", jdbcType=JdbcType.VARCHAR),
         @Result(column="product_name", property="productName", jdbcType=JdbcType.VARCHAR),
         @Result(column="product_desc", property="productDesc", jdbcType=JdbcType.VARCHAR),
-        @Result(column="pruduct_created_time", property="productCreatedTime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="product_created_time", property="productCreatedTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="product_qrcode", property="productQrcode", jdbcType=JdbcType.LONGVARBINARY)
     })
     List<Product> selectMany(SelectStatementProvider selectStatement);

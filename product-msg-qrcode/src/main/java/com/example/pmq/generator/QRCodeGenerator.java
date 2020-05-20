@@ -11,6 +11,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,10 @@ public final class QRCodeGenerator {
      * 二维码图片默认类型
      */
     private static final String DEFAULT_QRCODE_IMAGE_TYPE = "jpeg";
+
+    public static String bytesToBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
 
     /**
      * 将内容转换为二维码
