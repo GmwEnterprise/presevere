@@ -13,6 +13,7 @@
         <module>netty-demo1</module>
         <module>netty-in-action-echo-server</module>
         <module>netty-in-action-echo-client</module>
+        <module>selectable-im</module>
     </modules>
     <packaging>pom</packaging>
 
