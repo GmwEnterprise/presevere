@@ -7,7 +7,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class Client {
 
@@ -18,14 +17,12 @@ public class Client {
 
         Selector selector = Selector.open();
 
-        socketChannel.register(selector, SelectionKey.OP_WRITE);
+        socketChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_CONNECT);
         socketChannel.connect(new InetSocketAddress("localhost", 4000));
 
         while (true) {
-            int select = selector.select();
-            if (select == 0) {
-                continue;
-            }
+            int count = selector.select();
+            System.out.println("select = " + count);
             Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
             while (keyIterator.hasNext()) {
                 System.out.println("hasNext");
