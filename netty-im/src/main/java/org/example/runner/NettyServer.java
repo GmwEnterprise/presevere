@@ -1,4 +1,4 @@
-package org.example;
+package org.example.runner;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -7,7 +7,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
-import org.example.handlers.ServerHandler;
+import org.example.handlers.PacketDecoder;
+import org.example.handlers.PacketEncoder;
+import org.example.handlers.Spliter;
+import org.example.handlers.server.LoginRequestHandler;
+import org.example.handlers.server.MessageRequestHandler;
 
 public class NettyServer {
 
@@ -22,7 +26,12 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandler());
+                        ch.pipeline()
+                                .addLast(new Spliter())
+                                .addLast(new PacketDecoder())
+                                .addLast(new LoginRequestHandler())
+                                .addLast(new MessageRequestHandler())
+                                .addLast(new PacketEncoder());
                     }
                 })
                 // 开启底层心跳机制

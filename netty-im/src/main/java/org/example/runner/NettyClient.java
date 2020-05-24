@@ -1,4 +1,4 @@
-package org.example;
+package org.example.runner;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -10,7 +10,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
-import org.example.handlers.ClientHandler;
+import org.example.LoginUtils;
+import org.example.handlers.PacketDecoder;
+import org.example.handlers.PacketEncoder;
+import org.example.handlers.Spliter;
+import org.example.handlers.client.LoginResponseHandler;
+import org.example.handlers.client.MessageResponseHandler;
 import org.example.packet.MessageRequestPacket;
 import org.example.packet.PacketCodeC;
 
@@ -33,7 +38,12 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline()
+                                .addLast(new Spliter())
+                                .addLast(new PacketDecoder())
+                                .addLast(new LoginResponseHandler())
+                                .addLast(new MessageResponseHandler())
+                                .addLast(new PacketEncoder());
                     }
                 });
         connect(bootstrap, 5, 1);
