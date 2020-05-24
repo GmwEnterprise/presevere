@@ -1,4 +1,4 @@
-package org.example;
+package org.example.packet;
 
 import static org.example.Command.LOGIN_REQUEST;
 
@@ -6,6 +6,11 @@ public class LoginRequestPacket extends Packet {
     private String userId;
     private String username;
     private String password;
+
+    @Override
+    public String toString() {
+        return String.format("[%s/%s/******]", userId, username);
+    }
 
     @Override
     public Byte getCommand() {

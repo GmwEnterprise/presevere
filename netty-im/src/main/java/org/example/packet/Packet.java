@@ -1,4 +1,4 @@
-package org.example;
+package org.example.packet;
 
 public abstract class Packet {
     private Byte version = 1;

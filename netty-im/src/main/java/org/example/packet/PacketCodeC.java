@@ -1,17 +1,20 @@
-package org.example;
+package org.example.packet;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import org.example.JSONSerializer;
+import org.example.Serializer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.example.Command.LOGIN_REQUEST;
+import static org.example.Command.*;
 
 public class PacketCodeC {
     public static final PacketCodeC INSTANCE = new PacketCodeC();
 
-    private PacketCodeC() {}
+    private PacketCodeC() {
+    }
 
     private static final int MAGIC_NUMBER = 0x12345678;
     private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
@@ -20,6 +23,9 @@ public class PacketCodeC {
     static {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

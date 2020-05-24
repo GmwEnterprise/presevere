@@ -7,7 +7,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
-import org.example.handlers.FirstServerHandler;
 import org.example.handlers.ServerHandler;
 
 public class NettyServer {
@@ -16,17 +15,14 @@ public class NettyServer {
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup worker = new NioEventLoopGroup();
 
-        ServerBootstrap serverBootstrap = new ServerBootstrap();
-        serverBootstrap
+        ServerBootstrap serverBootstrap = new ServerBootstrap()
                 .group(boss, worker)
                 .channel(NioServerSocketChannel.class)
                 .attr(AttributeKey.newInstance("serverName"), "nettyServer")
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline()
-                                .addLast(new FirstServerHandler())
-                                .addLast(new ServerHandler());
+                        ch.pipeline().addLast(new ServerHandler());
                     }
                 })
                 // 开启底层心跳机制
