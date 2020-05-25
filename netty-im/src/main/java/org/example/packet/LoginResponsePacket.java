@@ -5,6 +5,7 @@ import org.example.Command;
 public class LoginResponsePacket extends Packet {
     private Boolean success;
     private String reason;
+    private String userId;
 
     @Override
     public Byte getCommand() {
@@ -25,5 +26,13 @@ public class LoginResponsePacket extends Packet {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

@@ -10,7 +10,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
-import org.example.LoginUtils;
 import org.example.handlers.PacketDecoder;
 import org.example.handlers.PacketEncoder;
 import org.example.handlers.Spliter;
@@ -26,6 +25,10 @@ import java.util.concurrent.TimeUnit;
 public class NettyClient {
 
     public static void main(String[] args) {
+        runClient();
+    }
+
+    public static void runClient() {
         NioEventLoopGroup worker = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap()
                 .attr(AttributeKey.newInstance("clientName"), "nettyClient")
@@ -68,16 +71,16 @@ public class NettyClient {
     private static void startConsoleThread(Channel channel) {
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtils.hasLogin(channel)) {
-                    System.out.print("输入消息发送至服务端: ");
-                    Scanner scanner = new Scanner(System.in);
-                    String line = scanner.nextLine();
+                System.out.println("输入消息发送至服务端: ");
+                Scanner scanner = new Scanner(System.in);
+                String line = scanner.nextLine();
 
-                    MessageRequestPacket packet = new MessageRequestPacket();
-                    packet.setMessage(line);
-                    ByteBuf buf = PacketCodeC.INSTANCE.encode(packet, channel.alloc());
-                    channel.writeAndFlush(buf);
-                }
+                // TODO 小册16章末尾
+
+                MessageRequestPacket packet = new MessageRequestPacket();
+                packet.setMessage(line);
+                ByteBuf buf = PacketCodeC.INSTANCE.encode(packet, channel.alloc());
+                channel.writeAndFlush(buf);
             }
         }).start();
     }

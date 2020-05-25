@@ -3,6 +3,7 @@ package org.example.packet;
 import static org.example.Command.MESSAGE_REQUEST;
 
 public class MessageRequestPacket extends Packet {
+    private String to;
     private String message;
 
     @Override
@@ -16,5 +17,13 @@ public class MessageRequestPacket extends Packet {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 }

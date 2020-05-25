@@ -4,14 +4,14 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
 import org.example.handlers.PacketDecoder;
 import org.example.handlers.PacketEncoder;
 import org.example.handlers.Spliter;
-import org.example.handlers.server.LoginRequestHandler;
-import org.example.handlers.server.MessageRequestHandler;
+import org.example.handlers.server.*;
 
 public class NettyServer {
 
@@ -23,13 +23,21 @@ public class NettyServer {
                 .group(boss, worker)
                 .channel(NioServerSocketChannel.class)
                 .attr(AttributeKey.newInstance("serverName"), "nettyServer")
+                .handler(new ChannelInitializer<ServerSocketChannel>() {
+                    @Override
+                    protected void initChannel(ServerSocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(new CustomServerHandler());
+                    }
+                })
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline()
+                                .addLast(new CustomTaskInboundHandler())
                                 .addLast(new Spliter())
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginRequestHandler())
+                                .addLast(new AuthHandler())
                                 .addLast(new MessageRequestHandler())
                                 .addLast(new PacketEncoder());
                     }
