@@ -1,0 +1,21 @@
+server:
+  port: 4200
+  servlet:
+    context-path: /api
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://120.79.155.125:3306/wechat?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+  redis:
+    host: 120.79.155.125
+    port: 6379
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.github.mrag.wechat: debug
