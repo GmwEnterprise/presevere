@@ -1,0 +1,4 @@
+GET http://localhost:4200/api/wechatUser/1/friends
+Accept: application/json
+
+###

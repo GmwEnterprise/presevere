@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/wechatUser")
@@ -16,7 +17,12 @@ public class WechatUserController {
     private WechatUserService wechatUserService;
 
     @GetMapping("/{wechatUserId}")
-    public WechatUser getOne(@PathVariable Integer wechatUserId) {
-        return wechatUserService.getOne(wechatUserId);
+    public WechatUser user(@PathVariable Integer wechatUserId) {
+        return wechatUserService.findByUserId(wechatUserId);
+    }
+
+    @GetMapping("/{wechatUserId}/friends")
+    public List<WechatUser> friends(@PathVariable Integer wechatUserId) {
+        return wechatUserService.findRelationListByUserId(wechatUserId);
     }
 }

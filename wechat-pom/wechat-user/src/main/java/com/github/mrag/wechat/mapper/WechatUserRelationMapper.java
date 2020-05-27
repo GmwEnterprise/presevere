@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Generated;
+
+import com.github.mrag.wechat.type.EnumRelationType;
+import com.github.mrag.wechat.type.EnumStatus;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -63,10 +66,10 @@ public interface WechatUserRelationMapper {
     @Results(id="WechatUserRelationResult", value = {
         @Result(column="from_user_id", property="fromUserId", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="to_user_id", property="toUserId", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="relation_type", property="relationType", jdbcType=JdbcType.TINYINT),
+        @Result(column="relation_type", property="relationType", jdbcType=JdbcType.TINYINT, javaType = EnumRelationType.class),
         @Result(column="created_time", property="createdTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="established_time", property="establishedTime", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="status", property="status", jdbcType=JdbcType.TINYINT)
+        @Result(column="status", property="status", jdbcType=JdbcType.TINYINT, javaType = EnumStatus.class)
     })
     List<WechatUserRelation> selectMany(SelectStatementProvider selectStatement);
 
