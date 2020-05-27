@@ -2,13 +2,13 @@ package com.github.mrag.wechat.im;
 
 public enum EnumCommand {
     /**
-     * 发一条消息给一个朋友
+     * 发送单条消息给一个用户
      */
-    SEND_MESSAGE_TO_A_FRIEND(1),
+    SINGLE_MSG_TO_ONE_USER(1),
     /**
-     * 群发消息给多个朋友
+     * 发送单条消息给多个用户
      */
-    SEND_MESSAGE_TO_MANY_FRIENDS(2);
+    SINGLE_MSG_TO_MANY_USER(2);
 
     private final int command;
 
@@ -17,8 +17,15 @@ public enum EnumCommand {
     }
 
     public static EnumCommand of(int command) {
-        for (EnumCommand cmd : values())
-            if (cmd.command == command) return cmd;
+        for (EnumCommand cmd : values()) {
+            if (cmd.command == command) {
+                return cmd;
+            }
+        }
         return null;
+    }
+
+    public int getCommand() {
+        return command;
     }
 }

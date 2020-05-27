@@ -1,3 +1,5 @@
+create schema wechat;
+
 create table wechat_user (
     user_id int primary key auto_increment comment '用户ID',
     username varchar(64) not null unique comment '用户名',
