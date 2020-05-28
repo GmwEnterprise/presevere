@@ -24,11 +24,44 @@ public final class PacketCodec {
         serializationMap.put(EnumSerializationMethod.HESSIAN, new HessianSerialization());
     }
 
+    private PacketCodec() {
+    }
+
+    private static PacketCodec instance = null;
+
+    public static PacketCodec getInstance() {
+        if (instance == null) {
+            instance = new PacketCodec();
+        }
+        return instance;
+    }
+
     public ByteBuf encode(Packet packet, ByteBufAllocator alloc) {
         ByteBuf buf = alloc.buffer();
-        Class<? extends Packet> packetType = typeMap.get(packet.command());
-        
-        // TODO 未完成
+
+        EnumCommand cmd = packet.command();
+        EnumSerializationMethod method = packet.serializationMethod();
+
+        buf.writeLong(packet.serialVersionUID());
+        buf.writeInt(method.getMethod());
+        buf.writeInt(cmd.getCommand());
+
+        byte[] body = serializationMap.get(method).serialize(packet);
+        buf.writeInt(body.length);
+        buf.writeBytes(body);
+
         return buf;
+    }
+
+    public Packet decode(ByteBuf in) {
+        long serialVersionUID = in.readLong();
+        int methodVal = in.readInt();
+        int cmdVal = in.readInt();
+        int bodyLength = in.readInt();
+        byte[] body = new byte[bodyLength];
+        in.readBytes(body);
+
+        Class<? extends Packet> type = typeMap.get(EnumCommand.of(cmdVal));
+        return serializationMap.get(EnumSerializationMethod.of(methodVal)).deserialize(body, type);
     }
 }

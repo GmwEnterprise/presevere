@@ -3,7 +3,11 @@ package com.github.mrag.wechat.im.packets;
 import com.github.mrag.wechat.im.EnumCommand;
 import com.github.mrag.wechat.im.serialization.EnumSerializationMethod;
 
-public interface Packet {
+import java.io.Serializable;
+
+public interface Packet extends Serializable {
+
+    long serialVersionUID();
 
     EnumCommand command();
 
