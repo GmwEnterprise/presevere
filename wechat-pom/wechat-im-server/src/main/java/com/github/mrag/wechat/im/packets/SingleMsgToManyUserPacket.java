@@ -9,9 +9,4 @@ public class SingleMsgToManyUserPacket implements Packet {
     public EnumCommand command() {
         return SINGLE_MSG_TO_MANY_USER;
     }
-
-    @Override
-    public int commandValue() {
-        return SINGLE_MSG_TO_MANY_USER.getCommand();
-    }
 }
