@@ -14,9 +14,5 @@
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
     </dependencies>
 </project>
