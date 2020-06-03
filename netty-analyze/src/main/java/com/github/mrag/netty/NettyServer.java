@@ -1,6 +1,7 @@
 package com.github.mrag.netty;
 
 import com.github.mrag.netty.inbound.FirstInboundHandler;
+import com.github.mrag.netty.inbound.InboundExpHandler;
 import com.github.mrag.netty.inbound.SecondInboundHandler;
 import com.github.mrag.netty.outbound.FirstOutboundHandler;
 import com.github.mrag.netty.outbound.SecondOutboundHandler;
@@ -23,10 +24,11 @@ public class NettyServer {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(new FirstInboundHandler())
+                        pipeline.addLast(new SecondOutboundHandler())
+                                .addLast(new FirstInboundHandler())
                                 .addLast(new SecondInboundHandler())
-                                .addLast(new SecondOutboundHandler())
-                                .addLast(new FirstOutboundHandler());
+                                .addLast(new FirstOutboundHandler())
+                                .addLast(new InboundExpHandler());
                     }
                 });
         ChannelFuture f = bs.bind().sync();
