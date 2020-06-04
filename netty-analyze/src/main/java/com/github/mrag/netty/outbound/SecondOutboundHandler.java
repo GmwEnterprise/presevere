@@ -9,6 +9,6 @@ public class SecondOutboundHandler extends ChannelOutboundHandlerAdapter {
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         System.out.println("second outbound");
-        super.write(ctx, msg, promise);
+        promise.setFailure(new Exception("没有理由"));
     }
 }

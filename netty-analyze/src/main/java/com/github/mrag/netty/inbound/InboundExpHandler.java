@@ -11,9 +11,9 @@ public class InboundExpHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         ctx.close().addListener(f -> {
             if (f.isSuccess()) {
-                System.err.println("错误信息：" + cause.getMessage());
+                System.err.println(">>> 错误信息：" + cause.getMessage());
             } else {
-                System.err.println("关闭连接错误！错误信息：" + cause.getMessage());
+                System.err.println(">>> 关闭连接错误！错误信息：" + cause.getMessage());
             }
         });
     }

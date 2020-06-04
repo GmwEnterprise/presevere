@@ -1,6 +1,7 @@
 package com.github.mrag.netty.inbound;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
@@ -12,7 +13,7 @@ public class FirstInboundHandler extends ChannelInboundHandlerAdapter {
         System.out.println("first inbound");
         ByteBuf buf = ctx.alloc().heapBuffer();
         buf.writeBytes("你也好".getBytes());
-        ctx.channel().writeAndFlush(buf);
+        ctx.channel().writeAndFlush(buf).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 
         if (ReferenceCountUtil.release(msg)) {
             System.out.println("资源释放成功");
