@@ -28,13 +28,23 @@ public final class PacketCodec {
     private PacketCodec() {
     }
 
-    private static PacketCodec instance = null;
+    private static class PacketCodecHolder {
+        private static final PacketCodec instance = new PacketCodec();
+    }
 
     public static PacketCodec getInstance() {
+        /*
         if (instance == null) {
-            instance = new PacketCodec();
+
+            // 完成第一次初始化以后，就不会再进入这个同步代码块了
+            synchronized (PacketCodec.class) {
+                if (instance == null) {
+                    instance = new PacketCodec();
+                }
+            }
         }
-        return instance;
+        */
+        return PacketCodecHolder.instance; // 静态内部类，也属于懒加载，且线程安全
     }
 
     public ByteBuf encode(Packet packet, ByteBufAllocator alloc) throws JsonProcessingException {
@@ -55,7 +65,7 @@ public final class PacketCodec {
     }
 
     public Packet decode(ByteBuf in) throws JsonProcessingException {
-        long serialVersionUID = in.readLong();
+        in.readLong(); // 略过serialVersionUID
         int methodVal = in.readInt();
         int cmdVal = in.readInt();
         int bodyLength = in.readInt();

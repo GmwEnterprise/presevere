@@ -9,21 +9,20 @@ import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+import static com.github.mrag.wechat.mapper.WechatUserDynamicSqlSupport.username;
 import static com.github.mrag.wechat.mapper.WechatUserDynamicSqlSupport.wechatUser;
 import static com.github.mrag.wechat.mapper.WechatUserRelationDynamicSqlSupport.wechatUserRelation;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Service
 public class WechatUserServiceImpl implements WechatUserService {
-    public WechatUserServiceImpl(WechatUserMapper wechatUserMapper, WechatUserRelationMapper wechatUserRelationMapper) {
-        this.wechatUserMapper = wechatUserMapper;
-        this.wechatUserRelationMapper = wechatUserRelationMapper;
-    }
-
-    private final WechatUserMapper wechatUserMapper;
-    private final WechatUserRelationMapper wechatUserRelationMapper;
+    @Resource
+    private WechatUserMapper wechatUserMapper;
+    @Resource
+    private WechatUserRelationMapper wechatUserRelationMapper;
 
     @Override
     public WechatUser findByUserId(Integer wechatUserId) {
@@ -39,7 +38,13 @@ public class WechatUserServiceImpl implements WechatUserService {
                 .where(wechatUser.userId, isEqualTo(wechatUserId))
                 .and(wechatUserRelation.relationType, isEqualTo(EnumRelationType.FRIEND))
                 .and(wechatUserRelation.status, isEqualTo(EnumStatus.VALID))
-                .build().render(RenderingStrategies.MYBATIS3);
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
         return wechatUserMapper.selectMany(selectStatementProvider);
+    }
+
+    @Override
+    public List<WechatUser> findByUsername(String uname) {
+        return wechatUserMapper.select(dsl -> dsl.where(username, isLike(uname)));
     }
 }

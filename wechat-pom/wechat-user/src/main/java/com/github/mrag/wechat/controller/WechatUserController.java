@@ -25,4 +25,9 @@ public class WechatUserController {
     public List<WechatUser> friends(@PathVariable Integer wechatUserId) {
         return wechatUserService.findRelationListByUserId(wechatUserId);
     }
+
+    @GetMapping("/findByName/{name}")
+    public List<WechatUser> findByName(@PathVariable String name) {
+        return wechatUserService.findByUsername(name);
+    }
 }

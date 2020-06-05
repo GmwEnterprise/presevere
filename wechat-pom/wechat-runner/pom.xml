@@ -12,7 +12,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.mrag</groupId>
-            <artifactId>wechat-im-server</artifactId>
+            <artifactId>wechat-message</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.mrag</groupId>

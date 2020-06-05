@@ -1,17 +1,9 @@
-server:
-  port: 4200
-  servlet:
-    context-path: /api
-
 spring:
+  profiles:
+    active: matebook
+
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    username: root
-    password: gan1ming2wei3
-    url: jdbc:mysql://120.79.155.125:4001/wechat?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-  redis:
-    host: 120.79.155.125
-    port: 4003 # 自己配置的docker实例，端口映射了4003:6379
 
 mybatis:
   configuration:
@@ -21,3 +13,8 @@ mybatis:
 logging:
   level:
     com.github.mrag.wechat: debug
+
+server:
+  port: 4200
+  servlet:
+    context-path: /api

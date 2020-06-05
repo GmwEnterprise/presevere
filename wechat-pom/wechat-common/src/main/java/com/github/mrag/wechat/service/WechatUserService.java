@@ -8,4 +8,6 @@ public interface WechatUserService {
     WechatUser findByUserId(Integer wechatUserId);
 
     List<WechatUser> findRelationListByUserId(Integer userId);
+
+    List<WechatUser> findByUsername(String uname);
 }
