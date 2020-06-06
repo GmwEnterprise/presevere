@@ -1,7 +1,5 @@
-package com.github.mrag.wechat.im.handlers;
+package com.github.mrag.wechat.im.packets;
 
-import com.github.mrag.wechat.im.packets.Packet;
-import com.github.mrag.wechat.im.packets.PacketCodec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
