@@ -2,14 +2,12 @@ package com.github.mrag.netty.learn1;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.handler.codec.TooLongFrameException;
 
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -25,49 +23,54 @@ public final class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline()
-                                .addLast(new ByteToMessageDecoder() {
+                        ch.pipeline().addLast(
+                                new ByteToMessageDecoder() {
                                     @Override
                                     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-                                        System.out.println("decode, out.size() == " + out.size());
-                                        int intValueByteLength = 4;
-                                        while (in.readableBytes() >= intValueByteLength) {
-                                            out.add(in.readInt());
+                                        int readableBytes = in.readableBytes();
+                                        System.out.println(in.hashCode() + " -> 可读字节数：" + readableBytes);
+                                        if (readableBytes >= 4) {
+                                            byte one = in.readByte();
+                                            byte two = in.readByte();
+                                            byte three = in.readByte();
+                                            byte four = in.readByte();
+                                            StringBuilder sb = new StringBuilder()
+                                                    .append("[")
+                                                    .append(one).append(", ")
+                                                    .append(two).append(", ")
+                                                    .append(three).append(", ")
+                                                    .append(four).append("]");
+                                            out.add(sb);
+                                            out.add(Integer.parseInt(Math.abs(one) + "" + Math.abs(two) + "" + Math.abs(three) + "" + Math.abs(four)));
+                                        } else if (readableBytes == 2) {
+                                            throw new TooLongFrameException("长度超出要求");
                                         }
                                     }
                                 })
                                 .addLast(new ChannelInboundHandlerAdapter() {
                                     @Override
                                     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                        // msg应该是ByteBuf类型
-                                        System.out.println("channelRead-1");
-                                        System.out.println(msg.getClass());
-//                                        super.channelRead(ctx, msg);
+                                        System.out.println(" >> channelInboundHandler[typeof msg = " + msg.getClass() + "]");
+                                        super.channelRead(ctx, msg);
                                     }
-
+                                })
+                                .addLast(new SimpleChannelInboundHandler<StringBuilder>() {
                                     @Override
-                                    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-                                        System.out.println("channelReadComplete-1");
-                                        ctx.channel().writeAndFlush("你好，我是服务端！");
+                                    protected void channelRead0(ChannelHandlerContext ctx, StringBuilder msg) throws Exception {
+                                        System.out.println("STR VALUE: " + msg);
                                     }
-
+                                })
+                                .addLast(new SimpleChannelInboundHandler<Integer>() {
                                     @Override
-                                    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-                                        System.out.println("异常：" + cause.getMessage());
-                                        ctx.channel().close();
+                                    protected void channelRead0(ChannelHandlerContext ctx, Integer msg) throws Exception {
+                                        System.out.println("INT VALUE: " + msg);
                                     }
                                 })
                                 .addLast(new ChannelInboundHandlerAdapter() {
                                     @Override
-                                    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                        System.out.println("channelRead-2");
-                                        super.channelRead(ctx, msg);
-                                    }
-
-                                    @Override
-                                    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-                                        System.out.println("channelReadComplete-2");
-                                        super.channelReadComplete(ctx);
+                                    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                        System.err.println("打印异常：" + cause.getMessage() + "\n打印调用栈：");
+                                        cause.printStackTrace();
                                     }
                                 });
                     }

@@ -1,6 +1,5 @@
 package com.github.mrag.wechat.im.packets;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.mrag.wechat.im.EnumCommand;
 import com.github.mrag.wechat.im.serialization.EnumSerializationMethod;
 import com.github.mrag.wechat.im.serialization.HessianSerialization;
@@ -47,9 +46,7 @@ public final class PacketCodec {
         return PacketCodecHolder.instance; // 静态内部类，也属于懒加载，且线程安全
     }
 
-    public ByteBuf encode(Packet packet, ByteBufAllocator alloc) throws JsonProcessingException {
-        ByteBuf buf = alloc.buffer();
-
+    public void encode(Packet packet, ByteBuf buf) throws Exception {
         EnumCommand cmd = packet.command();
         EnumSerializationMethod method = packet.serializationMethod();
 
@@ -60,11 +57,9 @@ public final class PacketCodec {
         byte[] body = serializationMap.get(method).serialize(packet);
         buf.writeInt(body.length);
         buf.writeBytes(body);
-
-        return buf;
     }
 
-    public Packet decode(ByteBuf in) throws JsonProcessingException {
+    public Packet decode(ByteBuf in) throws Exception {
         in.readLong(); // 略过serialVersionUID
         int methodVal = in.readInt();
         int cmdVal = in.readInt();

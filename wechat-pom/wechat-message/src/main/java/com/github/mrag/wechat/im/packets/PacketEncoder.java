@@ -6,10 +6,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 public class PacketEncoder extends MessageToByteEncoder<Packet> {
     @Override
-    protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf byteBuf) throws Exception {
-        ByteBuf buf = PacketCodec.getInstance().encode(packet, ctx.alloc());
-        byteBuf.writeBytes(buf);
-
-        // FIXME 具体使用方式待确认
+    protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
+        PacketCodec.getInstance().encode(packet, out);
     }
 }

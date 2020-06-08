@@ -9,6 +9,6 @@ import java.util.List;
 public class PacketDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        out.add(PacketCodec.getInstance().decode(in));
+
     }
 }
