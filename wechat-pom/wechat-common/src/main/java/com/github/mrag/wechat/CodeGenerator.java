@@ -1,4 +1,4 @@
-package com.github.mrag.wechat.util;
+package com.github.mrag.wechat;
 
 import org.apache.ibatis.io.Resources;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CodeUtil {
+public final class CodeGenerator {
     public static void main(String[] args) throws Throwable {
         // mbg执行过程中的警告信息
         List<String> warnings = new ArrayList<>();

@@ -2,3 +2,29 @@ GET http://localhost:4200/api/wechatUser/1/friends
 Accept: application/json
 
 ###
+
+HEAD http://localhost:4200/api/wechatUser/1/friends
+# head请求返回的结果：
+#HEAD http://localhost:4200/api/wechatUser/1/friends
+#
+#HTTP/1.1 200
+#Vary: Origin
+#Vary: Access-Control-Request-Method
+#Vary: Access-Control-Request-Headers
+#Content-Type: application/json
+#Content-Length: 2
+#Date: Tue, 09 Jun 2020 08:11:56 GMT
+#Keep-Alive: timeout=60
+#Connection: keep-alive
+#
+#<Response body is empty>
+#
+#Response code: 200; Time: 878ms; Content length: 0 bytes
+
+###
+
+GET https://www.baidu.com/
+
+###
+
+POST http://localhost:4200/api/actuator/shutdown

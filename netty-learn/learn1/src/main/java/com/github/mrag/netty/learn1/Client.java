@@ -26,6 +26,14 @@ public final class Client {
                             @Override
                             public void channelActive(ChannelHandlerContext ctx) throws Exception {
                             }
+
+                            @Override
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                ByteBuf in = (ByteBuf) msg;
+                                byte[] bytes = new byte[in.readableBytes()];
+                                in.readBytes(bytes);
+                                System.out.println("receive: " + new String(bytes));
+                            }
                         });
                     }
                 });

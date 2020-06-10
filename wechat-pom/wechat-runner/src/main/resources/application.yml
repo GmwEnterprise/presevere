@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: matebook
+    active: aliyun
 
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -18,3 +18,13 @@ server:
   port: 4200
   servlet:
     context-path: /api
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true # 实现通过/actuator访问远程关闭
+  endpoints:
+    web:
+      exposure:
+        include: health, info, shutdown
+      base-path: /actuator

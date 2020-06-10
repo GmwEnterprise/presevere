@@ -6,8 +6,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.ByteToMessageDecoder;
-import io.netty.handler.codec.TooLongFrameException;
+import io.netty.handler.codec.ByteToMessageCodec;
 
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -23,8 +22,14 @@ public final class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(
-                                new ByteToMessageDecoder() {
+                        ch.pipeline()
+                                .addLast(new ByteToMessageCodec<String>() {
+                                    @Override
+                                    protected void encode(ChannelHandlerContext ctx, String msg, ByteBuf out) throws Exception {
+                                        System.out.println("write bytes, msg = " + msg);
+                                        out.writeBytes(msg.getBytes());
+                                    }
+
                                     @Override
                                     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
                                         int readableBytes = in.readableBytes();
@@ -42,9 +47,10 @@ public final class Server {
                                                     .append(four).append("]");
                                             out.add(sb);
                                             out.add(Integer.parseInt(Math.abs(one) + "" + Math.abs(two) + "" + Math.abs(three) + "" + Math.abs(four)));
-                                        } else if (readableBytes == 2) {
-                                            throw new TooLongFrameException("长度超出要求");
                                         }
+//                                        else if (readableBytes == 2) {
+//                                            throw new TooLongFrameException("长度超出要求");
+//                                        }
                                     }
                                 })
                                 .addLast(new ChannelInboundHandlerAdapter() {
@@ -58,6 +64,7 @@ public final class Server {
                                     @Override
                                     protected void channelRead0(ChannelHandlerContext ctx, StringBuilder msg) throws Exception {
                                         System.out.println("STR VALUE: " + msg);
+                                        ctx.channel().writeAndFlush(msg.toString());
                                     }
                                 })
                                 .addLast(new SimpleChannelInboundHandler<Integer>() {
