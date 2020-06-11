@@ -2,12 +2,14 @@ package com.github.mrag.wechat.im.packets;
 
 public enum PacketType {
     // 心跳
-    HEARTBEAT(0);
+    HEARTBEAT(0, Void.TYPE);
 
     private final byte type;
+    private final Class<?> bodyType;
 
-    PacketType(int type) {
+    PacketType(int type, Class<?> bodyType) {
         this.type = (byte) type;
+        this.bodyType = bodyType;
     }
 
     public static PacketType type(byte type) {
@@ -21,5 +23,9 @@ public enum PacketType {
 
     public byte getType() {
         return type;
+    }
+
+    public Class<?> getBodyType() {
+        return bodyType;
     }
 }
