@@ -1,5 +1,6 @@
-netty:
-  port: 4222
+rpc:
+  port: 8888
+  default-serial: json
 
 server:
   port: 4200

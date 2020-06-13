@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "rpc",
+      "type": "com.github.mrag.rpc.RpcProperties",
+      "description": "RPC服务所需属性."
+    }
+  ],
+  "properties": [
+    {
+      "name": "rpc.port",
+      "type": "java.lang.Integer",
+      "description": "本地Netty服务的默认绑定端口号."
+    },
+    {
+      "name": "rpc.default-serial",
+      "type": "java.lang.String",
+      "defaultValue": "json",
+      "description": "默认序列化方式，仅支持JSON或Protobuf."
+    }
+  ],
+  "hints": [
+    {
+      "name": "rpc.default-serial",
+      "values": [
+        {
+          "value": "json",
+          "description": "JSON序列化方式."
+        },
+        {
+          "value": "protobuf",
+          "description": "Google提供的Protocol Buffer序列化方式."
+        }
+      ]
+    }
+  ]
+}
