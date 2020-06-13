@@ -1,0 +1,17 @@
+netty:
+  port: 4222
+
+server:
+  port: 4200
+  servlet:
+    context-path: /rpc
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, shutdown
+      base-path: /actuator
+  endpoint:
+    shutdown:
+      enabled: true

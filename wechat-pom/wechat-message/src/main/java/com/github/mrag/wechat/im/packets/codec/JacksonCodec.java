@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JacksonCodec implements Codec {
     public JacksonCodec() {
-        PacketCodec.setEncodingModeMap(EncodingMode.JSON, new JacksonCodec());
+        PacketCodec.setEncodingModeMap(EncodingMode.JSON, this);
     }
 
     @Override
