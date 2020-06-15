@@ -1,11 +1,11 @@
-package com.github.mrag.rpc;
+package com.github.mrag.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class App {
+public class UserApp {
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(UserApp.class, args);
     }
 }

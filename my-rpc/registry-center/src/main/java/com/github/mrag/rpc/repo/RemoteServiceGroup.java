@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,12 +22,12 @@ public final class RemoteServiceGroup {
      * @param ip   ip
      * @param port port
      */
-    public void addUnit(String ip, int port) {
+    void addUnit(String ip, int port) {
         RemoteServiceUnit unit = new RemoteServiceUnit()
                 .setFromIp(ip)
                 .setFromPort(port);
         if (units == null) {
-            units = Collections.synchronizedList(new ArrayList<>());
+            units = new ArrayList<>();
             units.add(unit.setAvailability(true)
                     .setRegistryTime(LocalDateTime.now()));
         } else {

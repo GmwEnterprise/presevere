@@ -12,8 +12,13 @@ public class RpcRepository {
      */
     private static final List<RemoteServiceGroup> SERVICE_GROUPS = new ArrayList<>();
 
-    // TODO 线程同步待优化
-    public synchronized void registryService(ServiceMessage serviceMessage) {
+    public synchronized void registryServices(ServiceMessage... msgs) {
+        for (ServiceMessage msg : msgs) {
+            registryService(msg);
+        }
+    }
+
+    private void registryService(ServiceMessage serviceMessage) {
         RemoteServiceGroup group = new RemoteServiceGroup()
                 .setServiceName(serviceMessage.getServiceName())
                 .setServiceVersion(serviceMessage.getServiceVersion())
@@ -22,7 +27,6 @@ public class RpcRepository {
         if ((index = SERVICE_GROUPS.indexOf(group)) > -1) {
             group = SERVICE_GROUPS.get(index);
         }
-
         group.addUnit(serviceMessage.getFromIp(), serviceMessage.getFromPort());
     }
 

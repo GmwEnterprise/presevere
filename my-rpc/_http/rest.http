@@ -1,1 +1,5 @@
 POST http://localhost:4200/rpc/actuator/shutdown
+
+###
+
+GET http://localhost:4201/test

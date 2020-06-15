@@ -1,5 +1,5 @@
 rpc:
-  port: 8888
+  port: 4222
   default-serial: json
 
 server:

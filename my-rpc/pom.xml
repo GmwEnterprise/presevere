@@ -16,6 +16,9 @@
     <modules>
         <module>registry-center</module>
         <module>common</module>
+        <module>rpc-service-base</module>
+        <module>test-user-service</module>
+        <module>test-production-service</module>
     </modules>
 
     <dependencyManagement>
@@ -61,10 +64,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.mrag</groupId>
-            <artifactId>common</artifactId>
-        </dependency>
 
         <!--google官方工具包guava依赖-->
         <dependency>
