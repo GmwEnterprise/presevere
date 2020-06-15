@@ -9,5 +9,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class ConsumerCallServiceHandler extends SimpleChannelInboundHandler<PacketToCenterConsumerCallService> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, PacketToCenterConsumerCallService packet) throws Exception {
+        // TODO 消费者请求调用服务
     }
 }

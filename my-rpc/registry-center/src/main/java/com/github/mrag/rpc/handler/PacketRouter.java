@@ -13,7 +13,11 @@ import java.util.Map;
 public class PacketRouter extends ChannelInboundHandlerAdapter {
     private final Map<PacketType, SimpleChannelInboundHandler<? extends Packet>> router = Map.of(
             // 心跳包不会收到，因为心跳包是服务端发送出去而不是接收进来
-            PacketType.TO_CENTER_CONSUMER_CALL_SERVICE, new ConsumerCallServiceHandler()
+
+            // 消费者请求调用服务
+            PacketType.TO_CENTER_CONSUMER_CALL_SERVICE, new ConsumerCallServiceHandler(),
+            // 服务注册其提供的api
+            PacketType.TO_CENTER_REGISTRY_SERVICES, new RegistryServicesHandler()
     );
 
     @Override
