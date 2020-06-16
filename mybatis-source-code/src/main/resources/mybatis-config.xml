@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties>
+
+        <!--支持默认值, 源码位于org.apache.ibatis.parsing.PropertyParser.KEY_ENABLE_DEFAULT_VALUE-->
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+
+        <!--默认值分隔符, 源码位于org.apache.ibatis.parsing.PropertyParser.KEY_DEFAULT_VALUE_SEPARATOR-->
+        <!--源码中指定默认分隔符为「:」，这里替换成了「::」                   -->
+        <!--使用方式：「${username::root}」，即当系统找不到username属性时，默认提供值root-->
+        <property name="org.apache.ibatis.parsing.PropertyParser.default-value-separator" value="::"/>
+
+    </properties>
+
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver::com.mysql.cj.jdbc.Driver}"/>
+                <property name="url"
+                          value="${url::jdbc:mysql://120.79.155.125:4001/demo_schema?serverTimezone=Asia/Shanghai}"/>
+                <property name="username" value="${username::root}"/>
+                <property name="password" value="${password::gan1ming2wei3}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <package name="com.github.mrag.mbsource.mappers"/>
+    </mappers>
+</configuration>
