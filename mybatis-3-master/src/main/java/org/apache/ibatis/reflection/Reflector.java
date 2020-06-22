@@ -97,7 +97,7 @@ public class Reflector {
                     if (!boolean.class.equals(candidateReturnType)) {
                         // 候选getter返回值类型不是boolean
 
-                        isAmbiguous = true; // 标记这个属性的getter方法是「模棱两可」的，然后结束循环
+                        isAmbiguous = true; // 标记这个属性的getter方法有「二义性」，然后结束循环
                         break;
                     } else if (candidateMethod.getName().startsWith("is")) {
                         // 候选getter为is开头则采用该方法
@@ -110,13 +110,13 @@ public class Reflector {
                     // 优先返回更具体的子类接口
                     winnerGetterMethod = candidateMethod;
                 } else {
-                    // 其他情况下, 同样也返回「模棱两可」
+                    // 其他情况下, 同样也返回「二义性」
                     isAmbiguous = true;
                     break;
                 }
             }
 
-            // 如果是「模棱两可」的,那么添加的getter方法是一个总会抛出异常的Invoker实现类,即AmbiguousMethodInvoker
+            // 如果有「二义性」,那么添加的getter方法是一个总会抛出异常的Invoker实现类,即AmbiguousMethodInvoker
             addGetMethod(propertyName, winnerGetterMethod, isAmbiguous);
         }
     }
@@ -129,6 +129,8 @@ public class Reflector {
                 : new MethodInvoker(method);
         getMethods.put(name, invoker);
         Type returnType = TypeParameterResolver.resolveReturnType(method, type);
+
+        // 置入读方法的「出参」类型
         getTypes.put(name, typeToClass(returnType));
     }
 
@@ -254,7 +256,6 @@ public class Reflector {
         if (isValidPropertyName(field.getName())) {
             // 是合法属性名
             setMethods.put(field.getName(), new SetFieldInvoker(field));
-
 
             Type fieldType = TypeParameterResolver.resolveFieldType(field, type);
             setTypes.put(field.getName(), typeToClass(fieldType));
