@@ -7,5 +7,5 @@ public interface Serialization<E> {
 
     E serialize(Object in) throws SerializeException;
 
-    Object deserialize(E out) throws SerializeException;
+    <T> T deserialize(E out, Class<T> type) throws SerializeException;
 }

@@ -1,6 +1,6 @@
 package com.github.mrag.rpc.serialization;
 
-public class SerializeException extends RuntimeException {
+class SerializeException extends RuntimeException {
     public SerializeException() {
     }
 

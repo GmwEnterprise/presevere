@@ -2,10 +2,7 @@ package com.github.mrag.test2;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +47,46 @@ public class MyTest {
 
     @Test
     void f2() throws Throwable {
+        assert int.class == Integer.TYPE;
 
+        Field type = B.class.getDeclaredField("type");
+        System.out.println(type.getGenericType().getClass().getSimpleName());
+        Field number = B.class.getDeclaredField("number");
+        System.out.println(number.getGenericType().getClass().getSimpleName());
+
+        for (Type actualTypeArgument : ((ParameterizedType) type.getGenericType()).getActualTypeArguments()) {
+            System.out.println(actualTypeArgument);
+            System.out.println(actualTypeArgument.getClass().getSimpleName());
+            if (actualTypeArgument instanceof WildcardType) {
+                System.out.print("上边界：");
+                for (Type upperBound : ((WildcardType) actualTypeArgument).getUpperBounds()) {
+                    System.out.print(upperBound + "  ");
+                }
+                System.out.println();
+                System.out.print("下边界：");
+                for (Type upperBound : ((WildcardType) actualTypeArgument).getLowerBounds()) {
+                    System.out.print(upperBound + "  ");
+                }
+                System.out.println();
+            }
+        }
+
+        for (Type actualTypeArgument : ((ParameterizedType) number.getGenericType()).getActualTypeArguments()) {
+            System.out.println(actualTypeArgument);
+            System.out.println(actualTypeArgument.getClass().getSimpleName());
+            if (actualTypeArgument instanceof WildcardType) {
+                System.out.print("上边界：");
+                for (Type upperBound : ((WildcardType) actualTypeArgument).getUpperBounds()) {
+                    System.out.print(upperBound + "  ");
+                }
+                System.out.println();
+                System.out.print("下边界：");
+                for (Type upperBound : ((WildcardType) actualTypeArgument).getLowerBounds()) {
+                    System.out.print(upperBound + "  ");
+                }
+                System.out.println();
+            }
+        }
     }
 }
 
@@ -66,4 +102,10 @@ class A<T> extends ArrayList<String> implements Callable<T> {
     T get(T origin) { return origin; }
     void func(T t, Map<T, String> aMap) { }
     @Override public T call() throws Exception { return null; }
+}
+
+class B {
+    Callable<? extends Number> number;
+    Class<?> type;
+    List<? super Object> s;
 }
