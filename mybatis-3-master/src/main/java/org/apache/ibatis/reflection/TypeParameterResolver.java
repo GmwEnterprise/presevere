@@ -25,21 +25,22 @@ public class TypeParameterResolver {
 
     /**
      * Resolve field type.
+     * 解析成员属性的类型.
      *
-     * @param field   the field
-     * @param srcType the src type
-     * @return The field type as {@link Type}. If it has type parameters in the declaration,<br>
+     * @param field   成员属性
+     * @param srcType 成员属性所属的 Class 向上转型为 Type
+     * @return 成员属性的Type. The field type as {@link Type}. If it has type parameters in the declaration,<br>
      * they will be resolved to the actual runtime {@link Type}s.
      */
     public static Type resolveFieldType(Field field, Type srcType) {
 
-        // 获取字段声明类型
+        // 获取字段的类型，可能是 Class、ParameterizedType、GenericArrayType
         Type fieldType = field.getGenericType();
 
-        // 获取字段定义所在的类的Class对象
+        // 获取字段定义所在的类的Class对象，也就是成员属性所属的 Class
         Class<?> declaringClass = field.getDeclaringClass();
 
-        // 后续处理
+        // (字段类型fieldType，成员所属的Class向上转型后的Type，成员所属的Class)
         return resolveType(fieldType, srcType, declaringClass);
     }
 
@@ -78,18 +79,20 @@ public class TypeParameterResolver {
 
     private static Type resolveType(Type type, Type srcType, Class<?> declaringClass) {
         if (type instanceof TypeVariable) {
-            // type属于类型变量，如 List<T> 中的 T
+            // type属于类型变量
             return resolveTypeVar((TypeVariable<?>) type, srcType, declaringClass);
 
         } else if (type instanceof ParameterizedType) {
-            // type属于参数化类型，如 List<String>, Map<String, Integer> 等
+            // type属于参数化类型
             return resolveParameterizedType((ParameterizedType) type, srcType, declaringClass);
 
         } else if (type instanceof GenericArrayType) {
-            // type属于数组类型，且元素类型为 ParameterizedType 或 TypeVariable
+            // type属于数组类型且元素类型为 「类型变量」或「参数化类型」
             return resolveGenericArrayType((GenericArrayType) type, srcType, declaringClass);
 
         } else {
+            // 都不属于，说明就属于普通的Class类型，可能是基本类型可能是对象类型也可能是常规数组类型
+            // 直接返回类型
             return type;
         }
     }
@@ -155,6 +158,7 @@ public class TypeParameterResolver {
         Type result;
         Class<?> clazz;
         if (srcType instanceof Class) {
+            // Reflector只会进这里
             clazz = (Class<?>) srcType;
         } else if (srcType instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) srcType;

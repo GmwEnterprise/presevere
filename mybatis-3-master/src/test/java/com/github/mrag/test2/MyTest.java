@@ -88,9 +88,14 @@ public class MyTest {
             }
         }
     }
+
+    @Test
+    void f3() throws Throwable {
+    }
 }
 
 class A<T> extends ArrayList<String> implements Callable<T> {
+    T typeVariable;
     int count;
     String name;
     String[] ids;
