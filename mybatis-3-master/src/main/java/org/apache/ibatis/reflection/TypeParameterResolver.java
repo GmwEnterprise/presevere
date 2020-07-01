@@ -77,6 +77,11 @@ public class TypeParameterResolver {
         return result;
     }
 
+    /**
+     * @param type           要解析的类型，源自字段、方法返回值、方法参数
+     * @param srcType        查找该字段、返回值或方法参数的起始位置
+     * @param declaringClass 该字段、方法定义所在的类
+     */
     private static Type resolveType(Type type, Type srcType, Class<?> declaringClass) {
         if (type instanceof TypeVariable) {
             // type属于类型变量
@@ -158,7 +163,7 @@ public class TypeParameterResolver {
         Type result;
         Class<?> clazz;
         if (srcType instanceof Class) {
-            // Reflector只会进这里
+
             clazz = (Class<?>) srcType;
         } else if (srcType instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) srcType;
