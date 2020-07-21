@@ -14,7 +14,7 @@ public class ConsumerApplication {
         SpringApplication.run(ConsumerApplication.class, args);
     }
 
-    @Reference(url = "dubbo://192.168.3.18:20880/com.github.mrag.sample.api.HelloService")
+    @Reference
     private HelloService helloService;
 
     @Bean
